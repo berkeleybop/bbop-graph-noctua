@@ -10,10 +10,24 @@ describe('test annotation', function(){
     it('works on its own', function(){
 
 	var a1 = new model.annotation({'key': 'foo', 'value': 'bar'});
+
+	// Id
 	assert.isString(a1.id(), 'string id');
 	assert.isAbove(a1.id().length, 5,'long string id');
-	assert.equal(a1.property('foo'), 'bar', 'has prop');
-	assert.equal(a1.property('bar'), null, 'does not have prop');
+
+	// Current.
+	assert.equal(a1.key(), 'foo', 'has key');
+	assert.equal(a1.value(), 'bar', 'has value');
+	assert.equal(a1.value_type(), null, 'does not have value-type');
+
+	// Write-over simple.
+	assert.equal(a1.value('bib'), 'bib', 'has set value');
+	assert.equal(a1.value(), 'bib', 'still has set value');
+	
+	// Write-over full.
+	assert.deepEqual(a1.annotation('1', '2', '3'),
+			 {'key': '1', 'value': '2', 'value-type': '3'}, 'redo');
+	assert.equal(a1.value_type(), '3', 'now has value-type');
     });
 
 });
@@ -45,7 +59,7 @@ describe('annotation bulk ops', function(){
 
 	function filter(ann){
 	    var ret = false;
-	    if( ann.property('foo') ){
+	    if( ann.key() == 'foo' ){
 		ret = true;
 	    }
 	    return ret;
