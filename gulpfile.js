@@ -13,7 +13,7 @@ var del = require('del');
 
 var paths = {
     readme: ['./README.md'],
-    tests: ['tests/*.test.js', 'tests/*.tests.js'],
+    tests: ['tests/*.test.js', 'tests/*.tests.js', '!tests/go.tests.js'],
     docable: ['lib/*.js', './README.md'],
     transients:['./doc/*', '!./doc/README.org']
 };
@@ -106,6 +106,12 @@ gulp.task('git-tag', function(){
 gulp.task('watch-doc', function() {
   gulp.watch(paths.docable, ['doc']);
   gulp.watch(paths.readme, ['doc']);
+});
+
+// Rerun doc build when a file changes.
+gulp.task('watch-test', function() {
+  gulp.watch(paths.docable, ['test']);
+  gulp.watch(paths.tests, ['test']);
 });
 
 // The default task (called when you run `gulp` from cli)
