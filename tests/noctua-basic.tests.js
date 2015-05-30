@@ -67,5 +67,15 @@ describe('annotation bulk ops', function(){
 	assert.equal(g.get_annotations_by_filter(filter).length, 1,
 		     'one annotation by filter');
     });
+});
 
+describe('trivial isolated graph ops', function(){
+    it('subclassing works', function(){	
+
+	var g = new model.graph();
+	assert.isUndefined(g.id(), 'no default id');
+	assert.equal(g.add_id('foo'), 'foo', 'new id');
+	assert.equal(g.id(), 'foo', 'also new id');
+	assert.equal(g.get_id(), 'foo', 'and also new id');
+    });
 });
