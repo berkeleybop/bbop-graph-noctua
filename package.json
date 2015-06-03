@@ -30,7 +30,7 @@
     },
     "dependencies": {
 	"bbop-core": "0.0.4",
-	"bbop-graph": "0.0.8",
+	"bbop-graph": "0.0.12",
 	"underscore": "1.8.3"
     },
     "devDependencies": {
@@ -58,6 +58,7 @@
     },
     "scripts": {
 	"update-docs": "git checkout gh-pages && git pull && git merge master && gulp doc && git commit -a -m 'bump docs' && git push && git checkout master",
+	"pull-tests": "cp -f ./node_modules/bbop-graph/tests/* ./tests",
         "test": "./node_modules/.bin/gulp test"
     }
 }
