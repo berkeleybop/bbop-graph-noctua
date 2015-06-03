@@ -2,10 +2,49 @@
 //// Some unit testing for bbop-graph.
 ////
 
-var assert = require('chai').assert;
+var chai = require('chai');
+chai.config.includeStack = true;
+assert = chai.assert;
 var model = new require('..');
 
-//console.log(">>>: ", model);
+///
+/// Helpers.
+///
+
+// Create graph described below.
+//
+//      a   n   x   z  
+//     / \  |   |
+//    b   c |   y?  <-- y is not extant, just referenced
+//   ||  / \|
+//   || e   d
+//    \\___//  <-- non-default relationship (d is_a b)
+//     \---/
+//
+function _make_set_graph() {
+    var g = new model.graph();
+    g.add_node(new model.node('a'));
+    g.add_node(new model.node('b'));
+    g.add_node(new model.node('c'));
+    g.add_node(new model.node('d'));
+    g.add_node(new model.node('e'));
+    g.add_node(new model.node('n'));
+    g.add_node(new model.node('x'));
+    g.add_node(new model.node('z'));
+    g.add_edge(new model.edge('b', 'a'));
+    g.add_edge(new model.edge('c', 'a'));
+    g.add_edge(new model.edge('d', 'c'));
+    g.add_edge(new model.edge('e', 'c'));
+    g.add_edge(new model.edge('d', 'n'));
+    g.add_edge(new model.edge('d', 'b', 'is_a'));
+    g.add_edge(new model.edge('y', 'x'));
+    
+    return g;
+}
+
+///
+/// Tests.
+///
 
 describe('node', function(){
 
@@ -71,33 +110,7 @@ describe('simple model', function(){
 
     // Pre-run.    
     before(function() {
-	// Create graph described below.
-	//
-	//      a   n   x   z  
-	//     / \  |   |
-	//    b   c |   y?  <-- y is not extant, just referenced
-	//   ||  / \|
-	//   || e   d
-	//    \\___//  <-- non-default relationship (d is_a b)
-	//     \---/
-	//
-	g = new model.graph();
-	g.add_node(new model.node('a'));
-	g.add_node(new model.node('b'));
-	g.add_node(new model.node('c'));
-	g.add_node(new model.node('d'));
-	g.add_node(new model.node('e'));
-	g.add_node(new model.node('n'));
-	g.add_node(new model.node('x'));
-	g.add_node(new model.node('z'));
-	g.add_edge(new model.edge('b', 'a'));
-	g.add_edge(new model.edge('c', 'a'));
-	g.add_edge(new model.edge('d', 'c'));
-	g.add_edge(new model.edge('e', 'c'));
-	g.add_edge(new model.edge('d', 'n'));
-	g.add_edge(new model.edge('d', 'b', 'is_a'));
-	g.add_edge(new model.edge('y', 'x'));
-
+	g = _make_set_graph();
 	dpred = g.default_predicate;
     });	
     
@@ -108,7 +121,7 @@ describe('simple model', function(){
 	assert.equal(7, g.all_edges().length, '7 edges');
 	assert.equal(7, g.all_edges().length, '7 edges');
 	assert.equal(1, g.get_singleton_nodes().length, 'just one single');
-	assert.equal('z', g.get_singleton_nodes()[0].id(), 'z alone');
+	assert.equal('z', g.get_singleton_nodes()[0].id(), 'z alone singe');
 	assert.equal(1, g.all_dangling().length, 'just one dangle');
 	assert.equal(false, g.is_complete(), 'nope'); 
     });
@@ -236,7 +249,7 @@ describe('loading from JSON (good with Solr/GOlr)', function(){
 
 	var jo = {"nodes":[{"id":"a","lbl":"A"},{"id":"b","lbl":"B"}],"edges":[{"sub":"a","obj":"b","pred":"is_a"}]};
 	g1 = new model.graph();
-	g1.load_json(jo);
+	g1.load_base_json(jo);
 
 	// A bit of GO.
 	// Generate from:
@@ -244,7 +257,7 @@ describe('loading from JSON (good with Solr/GOlr)', function(){
 	//    ./bin/owltools --solr-shunt-test
 	var go = {"nodes":[{"id":"GO:0009987","lbl":"cellular process"},{"id":"GO:0048869","lbl":"cellular developmental process"},{"id":"GO:0048731","lbl":"system development"},{"id":"GO:0007275","lbl":"multicellular organismal development"},{"id":"GO:0030154","lbl":"cell differentiation"},{"id":"GO:0007399","lbl":"nervous system development"},{"id":"GO:0048856","lbl":"anatomical structure development"},{"id":"GO:0008150","lbl":"biological_process"},{"id":"GO:0022008","lbl":"neurogenesis"},{"id":"GO:0042063","lbl":"gliogenesis"},{"id":"GO:0032502","lbl":"developmental process"},{"id":"GO:0032501","lbl":"multicellular organismal process"},{"id":"GO:0048699","lbl":"generation of neurons"}],"edges":[{"sub":"GO:0022008","obj":"GO:0007399","pred":"part_of"},{"sub":"GO:0042063","obj":"GO:0022008","pred":"is_a"},{"sub":"GO:0022008","obj":"GO:0030154","pred":"is_a"},{"sub":"GO:0032501","obj":"GO:0008150","pred":"is_a"},{"sub":"GO:0032502","obj":"GO:0008150","pred":"is_a"},{"sub":"GO:0048731","obj":"GO:0048856","pred":"is_a"},{"sub":"GO:0007399","obj":"GO:0048731","pred":"is_a"},{"sub":"GO:0007275","obj":"GO:0032501","pred":"is_a"},{"sub":"GO:0007275","obj":"GO:0032502","pred":"is_a"},{"sub":"GO:0048856","obj":"GO:0032502","pred":"is_a"},{"sub":"GO:0048869","obj":"GO:0009987","pred":"is_a"},{"sub":"GO:0048699","obj":"GO:0022008","pred":"is_a"},{"sub":"GO:0048869","obj":"GO:0032502","pred":"is_a"},{"sub":"GO:0009987","obj":"GO:0008150","pred":"is_a"},{"sub":"GO:0030154","obj":"GO:0048869","pred":"is_a"},{"sub":"GO:0048731","obj":"GO:0007275","pred":"part_of"}]};
 	g2 = new model.graph();
-	g2.load_json(go);
+	g2.load_base_json(go);
     });
 
     it('graph one okay', function(){
@@ -315,8 +328,9 @@ describe('failing case from the taxslim', function(){
 	    };
 	
 	var g = new model.graph();
-	var result2 = g.load_json(tax);
+	var result2 = g.load_base_json(tax);
 	
+	assert.equal(g.all_dangling(), 0, 'nothing dangling');
 	assert.isTrue(g.is_complete(), 'tax is complete');
 	
 	var leaves = g.get_child_nodes('NCBITaxon:89593');
@@ -339,10 +353,215 @@ describe('roundtrip', function(){
 	
 	var simp = {"nodes":[{"id":"a","lbl":"A"},{"id":"b","lbl":"B"}],"edges":[{"sub":"a","obj":"b","pred":"is_a"}]};
 	var g = new model.graph();
-	var l = g.load_json(simp);
+	var l = g.load_base_json(simp);
 	var r = g.to_json();
 	assert.deepEqual(simp, r, 'round trip');
     });
     
 });
 
+describe('removal functions work as expected', function(){
+
+    it('edge removal', function(){
+
+	var g = _make_set_graph();
+
+	// No edge there.
+	assert.isFalse(g.remove_edge('z', 'x'), 'no edge');
+	assert.isFalse(g.remove_edge('z', 'x', 'no_such_pred'), 'still no edge');
+	assert.isFalse(g.remove_edge('d', 'b', 'no_such_pred'), 'bad pred');
+	assert.isFalse(g.remove_edge('d', 'b'), 'still bad (default) pred');
+	assert.isFalse(g.remove_edge('d', 'n', 'is_a'), 'bad named pred');
+
+	// Pre.
+	assert.equal(g.all_edges().length, 7, 'seven edges');
+	assert.equal(g.all_predicates().length, 2, 'two pred in graph');
+	assert.equal(g.get_singleton_nodes().length, 1, 'z alone single');
+
+	// Remove two edges, plus remove checks.
+	assert.isTrue(g.remove_edge('d', 'b', 'is_a'), 'good pred');
+	assert.isFalse(g.remove_edge('d', 'b', 'is_a'), 'remove only once (a)');
+	assert.isTrue(g.remove_edge('d', 'n'), 'good (default) pred');
+	assert.isFalse(g.remove_edge('d', 'n'), 'remove only once (b)');
+
+	// Post.
+	assert.equal(g.all_edges().length, 5, 'now five edges');
+	assert.equal(g.all_predicates().length, 1, 'one pred in graph');
+	assert.equal(g.get_singleton_nodes().length, 2, 'z and n single');
+	assert.equal(g.get_child_nodes('n').length, 0, 'n now no kids')
+	assert.equal(g.get_parent_nodes('d').length, 1, 'd now no parent')
+
+	// Look at dangling.
+	assert.equal(g.all_dangling().length, 1, 'just one dangle');
+	assert.isFalse(g.is_complete(), 'nope, not complete');
+
+	// Remove last dangling.
+	assert.isTrue(g.remove_edge('y', 'x'), 'bad edge removed');
+	assert.equal(g.all_dangling().length, 0, 'no dangling remaining');
+    });
+
+    it('node removal (unclean)', function(){
+
+	var g = _make_set_graph();
+
+	// No edge there.
+	assert.isFalse(g.remove_node('q'), 'no node');
+
+	// Remove singleton.
+	assert.equal(g.get_singleton_nodes().length, 1, 'sole single');
+	assert.isTrue(g.remove_node('z'), 'nuke singleton');
+	assert.equal(g.get_singleton_nodes().length, 0, 'sole single no more');
+
+	// Remove the other end of the dangle.
+	assert.equal(g.all_dangling().length, 1, 'one dangle');
+	assert.isTrue(g.remove_node('x'), 'goodbye x');
+	assert.equal(g.all_dangling().length, 2, 'now two dangle');
+
+	// Remove a middle node.
+	assert.isTrue(g.remove_node('d'), 'goodbye d');
+	assert.equal(g.all_dangling().length, 3, 'now three dangle');
+
+	assert.equal(g.all_nodes().length, 5, 'node attrition');
+    });
+
+    it('node removal (clean)', function(){
+
+	var g = _make_set_graph();
+
+	// Start.
+	assert.equal(g.all_nodes().length, 8, 'node start');
+	assert.equal(g.all_edges().length, 7, 'edge start');
+
+	// No edge there.
+	assert.isFalse(g.remove_node('q', true), 'no node');
+
+	// Remove singleton.
+	assert.equal(g.get_singleton_nodes().length, 1, 'sole single');
+	assert.isTrue(g.remove_node('z', true), 'nuke singleton');
+	assert.equal(g.get_singleton_nodes().length, 0, 'sole single no more');
+	assert.equal(g.all_nodes().length, 7, 'node milestone 1');
+	assert.equal(g.all_edges().length, 7, 'edge milestone 1');
+
+	// Remove the other end of the dangle.
+	assert.equal(g.all_dangling().length, 1, 'one dangle');
+	assert.isTrue(g.remove_node('x', true), 'goodbye x');
+	assert.equal(g.all_dangling().length, 0, 'now no dangle');
+	assert.equal(g.all_nodes().length, 6, 'node milestone 2');
+	assert.equal(g.all_edges().length, 6, 'edge milestone 2');
+
+	// Remove a middle node.
+	assert.isTrue(g.remove_node('d', true), 'goodbye d');
+	assert.equal(g.all_dangling().length, 0, 'still no dangle');
+	assert.equal(g.all_nodes().length, 5, 'node attrition');
+	assert.equal(g.all_edges().length, 3, 'edge attrition');
+    });
+
+    it('node removal (total graph by node)', function(){
+
+	var g = _make_set_graph();
+
+	// Start.
+	assert.equal(g.all_nodes().length, 8, 'node start');
+	assert.equal(g.all_edges().length, 7, 'edge start');
+
+	assert.isTrue(g.remove_node('a', true), 'goodbye a');
+	assert.isTrue(g.remove_node('n', true), 'goodbye n');
+	assert.isTrue(g.remove_node('x', true), 'goodbye x');
+	assert.isTrue(g.remove_node('z', true), 'goodbye z')
+	assert.isTrue(g.remove_node('b', true), 'goodbye b');
+	assert.isTrue(g.remove_node('c', true), 'goodbye c');
+	assert.isTrue(g.remove_node('e', true), 'goodbye e');
+	assert.isTrue(g.remove_node('d', true), 'goodbye d');
+
+	assert.equal(g.all_nodes().length, 0, 'no nodes');
+	assert.equal(g.all_edges().length, 0, 'no edges');
+	assert.equal(g.all_dangling().length, 0, 'no dangle');
+	assert.equal(g.get_singleton_nodes().length, 0, 'no single');
+    });
+
+    it('node and edge removal (total graph)', function(){
+
+	var g = _make_set_graph();
+
+	// Start.
+	assert.equal(g.all_nodes().length, 8, 'node start');
+	assert.equal(g.all_edges().length, 7, 'edge start');
+
+	assert.isTrue(g.remove_edge('b', 'a'), 'goodbye b, a');
+	assert.isTrue(g.remove_edge('c', 'a'), 'goodbye c, a');
+	assert.isTrue(g.remove_edge('y', 'x'), 'goodbye y, x');
+	assert.isTrue(g.remove_edge('e', 'c'), 'goodbye e, c');
+	assert.isTrue(g.remove_edge('d', 'c'), 'goodbye d, c');
+	assert.isTrue(g.remove_edge('d', 'n'), 'goodbye d, n');
+	assert.isTrue(g.remove_edge('d', 'b', 'is_a'), 'goodbye d, b');
+
+	assert.equal(g.all_nodes().length, 8, 'node milestone 1');
+	assert.equal(g.all_edges().length, 0, 'edge milestone 1');
+	assert.equal(g.all_dangling().length, 0, 'already no dangle');
+	assert.equal(g.get_singleton_nodes().length, 8, 'all single');
+
+	assert.isTrue(g.remove_node('a'), 'goodbye a');
+	assert.isTrue(g.remove_node('n'), 'goodbye n');
+	assert.isTrue(g.remove_node('x'), 'goodbye x');
+	assert.isTrue(g.remove_node('z'), 'goodbye z')
+	assert.isTrue(g.remove_node('b'), 'goodbye b');
+	assert.isTrue(g.remove_node('c'), 'goodbye c');
+	assert.isTrue(g.remove_node('e'), 'goodbye e');
+	assert.isTrue(g.remove_node('d'), 'goodbye d');
+
+	assert.equal(g.all_nodes().length, 0, 'no nodes');
+	assert.equal(g.all_edges().length, 0, 'no edges');
+	assert.equal(g.all_dangling().length, 0, 'still no dangle');
+	assert.equal(g.get_singleton_nodes().length, 0, 'no single');
+    });
+
+});
+
+describe('other edge access', function(){
+
+    it('edges by subject and object', function(){
+
+	var g = _make_set_graph();
+
+	assert.equal(g.get_edges_by_subject('d').length, 3,
+		     'd has 3 as subject');
+	assert.equal(g.get_edges_by_object('d').length, 0,
+		     'd has 0 as object');
+
+	assert.equal(g.get_edges_by_subject('z').length, 0,
+		     'z has 0 as subject');
+	assert.equal(g.get_edges_by_object('z').length, 0,
+		     'z has 0 as object');
+
+	assert.equal(g.get_edges_by_subject('y').length, 1,
+		     'y has 1 as subject');
+	assert.equal(g.get_edges_by_object('y').length, 0,
+		     'y has 0 as object');
+
+	assert.equal(g.get_edges_by_subject('n').length, 0,
+		     'n has 0 as subject');
+	assert.equal(g.get_edges_by_object('n').length, 1,
+		     'n has 1 as object');
+    });
+});
+
+describe('clone wars', function(){
+
+    it('edge clones are perfect', function(){
+
+	var e = new model.edge('a', 'b', 'is_a');
+	e.type('foo');
+	e.metadata({'a': 1});
+
+	assert.deepEqual(e.clone(), e, 'clone is dupe');
+    });
+
+    it('node clones are perfect', function(){
+
+	var n = new model.node('a', 'b');
+	n.type('foo');
+	n.metadata({'a': 1});
+
+	assert.deepEqual(n.clone(), n, 'clone is dupe');
+    });
+});
