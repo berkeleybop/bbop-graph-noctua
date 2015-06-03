@@ -73,7 +73,7 @@ describe('trivial isolated graph ops', function(){
     it('subclassing works', function(){	
 
 	var g = new model.graph();
-	assert.isUndefined(g.id(), 'no default id');
+	assert.isNull(g.id(), 'no default id');
 	assert.equal(g.add_id('foo'), 'foo', 'new id');
 	assert.equal(g.id(), 'foo', 'also new id');
 	assert.equal(g.get_id(), 'foo', 'and also new id');
