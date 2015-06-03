@@ -13,7 +13,8 @@ var del = require('del');
 
 var paths = {
     readme: ['./README.md'],
-    tests: ['tests/*.test.js', 'tests/*.tests.js', '!tests/go.tests.js'],
+    tests: ['tests/*.test.js', 'tests/*.tests.js'],
+    //tests: ['tests/*.test.js', 'tests/*.tests.js', '!tests/go.tests.js'],
     docable: ['lib/*.js', './README.md'],
     transients:['./doc/*', '!./doc/README.org']
 };
