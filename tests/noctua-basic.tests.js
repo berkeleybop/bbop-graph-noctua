@@ -1,9 +1,15 @@
 ////
 //// Some unit testing for bbop-graph-noctua.
 ////
+//// Keep in mind that we regularly import the tests from upstream
+//// bbop-graph.
+////
 
 var assert = require('chai').assert;
 var model = new require('..');
+
+var us = require('underscore');
+var each = us.each;
 
 describe('test annotation', function(){
 
@@ -46,8 +52,8 @@ describe('annotation bulk ops', function(){
 	var a1 = new model.annotation({'key': 'foo', 'value': 'bar'});
 	var a2 = new model.annotation({'key': 'bib', 'value': 'bab'});
 
-	var a1_id = a1.id()
-	var a2_id = a2.id()
+	var a1_id = a1.id();
+	var a2_id = a2.id();
 
 	g.add_annotation(a1);
 	g.add_annotation(a2);
@@ -79,3 +85,81 @@ describe('trivial isolated graph ops', function(){
 	assert.equal(g.get_id(), 'foo', 'and also new id');
     });
 });
+
+describe('flex new framework', function(){
+
+    it('can we eat a minerva response?', function(){	
+
+	// Setup.
+	var raw_resp = require('./minerva-01.json');
+	var g = new model.graph();
+	g.load_minerva_response_data(raw_resp['data']);
+
+	// Right?
+	assert.isDefined(raw_resp['data']['individuals'],
+			      'pulled in right example');
+    });
+
+    it('basic graph checks', function(){
+
+	// Setup.
+	var raw_resp = require('./minerva-01.json');
+	var g = new model.graph();
+	g.load_minerva_response_data(raw_resp['data']);
+
+	// Wee tests.
+	assert.equal(g.all_nodes().length, 22, 'right num nodes');
+	assert.equal(g.all_edges().length, 14, 'right num edges');
+	
+	// More exploring.
+	assert.equal(g.get_singleton_nodes().length, 8, 'ev makes singletons');
+	assert.equal(g.get_root_nodes().length, 17, 'technically lots of roots');
+	assert.equal(g.get_leaf_nodes().length, 9, 'leaves are ev + 1 here');
+    });
+	
+    it("let's go for a walk in the neighborhood", function(){
+	
+	// Setup.
+	var raw_resp = require('./minerva-01.json');
+	var g = new model.graph();
+	g.load_minerva_response_data(raw_resp['data']);
+	
+	// Head up from our one leaf
+	var nid = 'gomodel:taxon_559292-5525a0fc0000001-GO-0005515-5525a0fc0000023';
+	var n = g.get_node(nid);
+	assert.equal(n.id(), nid, 'got the node');
+
+	// Step around.
+	var all_pnodes = g.get_parent_nodes(n.id());
+	var enb_pnodes = g.get_parent_nodes(n.id(),'RO:0002333');
+	assert.equal(all_pnodes.length, 5, '5 parents');
+	assert.equal(enb_pnodes.length, 1, 'but 1 enabled_by parent');
+
+	var e = enb_pnodes[0]; 
+
+	// Take a look at the types of e closely.
+	var ts = e.types();
+	assert.equal(ts.length, 1, 'one associated type');
+	var t = ts[0];
+	assert.equal(t.class_label(), 'SGD:S000004659', 'labeled with SGD');
+
+	// Take a look at the annotations of e closely.
+	var all_anns = e.annotations();
+	assert.equal(all_anns.length, 2, 'two associated annotations');
+	var anns = e.get_annotations_by_key('date');
+	assert.equal(anns.length, 1, 'one date annotation');
+	assert.equal(anns[0].value(), '2015-04-14', 'correct date annotation');
+	
+    });
+
+});
+
+
+// var assert = require('chai').assert;
+// var model = new require('..');
+// var us = require('underscore');
+// var each = us.each;
+// var keys = us.keys;
+// var raw_resp = require('./minerva-01.json');
+// var g = new model.graph();
+// g.load_minerva_response_data(raw_resp['data']);
