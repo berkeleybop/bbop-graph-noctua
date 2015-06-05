@@ -2,7 +2,9 @@
 
 ## Overview
 
-General purpose (mathematical) graph library in JavaScript.
+A Noctua-specific subclass of the bbop-graph general graph library.
+The purpose is to add named edges, evidence, types, and other features
+found in a Noctua environment.
 
 ### Availability
 
