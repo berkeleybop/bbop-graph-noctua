@@ -1,31 +1,35 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>JSDoc: Source: edit.js</title>
+<!doctype html>
+<html>
 
-    <script src="scripts/prettify/prettify.js"> </script>
-    <script src="scripts/prettify/lang-css.js"> </script>
-    <!--[if lt IE 9]>
-      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
-    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+<head>
+  <meta name="generator" content="JSDoc 3.3.0">
+  <meta charset="utf-8">
+  <title>Source: edit.js</title>
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Karla:400,400i,700,700i" type="text/css">
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Noto+Serif:400,400i,700,700i" type="text/css">
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Inconsolata:500" type="text/css">
+  <link href="css/baseline.css" rel="stylesheet">
 </head>
 
-<body>
-
-<div id="main">
-
-    <h1 class="page-title">Source: edit.js</h1>
-
-    
-
-
-    
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>/** 
+<body onload="prettyPrint()">
+  <nav id="jsdoc-navbar" role="navigation" class="jsdoc-navbar">
+    <div id="jsdoc-navbar-container">
+      <div id="jsdoc-navbar-content">
+        <a href="index.html" class="jsdoc-navbar-package-name">Home</a>
+      </div>
+    </div>
+  </nav>
+  <div id="jsdoc-body-container">
+    <div id="jsdoc-content">
+      <div id="jsdoc-content-container">
+        <div id="jsdoc-banner" role="banner">
+        </div>
+        <div id="jsdoc-main" role="main">
+          <header class="page-header">
+            <h1>Source: edit.js</h1>
+          </header>
+          <article>
+            <pre class="prettyprint linenums"><code>/** 
  * Purpose: Noctua editing operations ove a bbop-graph base.
  * 
  * The base pieces are just subclasses of their analogs in bbop-graph.
@@ -34,12 +38,12 @@
  * @module bbop-graph-noctua
  */
 
-var us = require('underscore');
+var us = require(&#x27;underscore&#x27;);
 var each = us.each;
 var keys = us.keys;
-var bbop = require('bbop-core');
-var bbop_model = require('bbop-graph');
-var class_expression = require('class-expression');
+var bbop = require(&#x27;bbop-core&#x27;);
+var bbop_model = require(&#x27;bbop-graph&#x27;);
+var class_expression = require(&#x27;class-expression&#x27;);
 
 ///
 /// New stuff: annotations.
@@ -52,11 +56,11 @@ var class_expression = require('class-expression');
  * This structure of the raw key-value set has been updated in the
  * wire protocol. It now looks like:
  * 
- * : {"key": "contributor", "value": "GOC:kltm" }
+ * : {&quot;key&quot;: &quot;contributor&quot;, &quot;value&quot;: &quot;GOC:kltm&quot; }
  * 
  * or:
  * 
- * : {"key": "contributor", "value": "GOC:kltm", "value-type":"foo"}
+ * : {&quot;key&quot;: &quot;contributor&quot;, &quot;value&quot;: &quot;GOC:kltm&quot;, &quot;value-type&quot;:&quot;foo&quot;}
  * 
  * @constructor
  * @param {Object} kv_set - (optional) a set of keys and values; a simple object
@@ -67,19 +71,19 @@ function annotation(kv_set){
     
     this._properties = {};
     
-    if( kv_set &amp;&amp; bbop.what_is(kv_set) == 'object' ){
+    if( kv_set &amp;amp;&amp;amp; bbop.what_is(kv_set) == &#x27;object&#x27; ){
 	
 	// Attempt to convert
-	if( kv_set['key'] &amp;&amp; kv_set['value'] ){
-	    var key = kv_set['key'];
-	    var val = kv_set['value'];
+	if( kv_set[&#x27;key&#x27;] &amp;amp;&amp;amp; kv_set[&#x27;value&#x27;] ){
+	    var key = kv_set[&#x27;key&#x27;];
+	    var val = kv_set[&#x27;value&#x27;];
 	    // var adj_set = {};
 	    // adj_set[key] = val;
 	    // Silently pass in value-type if there.
 	    this._properties = bbop.clone(kv_set);
 	}else{
 	    // TODO: Replace this at some point with the logger.
-	    console.log('bad annotation k/v set: ', kv_set);
+	    console.log(&#x27;bad annotation k/v set: &#x27;, kv_set);
 	}
     }
 }
@@ -87,6 +91,7 @@ function annotation(kv_set){
 /**
  * The unique id of this annotation.
  *
+ * @memberOf annotation
  * @returns {String} string
  */
 annotation.prototype.id = function(){
@@ -108,15 +113,15 @@ annotation.prototype.annotation = function(key, value, value_type){
 
     // Set if the key and value are there.
     if( key ){
-	if( typeof(value) !== 'undefined' ){
-	    anchor._properties['key'] = key;
-	    anchor._properties['value'] = value;
+	if( typeof(value) !== &#x27;undefined&#x27; ){
+	    anchor._properties[&#x27;key&#x27;] = key;
+	    anchor._properties[&#x27;value&#x27;] = value;
 
 	    // Add or get rid of value type depending.
-	    if( typeof(value_type) == 'undefined' ){
-		delete anchor._properties['value-type'];
+	    if( typeof(value_type) == &#x27;undefined&#x27; ){
+		delete anchor._properties[&#x27;value-type&#x27;];
 	    }else{
-		anchor._properties['value-type'] = value_type;
+		anchor._properties[&#x27;value-type&#x27;] = value_type;
 	    }
 	}
     }
@@ -126,39 +131,39 @@ annotation.prototype.annotation = function(key, value, value_type){
 };
 
 /**
- * Get/set annotation's key.
+ * Get/set annotation&#x27;s key.
  *
  * @param {String} key - (optional) string
  * @returns {String|null} returns string of annotation
  */
 annotation.prototype.key = function(key){
     var anchor = this;
-    if( key ){ anchor._properties['key'] = key; }
-    return anchor._properties['key'];
+    if( key ){ anchor._properties[&#x27;key&#x27;] = key; }
+    return anchor._properties[&#x27;key&#x27;];
 };
 
 /**
- * Get/set annotation's value.
+ * Get/set annotation&#x27;s value.
  *
  * @param {String} value - (optional) string
  * @returns {String|null} returns string of annotation
  */
 annotation.prototype.value = function(value){
     var anchor = this;
-    if( value ){ anchor._properties['value'] = value; }
-    return anchor._properties['value'];
+    if( value ){ anchor._properties[&#x27;value&#x27;] = value; }
+    return anchor._properties[&#x27;value&#x27;];
 };
 
 /**
- * Get/set annotation's value-type.
+ * Get/set annotation&#x27;s value-type.
  *
  * @param {String} value_type - (optional) string
  * @returns {String|null} returns string of annotation
  */
 annotation.prototype.value_type = function(value_type){
     var anchor = this;
-    if( value_type ){ anchor._properties['value-type'] = value_type; }
-    return anchor._properties['value-type'];
+    if( value_type ){ anchor._properties[&#x27;value-type&#x27;] = value_type; }
+    return anchor._properties[&#x27;value-type&#x27;];
 };
 
 /**
@@ -190,9 +195,9 @@ annotation.prototype.clone = function(){
 
     // Copy most of the data structure.
     var a = {};
-    if( anchor.key() ){ a['key'] = anchor.key(); }
-    if( anchor.value() ){ a['value'] = anchor.value(); }
-    if( anchor.value_type() ){ a['value-type'] = anchor.value_type(); }
+    if( anchor.key() ){ a[&#x27;key&#x27;] = anchor.key(); }
+    if( anchor.value() ){ a[&#x27;value&#x27;] = anchor.value(); }
+    if( anchor.value_type() ){ a[&#x27;value-type&#x27;] = anchor.value_type(); }
 
     var new_ann = new annotation(a);
 
@@ -253,7 +258,7 @@ function _get_annotations_by_filter(filter){
     var ret = [];
     each(anchor._annotations, function(ann){
 	var res = filter(ann);
-	if( res &amp;&amp; res == true ){
+	if( res &amp;amp;&amp;amp; res == true ){
 	    ret.push(ann);
 	}
     });
@@ -306,23 +311,33 @@ function _get_annotation_by_id(aid){
 ///
 
 var bbop_graph = bbop_model.graph;
+
+/**
+ * Sublcass of bbop-graph for use with Noctua ideas and concepts.
+ *
+ * @constructor
+ * @see module:bbop-graph
+ * @alias graph
+ * @param {String} new_id - (optional) new id; otherwise new unique generated
+ * @returns {this}
+ */
 function noctua_graph(new_id){
     bbop_graph.call(this);
-    this._is_a = 'bbop-graph-noctua.graph';
+    this._is_a = &#x27;bbop-graph-noctua.graph&#x27;;
 
     // Deal with id.
     if( new_id ){ bbop_graph.id(new_id); }
 
     // The old edit core.
     this.core = {
-	'edges': {}, // map of id to edit_edge - edges not completely anonymous
-	'node_order': [], // initial table order on redraws
-	'node2elt': {}, // map of id to physical object id
-	'elt2node': {},  // map of physical object id to id
+	&#x27;edges&#x27;: {}, // map of id to edit_edge - edges not completely anonymous
+	&#x27;node_order&#x27;: [], // initial table order on redraws
+	&#x27;node2elt&#x27;: {}, // map of id to physical object id
+	&#x27;elt2node&#x27;: {},  // map of physical object id to id
 	// Remeber that edge ids and elts ids are the same, so no map
 	// is needed.
-	'edge2connector': {}, // map of edge id to virtual connector id
-	'connector2edge': {}  // map of virtual connector id to edge id 
+	&#x27;edge2connector&#x27;: {}, // map of edge id to virtual connector id
+	&#x27;connector2edge&#x27;: {}  // map of virtual connector id to edge id 
     };
 
     this._annotations = [];
@@ -403,16 +418,16 @@ noctua_graph.prototype.add_node = function(enode){
     
     // Add/update node.
     var enid = enode.id();
-    //this.core['nodes'][enid] = enode; // add to nodes
+    //this.core[&#x27;nodes&#x27;][enid] = enode; // add to nodes
 
-    // Only create a new elt ID and order if one isn't already in
+    // Only create a new elt ID and order if one isn&#x27;t already in
     // there (or reuse things to keep GUI working smoothly).
-    var elt_id = this.core['node2elt'][enid];
+    var elt_id = this.core[&#x27;node2elt&#x27;][enid];
     if( ! elt_id ){ // first time
-	this.core['node_order'].unshift(enid); // add to default order
-	elt_id = bbop.uuid(); // generate the elt id we'll use from now on
-	this.core['node2elt'][enid] = elt_id; // map it
-	this.core['elt2node'][elt_id] = enid; // map it	
+	this.core[&#x27;node_order&#x27;].unshift(enid); // add to default order
+	elt_id = bbop.uuid(); // generate the elt id we&#x27;ll use from now on
+	this.core[&#x27;node2elt&#x27;][enid] = elt_id; // map it
+	this.core[&#x27;elt2node&#x27;][elt_id] = enid; // map it	
 	ret = true;
     }
 
@@ -432,19 +447,19 @@ noctua_graph.prototype.add_node_from_individual = function(indv){
     var new_node = null;
 
     // Add individual to edit core if properly structured.
-    var iid = indv['id'];
+    var iid = indv[&#x27;id&#x27;];
     if( iid ){
-	//var nn = new bbop.model.node(indv['id']);
+	//var nn = new bbop.model.node(indv[&#x27;id&#x27;]);
 	//var meta = {};
-	//ll('indv');
+	//ll(&#x27;indv&#x27;);
 	
 	// See if there is type info that we want to add.
 	// Create the node.
-	var itypes = indv['type'] || [];
+	var itypes = indv[&#x27;type&#x27;] || [];
 	new_node = anchor.create_node(iid, null, itypes);
 
 	// See if there is type info that we want to add.
-	var ianns = indv['annotations'] || [];
+	var ianns = indv[&#x27;annotations&#x27;] || [];
 	if( us.isArray(ianns) ){
 	    // Add the annotations individually.
 	    each(ianns, function(ann_kv_set){
@@ -460,21 +475,21 @@ noctua_graph.prototype.add_node_from_individual = function(indv){
 };
 
 /**
- * Return the "table" order of the nodes.
+ * Return the &quot;table&quot; order of the nodes.
  *
  * @returns {Array} node order by id?
  */
 noctua_graph.prototype.edit_node_order = function(){
-    return this.core['node_order'] || [];
+    return this.core[&#x27;node_order&#x27;] || [];
 };
 
 /**
- * Return a node's element id.
+ * Return a node&#x27;s element id.
  *
  * @returns {String|null} node element id
  */
 noctua_graph.prototype.get_node_elt_id = function(enid){
-    return this.core['node2elt'][enid] || null;
+    return this.core[&#x27;node2elt&#x27;][enid] || null;
 };
 
 /**
@@ -484,7 +499,7 @@ noctua_graph.prototype.get_node_elt_id = function(enid){
  */
 noctua_graph.prototype.get_node_by_elt_id = function(elt_id){
     var ret = null;
-    var enid = this.core['elt2node'][elt_id] || null;
+    var enid = this.core[&#x27;elt2node&#x27;][elt_id] || null;
     if( enid ){
 	ret = this.get_node(enid) || null;
     }
@@ -502,7 +517,7 @@ noctua_graph.prototype.get_node_by_individual = function(indv){
     var ret = null;
 
     // Get node from graph if individual rep is properly structured.
-    var iid = indv['id'];
+    var iid = indv[&#x27;id&#x27;];
     if( iid ){	
 	ret = this.get_node(iid) || null;
     }
@@ -542,15 +557,15 @@ noctua_graph.prototype.remove_node = function(node_id, clean_p){
 
 	// Also remove the node from the order list.
 	// TODO: Is this a dumb scan?
-	var ni = this.core['node_order'].indexOf(node_id);
+	var ni = this.core[&#x27;node_order&#x27;].indexOf(node_id);
 	if( ni != -1 ){
-	    this.core['node_order'].splice(ni, 1);
+	    this.core[&#x27;node_order&#x27;].splice(ni, 1);
 	}
 
 	// Clean the maps.
-	var elt_id = this.core['node2elt'][node_id];
-	delete this.core['node2elt'][node_id];
-	delete this.core['elt2node'][elt_id];
+	var elt_id = this.core[&#x27;node2elt&#x27;][node_id];
+	delete this.core[&#x27;node2elt&#x27;][node_id];
+	delete this.core[&#x27;elt2node&#x27;][elt_id];
 
 	///
 	/// We want to maintain superclass compatibility.
@@ -576,12 +591,12 @@ noctua_graph.prototype.add_edge = function(eedge){
 
     // Sub.
    var eeid = eedge.id();
-   if( ! eeid ){ throw new Error('edge not of bbop-graph-noctua'); }
-   this.core['edges'][eeid] = eedge;
+   if( ! eeid ){ throw new Error(&#x27;edge not of bbop-graph-noctua&#x27;); }
+   this.core[&#x27;edges&#x27;][eeid] = eedge;
 };
 
 /**
- * Add an edge to the graph using a "fact" as the seed.
+ * Add an edge to the graph using a &quot;fact&quot; as the seed.
  * Creates and adds annotations as necessary.
  *
  * @param {} fact - JSON structure representing a fact
@@ -593,15 +608,15 @@ noctua_graph.prototype.add_edge_from_fact = function(fact){
     var new_edge = null;
     
     // Add individual to edit core if properly structured.
-    var sid = fact['subject'];
-    var oid = fact['object'];
-    var pid = fact['property'];
-    var anns = fact['annotations'] || [];
-    if( sid &amp;&amp; oid &amp;&amp; pid ){
+    var sid = fact[&#x27;subject&#x27;];
+    var oid = fact[&#x27;object&#x27;];
+    var pid = fact[&#x27;property&#x27;];
+    var anns = fact[&#x27;annotations&#x27;] || [];
+    if( sid &amp;amp;&amp;amp; oid &amp;amp;&amp;amp; pid ){
 
 	new_edge = anchor.create_edge(sid, oid, pid);
 	if( ! us.isArray(anns) ){
-	    throw new Error('annotations is wrong');
+	    throw new Error(&#x27;annotations is wrong&#x27;);
 	}else{
 	    // Add the annotations individually.
 	    each(anns, function(ann_kv_set){
@@ -618,23 +633,23 @@ noctua_graph.prototype.add_edge_from_fact = function(fact){
 };
 
 /**
- * Return an edge ID by it's associated connector ID if extant.
+ * Return an edge ID by it&#x27;s associated connector ID if extant.
  *
  * @param {String} cid - the ID of the connector.
  * @returns {String} - the ID of the associated edge
  */
 noctua_graph.prototype.get_edge_id_by_connector_id = function(cid){
-    return this.core['connector2edge'][cid] || null;
+    return this.core[&#x27;connector2edge&#x27;][cid] || null;
 };
 
 /**
- * Return a connector by it's associated edge ID if extant.
+ * Return a connector by it&#x27;s associated edge ID if extant.
  *
  * @param {String} eid - the ID of the edge
  * @returns {String} - the connector ID
  */
 noctua_graph.prototype.get_connector_id_by_edge_id = function(eid){
-    return this.core['edge2connector'][eid] || null;
+    return this.core[&#x27;edge2connector&#x27;][eid] || null;
 };
 
 /**
@@ -667,10 +682,10 @@ noctua_graph.prototype.get_connector_id_by_edge_id = function(eid){
 noctua_graph.prototype.remove_edge_by_id = function(eeid){
     var ret = false;
 
-    if( this.core['edges'][eeid] ){
+    if( this.core[&#x27;edges&#x27;][eeid] ){
 
 	// Summon up the edge to properly remove it from the model.
-	var eedge = this.core['edges'][eeid];
+	var eedge = this.core[&#x27;edges&#x27;][eeid];
 
 	// Remove the node itself from super.
 	ret = bbop_graph.prototype.remove_edge.call(eedge.subject_id(),
@@ -678,12 +693,12 @@ noctua_graph.prototype.remove_edge_by_id = function(eeid){
 						    eedge.predicate_id());
 	
 	// Main bit out.
-	delete this.core['edges'][eeid];
+	delete this.core[&#x27;edges&#x27;][eeid];
 
 	// And clean the maps.
-	var cid = this.core['edge2connector'][eeid];
-	delete this.core['edge2connector'][eeid];
-	delete this.core['connector2edge'][cid];
+	var cid = this.core[&#x27;edge2connector&#x27;][eeid];
+	delete this.core[&#x27;edge2connector&#x27;][eeid];
+	delete this.core[&#x27;connector2edge&#x27;][cid];
     }
 
     return ret;
@@ -702,8 +717,8 @@ noctua_graph.prototype.remove_edge_by_id = function(eeid){
 noctua_graph.prototype.create_edge_mapping = function(eedge, connector){
     var eid = eedge.id();
     var cid = connector.id;
-    this.core['edge2connector'][eid] = cid;
-    this.core['connector2edge'][cid] = eid;
+    this.core[&#x27;edge2connector&#x27;][eid] = cid;
+    this.core[&#x27;connector2edge&#x27;][cid] = eid;
 };
 
 /**
@@ -720,26 +735,26 @@ noctua_graph.prototype.dump = function(){
     var dcache = [];
     
     each(this.get_nodes(), function(node, node_id){	
-	var ncache = ['node'];
+	var ncache = [&#x27;node&#x27;];
 	ncache.push(node.id());
-	dcache.push(ncache.join("\t"));
+	dcache.push(ncache.join(&quot;\t&quot;));
     });
     
-    each(this.core['edges'], function(edge, edge_id){
-	var ecache = ['edge'];
+    each(this.core[&#x27;edges&#x27;], function(edge, edge_id){
+	var ecache = [&#x27;edge&#x27;];
 	ecache.push(edge.subject_id());
 	ecache.push(edge.predicate_id());
 	ecache.push(edge.object_id());
-	dcache.push(ecache.join("\t"));
+	dcache.push(ecache.join(&quot;\t&quot;));
     });
     
-    return dcache.join("\n");
+    return dcache.join(&quot;\n&quot;);
 };
 
 /**
  * Load minerva data response.
  *
- * @param {Object} the "data" portion of a Minerva graph-related response.
+ * @param {Object} the &quot;data&quot; portion of a Minerva graph-related response.
  * @returns {this} 
  */
 noctua_graph.prototype.load_minerva_response_data = function(data){
@@ -751,9 +766,9 @@ noctua_graph.prototype.load_minerva_response_data = function(data){
 	
 	// TODO: Graph parts--annotations, etc.
 
-	var inds = data['individuals'];
-	//var i_inds =raw_resp['data']['individuals-i'];
-	var facts = data['facts'];
+	var inds = data[&#x27;individuals&#x27;];
+	//var i_inds =raw_resp[&#x27;data&#x27;][&#x27;individuals-i&#x27;];
+	var facts = data[&#x27;facts&#x27;];
 	
 	// This is likely to be the seed for the graph builders ;)
 	each(inds, function(ind){
@@ -774,9 +789,20 @@ noctua_graph.prototype.load_minerva_response_data = function(data){
 ///
 
 var bbop_node = bbop_model.node;
+/**
+ * Sublcass of bbop-graph.node for use with Noctua ideas and concepts.
+ *
+ * @constructor
+ * @see module:bbop-graph
+ * @alias node
+ * @param {String} in_id - (optional) new id; otherwise new unique generated
+ * @param {String} in_label - (optional) node &quot;label&quot;
+ * @param {Array} in_types - (optional) list of Objects or strings--anything that can be parsed by class_expression
+ * @returns {this}
+ */
 function noctua_node(in_id, in_label, in_types){
     bbop_node.call(this, in_id, in_label);
-    this._is_a = 'bbop-graph-noctua.node';
+    this._is_a = &#x27;bbop-graph-noctua.node&#x27;;
     var anchor = this;
 
     this._types = [];
@@ -784,7 +810,7 @@ function noctua_node(in_id, in_label, in_types){
     this._annotations = [];
 
     // Incoming ID or generate ourselves.
-    if( typeof(in_id) === 'undefined' ){
+    if( typeof(in_id) === &#x27;undefined&#x27; ){
 	this._id = bbop.uuid();
     }else{
 	//this._id = in_id;
@@ -901,7 +927,7 @@ noctua_node.prototype.get_type_by_id = function(type_id){
 };
 
 /**
- * Get/set "x" value of node.
+ * Get/set &quot;x&quot; value of node.
  * 
  * @param {Number} value - number
  * @returns {Number|null} type or null
@@ -912,7 +938,7 @@ noctua_node.prototype.x_init = function(value){
 };
 
 /**
- * Get/set "y" value of node.
+ * Get/set &quot;y&quot; value of node.
  * 
  * @param {Number} value - number
  * @returns {Number|null} type or null
@@ -927,9 +953,20 @@ noctua_node.prototype.y_init = function(value){
 ///
 
 var bbop_edge = bbop_model.edge;
+/**
+ * Sublcass of bbop-graph.edge for use with Noctua ideas and concepts.
+ *
+ * @constructor
+ * @see module:bbop-graph
+ * @alias edge
+ * @param {String} subject - required subject id
+ * @param {String} object - required object id
+ * @param {String} predicate - (optional) preidcate id; if not provided, will use defined default (you probably want to provide one--explicit is better)
+ * @returns {this}
+ */
 function noctua_edge(subject, object, predicate){
     bbop_edge.call(this, subject, object, predicate);
-    this._is_a = 'bbop-graph-noctua.edge';
+    this._is_a = &#x27;bbop-graph-noctua.edge&#x27;;
 
     // Edges are not completely anonymous in this world.
     this._id = bbop.uuid();
@@ -968,7 +1005,7 @@ noctua_edge.prototype.clone = function(){
 };
 
 /**
- * Access to the "id".
+ * Access to the &quot;id&quot;.
  * 
  * @returns {String} string
  */
@@ -977,7 +1014,7 @@ noctua_edge.prototype.id = function(){
  };
 
 /**
- * Get/set "source" of edge.
+ * Get/set &quot;source&quot; of edge.
  * 
  * @deprecated
  * @param {String} value - (optional) string
@@ -989,7 +1026,7 @@ noctua_edge.prototype.source = function(value){
 };
 
 /**
- * Get/set "target" of edge.
+ * Get/set &quot;target&quot; of edge.
  * 
  * @deprecated
  * @param {String} value - (optional) string
@@ -1001,7 +1038,7 @@ noctua_edge.prototype.target = function(value){
 };
 
 /**
- * Get/set "relation" of edge.
+ * Get/set &quot;relation&quot; of edge.
  * 
  * @deprecated
  * @param {String} value - (optional) string
@@ -1037,25 +1074,26 @@ module.exports = {
 
 };
 </code></pre>
-        </article>
-    </section>
-
-
-
-
-</div>
-
-<nav>
-    <h2><a href="index.html">Index</a></h2><h3>Modules</h3><ul><li><a href="module-bbop-graph-noctua.html">bbop-graph-noctua</a></li></ul><h3>Classes</h3><ul><li><a href="module-bbop-graph-noctua-annotation.html">annotation</a></li></ul>
-</nav>
-
-<br clear="both">
-
-<footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha5</a> on Thu Jun 04 2015 19:19:26 GMT-0700 (PDT)
-</footer>
-
-<script> prettyPrint(); </script>
-<script src="scripts/linenumber.js"> </script>
+          </article>
+        </div>
+      </div>
+      <nav id="jsdoc-toc-nav" role="navigation"></nav>
+    </div>
+  </div>
+  <footer id="jsdoc-footer" class="jsdoc-footer">
+    <div id="jsdoc-footer-container">
+      <p>
+        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc</a> 3.3.0 on June 5, 2015.
+      </p>
+    </div>
+  </footer>
+  <script src="scripts/jquery.min.js"></script>
+  <script src="scripts/jquery.cookie.js"></script>
+  <script src="scripts/tree.jquery.js"></script>
+  <script src="scripts/prettify.js"></script>
+  <script src="scripts/jsdoc-toc.js"></script>
+  <script src="scripts/linenumber.js"></script>
+  <script src="scripts/scrollanchor.js"></script>
 </body>
+
 </html>
