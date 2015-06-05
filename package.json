@@ -54,7 +54,7 @@
     "directories": {
         "doc": "doc",
         "lib": "lib",
-        "test": "tests"
+        "tests": "tests"
     },
     "main": "lib/edit.js",
     "bugs": {
