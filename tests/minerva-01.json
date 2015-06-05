@@ -4,31 +4,11 @@
             {
                 "type": [
                     {
-                        "label": "in vitro binding evidence",
-                        "id": "ECO:0000148",
-                        "type": "class"
-                    }
-                ],
-                "id": "gomodel_taxon_559292-5525a0fc0000001-ECO-0000148-553ff9ed0000013"
-            },
-            {
-                "type": [
-                    {
                         "id": "SGD:S000004659",
                         "type": "class"
                     }
                 ],
                 "id": "gomodel_taxon_559292-5525a0fc0000001-SGD-S000004659-553ff9ed0000010"
-            },
-            {
-                "type": [
-                    {
-                        "label": "direct assay evidence",
-                        "id": "ECO:0000002",
-                        "type": "class"
-                    }
-                ],
-                "id": "gomodel_taxon_559292-5525a0fc0000001-ECO-0000002-553ff9ed0000005"
             },
             {
                 "type": [
@@ -39,6 +19,16 @@
                     }
                 ],
                 "id": "gomodel:taxon_559292-5525a0fc0000001-GO-0005095-5525a0fc0000009"
+            },
+            {
+                "type": [
+                    {
+                        "label": "direct assay evidence",
+                        "id": "ECO:0000002",
+                        "type": "class"
+                    }
+                ],
+                "id": "gomodel_taxon_559292-5525a0fc0000001-ECO-0000002-553ff9ed0000017"
             },
             {
                 "type": [
@@ -72,11 +62,12 @@
             {
                 "type": [
                     {
-                        "id": "SGD:S000003814",
+                        "label": "direct assay evidence",
+                        "id": "ECO:0000002",
                         "type": "class"
                     }
                 ],
-                "id": "gomodel_taxon_559292-5525a0fc0000001-SGD-S000003814-553ff9ed0000007"
+                "id": "gomodel_taxon_559292-5525a0fc0000001-ECO-0000002-553ff9ed0000005"
             },
             {
                 "type": [
@@ -86,6 +77,15 @@
                     }
                 ],
                 "id": "gomodel_taxon_559292-5525a0fc0000001-SGD-S000003814-553ff9ed0000002"
+            },
+            {
+                "type": [
+                    {
+                        "id": "SGD:S000003814",
+                        "type": "class"
+                    }
+                ],
+                "id": "gomodel_taxon_559292-5525a0fc0000001-SGD-S000003814-553ff9ed0000007"
             },
             {
                 "type": [
@@ -138,12 +138,12 @@
             {
                 "type": [
                     {
-                        "label": "direct assay evidence",
-                        "id": "ECO:0000002",
+                        "label": "in vitro binding evidence",
+                        "id": "ECO:0000148",
                         "type": "class"
                     }
                 ],
-                "id": "gomodel_taxon_559292-5525a0fc0000001-ECO-0000002-553ff9ed0000017"
+                "id": "gomodel_taxon_559292-5525a0fc0000001-ECO-0000148-553ff9ed0000013"
             },
             {
                 "type": [
@@ -256,22 +256,6 @@
             {
                 "annotations": [
                     {
-                        "value": "PMID:12048186",
-                        "key": "source"
-                    }
-                ],
-                "type": [
-                    {
-                        "label": "in vitro binding evidence",
-                        "id": "ECO:0000148",
-                        "type": "class"
-                    }
-                ],
-                "id": "gomodel_taxon_559292-5525a0fc0000001-ECO-0000148-553ff9ed0000013"
-            },
-            {
-                "annotations": [
-                    {
                         "value": "2015-04-14",
                         "key": "date"
                     },
@@ -291,22 +275,7 @@
             {
                 "annotations": [
                     {
-                        "value": "PMID:12048186",
-                        "key": "source"
-                    }
-                ],
-                "type": [
-                    {
-                        "label": "direct assay evidence",
-                        "id": "ECO:0000002",
-                        "type": "class"
-                    }
-                ],
-                "id": "gomodel_taxon_559292-5525a0fc0000001-ECO-0000002-553ff9ed0000005"
-            },
-            {
-                "annotations": [
-                    {
+                        "value-type": "IRI",
                         "value": "gomodel_taxon_559292-5525a0fc0000001-ECO-0000005-553ff9ed0000001",
                         "key": "evidence"
                     },
@@ -327,6 +296,22 @@
                     }
                 ],
                 "id": "gomodel:taxon_559292-5525a0fc0000001-GO-0005095-5525a0fc0000009"
+            },
+            {
+                "annotations": [
+                    {
+                        "value": "PMID:12048186",
+                        "key": "source"
+                    }
+                ],
+                "type": [
+                    {
+                        "label": "direct assay evidence",
+                        "id": "ECO:0000002",
+                        "type": "class"
+                    }
+                ],
+                "id": "gomodel_taxon_559292-5525a0fc0000001-ECO-0000002-553ff9ed0000017"
             },
             {
                 "annotations": [
@@ -382,21 +367,18 @@
             {
                 "annotations": [
                     {
-                        "value": "http://orcid.org/0000-0001-7476-6306",
-                        "key": "contributor"
-                    },
-                    {
-                        "value": "2015-04-13",
-                        "key": "date"
+                        "value": "PMID:12048186",
+                        "key": "source"
                     }
                 ],
                 "type": [
                     {
-                        "id": "SGD:S000003814",
+                        "label": "direct assay evidence",
+                        "id": "ECO:0000002",
                         "type": "class"
                     }
                 ],
-                "id": "gomodel_taxon_559292-5525a0fc0000001-SGD-S000003814-553ff9ed0000007"
+                "id": "gomodel_taxon_559292-5525a0fc0000001-ECO-0000002-553ff9ed0000005"
             },
             {
                 "annotations": [
@@ -420,6 +402,25 @@
             {
                 "annotations": [
                     {
+                        "value": "http://orcid.org/0000-0001-7476-6306",
+                        "key": "contributor"
+                    },
+                    {
+                        "value": "2015-04-13",
+                        "key": "date"
+                    }
+                ],
+                "type": [
+                    {
+                        "id": "SGD:S000003814",
+                        "type": "class"
+                    }
+                ],
+                "id": "gomodel_taxon_559292-5525a0fc0000001-SGD-S000003814-553ff9ed0000007"
+            },
+            {
+                "annotations": [
+                    {
                         "value": "PMID:12048186",
                         "key": "source"
                     }
@@ -436,6 +437,7 @@
             {
                 "annotations": [
                     {
+                        "value-type": "IRI",
                         "value": "gomodel_taxon_559292-5525a0fc0000001-ECO-0000148-553ff9ed0000013",
                         "key": "evidence"
                     },
@@ -524,12 +526,12 @@
                 ],
                 "type": [
                     {
-                        "label": "direct assay evidence",
-                        "id": "ECO:0000002",
+                        "label": "in vitro binding evidence",
+                        "id": "ECO:0000148",
                         "type": "class"
                     }
                 ],
-                "id": "gomodel_taxon_559292-5525a0fc0000001-ECO-0000002-553ff9ed0000017"
+                "id": "gomodel_taxon_559292-5525a0fc0000001-ECO-0000148-553ff9ed0000013"
             },
             {
                 "annotations": [
@@ -613,6 +615,7 @@
                         "key": "contributor"
                     },
                     {
+                        "value-type": "IRI",
                         "value": "gomodel_taxon_559292-5525a0fc0000001-ECO-0000002-553ff9ed0000005",
                         "key": "evidence"
                     }
@@ -633,6 +636,7 @@
                         "key": "date"
                     },
                     {
+                        "value-type": "IRI",
                         "value": "gomodel_taxon_559292-5525a0fc0000001-ECO-0000005-553ff9ed0000003",
                         "key": "evidence"
                     },
@@ -653,6 +657,7 @@
             {
                 "annotations": [
                     {
+                        "value-type": "IRI",
                         "value": "gomodel_taxon_559292-5525a0fc0000001-ECO-0000021-553ff9ed0000009",
                         "key": "evidence"
                     },
@@ -732,24 +737,9 @@
                         "key": "date"
                     }
                 ],
-                "object": "gomodel_taxon_559292-5525a0fc0000001-SGD-S000004529-553ff9ed0000014",
+                "object": "gomodel_taxon_559292-5525a0fc0000001-SGD-S000004529-553ff9ed0000004",
                 "property": "RO:0002333",
-                "subject": "gomodel:taxon_559292-5525a0fc0000001-GO-0005525-5525a0fc0000010"
-            },
-            {
-                "annotations": [
-                    {
-                        "value": "GOC:kmv",
-                        "key": "contributor"
-                    },
-                    {
-                        "value": "2015-04-20",
-                        "key": "date"
-                    }
-                ],
-                "object": "gomodel:taxon_559292-5525a0fc0000001-GO-0005096-5525a0fc0000012",
-                "property": "RO:0002406",
-                "subject": "gomodel:taxon_559292-5525a0fc0000001-GO-0005515-5525a0fc0000023"
+                "subject": "gomodel:taxon_559292-5525a0fc0000001-GO-0003924-5525a0fc0000008"
             },
             {
                 "annotations": [
@@ -765,6 +755,21 @@
                 "object": "gomodel_taxon_559292-5525a0fc0000001-SGD-S000003814-553ff9ed0000012",
                 "property": "RO:0002233",
                 "subject": "gomodel:taxon_559292-5525a0fc0000001-GO-0005515-5525a0fc0000023"
+            },
+            {
+                "annotations": [
+                    {
+                        "value": "http://orcid.org/0000-0001-7476-6306",
+                        "key": "contributor"
+                    },
+                    {
+                        "value": "2015-04-13",
+                        "key": "date"
+                    }
+                ],
+                "object": "gomodel_taxon_559292-5525a0fc0000001-SGD-S000004529-553ff9ed0000014",
+                "property": "RO:0002333",
+                "subject": "gomodel:taxon_559292-5525a0fc0000001-GO-0005525-5525a0fc0000010"
             },
             {
                 "annotations": [
@@ -799,6 +804,7 @@
             {
                 "annotations": [
                     {
+                        "value-type": "IRI",
                         "value": "gomodel_taxon_559292-5525a0fc0000001-ECO-0000002-553ff9ed0000017",
                         "key": "evidence"
                     },
@@ -818,17 +824,17 @@
             {
                 "annotations": [
                     {
-                        "value": "http://orcid.org/0000-0001-7476-6306",
+                        "value": "GOC:kmv",
                         "key": "contributor"
                     },
                     {
-                        "value": "2015-04-13",
+                        "value": "2015-04-20",
                         "key": "date"
                     }
                 ],
-                "object": "gomodel_taxon_559292-5525a0fc0000001-SGD-S000004529-553ff9ed0000004",
-                "property": "RO:0002333",
-                "subject": "gomodel:taxon_559292-5525a0fc0000001-GO-0003924-5525a0fc0000008"
+                "object": "gomodel:taxon_559292-5525a0fc0000001-GO-0005096-5525a0fc0000012",
+                "property": "RO:0002406",
+                "subject": "gomodel:taxon_559292-5525a0fc0000001-GO-0005515-5525a0fc0000023"
             },
             {
                 "annotations": [
@@ -848,6 +854,7 @@
             {
                 "annotations": [
                     {
+                        "value-type": "IRI",
                         "value": "gomodel_taxon_559292-5525a0fc0000001-ECO-0000002-553ff9ed0000015",
                         "key": "evidence"
                     },
@@ -867,6 +874,7 @@
             {
                 "annotations": [
                     {
+                        "value-type": "IRI",
                         "value": "gomodel_taxon_559292-5525a0fc0000001-ECO-0000002-553ff9ed0000016",
                         "key": "evidence"
                     },
@@ -924,5 +932,5 @@
     "signal": "rebuild",
     "intention": "query",
     "uid": "GOC:kltm",
-    "packet-id": "587a9e87c34a51a"
+    "packet-id": "5b87bdc7d497b3"
 }
