@@ -1,0 +1,820 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta name="generator" content="JSDoc 3.3.0">
+  <meta charset="utf-8">
+  <title>Class: graph</title>
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Karla:400,400i,700,700i" type="text/css">
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Noto+Serif:400,400i,700,700i" type="text/css">
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Inconsolata:500" type="text/css">
+  <link href="css/baseline.css" rel="stylesheet">
+</head>
+
+<body onload="prettyPrint()">
+  <nav id="jsdoc-navbar" role="navigation" class="jsdoc-navbar">
+    <div id="jsdoc-navbar-container">
+      <div id="jsdoc-navbar-content">
+        <a href="index.html" class="jsdoc-navbar-package-name">Home</a>
+      </div>
+    </div>
+  </nav>
+  <div id="jsdoc-body-container">
+    <div id="jsdoc-content">
+      <div id="jsdoc-content-container">
+        <div id="jsdoc-main" role="main">
+          <header class="page-header">
+            <h1><div class="symbol-detail-labels"><span class="label label-kind">class</span></div><small></small><span class="symbol-name">graph</span></h1>
+            <p class="source-link">Source: <a href="edit.js.html#source-line-293">edit.<wbr>js:293</a></p>
+            <dl class="dl-compact">
+            </dl>
+          </header>
+          <section id="summary">
+            <div class="summary-callout">
+              <h2 class="summary-callout-heading">Methods</h2>
+              <div class="summary-content">
+                <div class="summary-column">
+                  <dl class="dl-summary-callout">
+                    <dt><a href="graph.html#add_edge">add_edge(eedge)</a></dt>
+                    <dd>
+                    </dd>
+                    <dt><a href="graph.html#add_edge_from_fact">add_edge_from_fact(fact)</a></dt>
+                    <dd>
+                    </dd>
+                    <dt><a href="graph.html#add_id">add_id(id)</a></dt>
+                    <dd>
+                    </dd>
+                    <dt><a href="graph.html#add_node">add_node(enode)</a></dt>
+                    <dd>
+                    </dd>
+                    <dt><a href="graph.html#add_node_from_individual">add_node_from_individual(indv)</a></dt>
+                    <dd>
+                    </dd>
+                    <dt><a href="graph.html#create_edge">create_edge(subject, object, predicate)</a></dt>
+                    <dd>
+                    </dd>
+                    <dt><a href="graph.html#create_edge_mapping">create_edge_mapping(eedge, connector)</a></dt>
+                    <dd>
+                    </dd>
+                  </dl>
+                </div>
+                <div class="summary-column">
+                  <dl class="dl-summary-callout">
+                    <dt><a href="graph.html#create_graph">create_graph()</a></dt>
+                    <dd>
+                    </dd>
+                    <dt><a href="graph.html#create_node">create_node(id, label, types)</a></dt>
+                    <dd>
+                    </dd>
+                    <dt><a href="graph.html#dump">dump()</a></dt>
+                    <dd>
+                    </dd>
+                    <dt><a href="graph.html#edit_node_order">edit_node_order()</a></dt>
+                    <dd>
+                    </dd>
+                    <dt><a href="graph.html#get_connector_id_by_edge_id">get_connector_id_by_edge_id(eid)</a></dt>
+                    <dd>
+                    </dd>
+                    <dt><a href="graph.html#get_edge_id_by_connector_id">get_edge_id_by_connector_id(cid)</a></dt>
+                    <dd>
+                    </dd>
+                    <dt><a href="graph.html#get_id">get_id()</a></dt>
+                    <dd>
+                    </dd>
+                  </dl>
+                </div>
+                <div class="summary-column">
+                  <dl class="dl-summary-callout">
+                    <dt><a href="graph.html#get_node_by_elt_id">get_node_by_elt_id()</a></dt>
+                    <dd>
+                    </dd>
+                    <dt><a href="graph.html#get_node_by_individual">get_node_by_individual()</a></dt>
+                    <dd>
+                    </dd>
+                    <dt><a href="graph.html#get_node_elt_id">get_node_elt_id()</a></dt>
+                    <dd>
+                    </dd>
+                    <dt><a href="graph.html#get_nodes">get_nodes()</a></dt>
+                    <dd>
+                    </dd>
+                    <dt><a href="graph.html#load_minerva_response_data">load_minerva_response_data(the)</a></dt>
+                    <dd>
+                    </dd>
+                    <dt><a href="graph.html#remove_edge_by_id">remove_edge_by_id(edge_id)</a></dt>
+                    <dd>
+                    </dd>
+                    <dt><a href="graph.html#remove_node">remove_node(node_id, clean_p)</a></dt>
+                    <dd>
+                    </dd>
+                  </dl>
+                </div>
+              </div>
+            </div>
+          </section>
+          <section>
+            <h2 id="graph">new&nbsp;<span class="symbol-name">graph</span><span class="signature"><span class="signature-params">(new_id)</span></span></h2>
+            <p>Sublcass of bbop-graph for use with Noctua ideas and concepts.</p>
+            <section>
+              <h3>Parameter</h3>
+              <table class="jsdoc-details-table">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Optional</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <p>new_id</p>
+                    </td>
+                    <td>
+                      <p>String</p>
+                    </td>
+                    <td>
+                      <p>&nbsp;</p>
+                    </td>
+                    <td>
+                      <p>(optional) new id; otherwise new unique generated</p>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </section>
+            <dl class="dl-compact">
+              <dt>See also</dt>
+              <dd>module:bbop-graph</dd>
+              <dt>Returns</dt>
+              <dd>
+                <p><code>this</code>&nbsp;</p>
+              </dd>
+            </dl>
+          </section>
+          <section>
+            <h2>Methods</h2>
+            <section>
+              <h3 id="add_edge"><span class="symbol-name">add_edge</span><span class="signature"><span class="signature-params">(eedge)</span></span></h3>
+              <p>Add an edge to the graph. Remember that edges are no anonymous edges here.</p>
+              <section>
+                <h4>Parameter</h4>
+                <table class="jsdoc-details-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Type</th>
+                      <th>Optional</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <p>eedge</p>
+                      </td>
+                      <td>
+                        <p><a href="edge.html">edge</a></p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>a bbop-graph-noctua#edge</p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <dl class="dl-compact">
+              </dl>
+              <h3 id="add_edge_from_fact"><span class="symbol-name">add_edge_from_fact</span><span class="signature"><span class="signature-params">(fact)</span>&nbsp;&rarr; <span class="signature-returns"> <a href="edge.html">edge</a></span></span></h3>
+              <p>Add an edge to the graph using a &quot;fact&quot; as the seed. Creates and adds annotations as necessary.</p>
+              <section>
+                <h4>Parameter</h4>
+                <table class="jsdoc-details-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Type</th>
+                      <th>Optional</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <p>fact</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>JSON structure representing a fact</p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <dl class="dl-compact">
+                <dt>Returns</dt>
+                <dd>
+                  <p><code><a href="edge.html">edge</a></code>&nbsp;newly created edge</p>
+                </dd>
+              </dl>
+              <h3 id="add_id"><span class="symbol-name">add_id</span><span class="signature"><span class="signature-params">(id)</span>&nbsp;&rarr; <span class="signature-returns"> String</span></span></h3>
+              <p>Add an ID to the graph.</p>
+              <p>Use .id() instead.</p>
+              <section>
+                <h4>Parameter</h4>
+                <table class="jsdoc-details-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Type</th>
+                      <th>Optional</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <p>id</p>
+                      </td>
+                      <td>
+                        <p>String</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>string</p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <dl class="dl-compact">
+                <dt>Deprecated</dt>
+                <dd></dd>
+                <dt>See also</dt>
+                <dd>module:bbop-graph#id</dd>
+                <dt>Returns</dt>
+                <dd>
+                  <p><code>String</code>&nbsp;string</p>
+                </dd>
+              </dl>
+              <h3 id="add_node"><span class="symbol-name">add_node</span><span class="signature"><span class="signature-params">(enode)</span>&nbsp;&rarr; <span class="signature-returns"> Boolean</span></span></h3>
+              <p>Get the ID from the graph.</p>
+              <section>
+                <h4>Parameter</h4>
+                <table class="jsdoc-details-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Type</th>
+                      <th>Optional</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <p>enode</p>
+                      </td>
+                      <td>
+                        <p><a href="node.html">node</a></p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>noctua node</p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <dl class="dl-compact">
+                <dt>Returns</dt>
+                <dd>
+                  <p><code>Boolean</code>&nbsp;true on new node</p>
+                </dd>
+              </dl>
+              <h3 id="add_node_from_individual"><span class="symbol-name">add_node_from_individual</span><span class="signature"><span class="signature-params">(indv)</span>&nbsp;&rarr; <span class="signature-returns"> (<a href="node.html">node</a> or null)</span></span></h3>
+              <p>Add a node into the graph modeled from the the JSON-LD lite model. Creates or adds types and annotations as necessary.</p>
+              <section>
+                <h4>Parameter</h4>
+                <table class="jsdoc-details-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Type</th>
+                      <th>Optional</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <p>indv</p>
+                      </td>
+                      <td>
+                        <p>Object</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>hash rep of graph individual from Minerva response?</p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <dl class="dl-compact">
+                <dt>Returns</dt>
+                <dd>
+                  <p><code>(<a href="node.html">node</a> or null)</code>&nbsp;</p>
+                </dd>
+              </dl>
+              <h3 id="create_edge"><span class="symbol-name">create_edge</span><span class="signature"><span class="signature-params">(subject, object, predicate)</span>&nbsp;&rarr; <span class="signature-returns"> <a href="edge.html">edge</a></span></span></h3>
+              <p>Create an edge for use in internal operations.</p>
+              <section>
+                <h4>Parameters</h4>
+                <table class="jsdoc-details-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Type</th>
+                      <th>Optional</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <p>subject</p>
+                      </td>
+                      <td>
+                        <p>string</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>node id string or node</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p>object</p>
+                      </td>
+                      <td>
+                        <p>string</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>node id string or node</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p>predicate</p>
+                      </td>
+                      <td>
+                        <p>string</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>(optional) a user-friendly description of the node</p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <dl class="dl-compact">
+                <dt>Returns</dt>
+                <dd>
+                  <p><code><a href="edge.html">edge</a></code>&nbsp;bbop model edge</p>
+                </dd>
+              </dl>
+              <h3 id="create_edge_mapping"><span class="symbol-name">create_edge_mapping</span><span class="signature"><span class="signature-params">(eedge, connector)</span></span></h3>
+              <p>Internally connect an edge to a connector ID</p>
+              <p>TODO/BUG: Should use generic ID mapping rather than depending on jsPlumb thingamajunk.</p>
+              <section>
+                <h4>Parameters</h4>
+                <table class="jsdoc-details-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Type</th>
+                      <th>Optional</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <p>eedge</p>
+                      </td>
+                      <td>
+                        <p><a href="edge.html">edge</a></p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>edge</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p>connector</p>
+                      </td>
+                      <td>
+                        <p>connector</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>jsPlumb connector</p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <dl class="dl-compact">
+                <dt>Deprecated</dt>
+                <dd></dd>
+              </dl>
+              <h3 id="create_graph"><span class="symbol-name">create_graph</span><span class="signature"><span class="signature-params">()</span>&nbsp;&rarr; <span class="signature-returns"> <a href="graph.html">graph</a></span></span></h3>
+              <p>Create a graph for use in internal operations.</p>
+              <dl class="dl-compact">
+                <dt>Returns</dt>
+                <dd>
+                  <p><code><a href="graph.html">graph</a></code>&nbsp;bbop model graph</p>
+                </dd>
+              </dl>
+              <h3 id="create_node"><span class="symbol-name">create_node</span><span class="signature"><span class="signature-params">(id, label, types)</span>&nbsp;&rarr; <span class="signature-returns"> <a href="node.html">node</a></span></span></h3>
+              <p>Create a node for use in internal operations.</p>
+              <section>
+                <h4>Parameters</h4>
+                <table class="jsdoc-details-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Type</th>
+                      <th>Optional</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <p>id</p>
+                      </td>
+                      <td>
+                        <p>string</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>a unique id for the node</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p>label</p>
+                      </td>
+                      <td>
+                        <p>string</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>(optional) a user-friendly description of the node</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p>types</p>
+                      </td>
+                      <td>
+                        <p>Array</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>(optional) list of types to pre-load</p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <dl class="dl-compact">
+                <dt>Returns</dt>
+                <dd>
+                  <p><code><a href="node.html">node</a></code>&nbsp;new bbop model node</p>
+                </dd>
+              </dl>
+              <h3 id="dump"><span class="symbol-name">dump</span><span class="signature"><span class="signature-params">()</span>&nbsp;&rarr; <span class="signature-returns"> String</span></span></h3>
+              <p>Debugging text output function.</p>
+              <p>Not sure what this is for anymore honestly...</p>
+              <dl class="dl-compact">
+                <dt>Deprecated</dt>
+                <dd></dd>
+                <dt>Returns</dt>
+                <dd>
+                  <p><code>String</code>&nbsp;a graph rep as a string</p>
+                </dd>
+              </dl>
+              <h3 id="edit_node_order"><span class="symbol-name">edit_node_order</span><span class="signature"><span class="signature-params">()</span>&nbsp;&rarr; <span class="signature-returns"> Array</span></span></h3>
+              <p>Return the &quot;table&quot; order of the nodes.</p>
+              <dl class="dl-compact">
+                <dt>Returns</dt>
+                <dd>
+                  <p><code>Array</code>&nbsp;node order by id?</p>
+                </dd>
+              </dl>
+              <h3 id="get_connector_id_by_edge_id"><span class="symbol-name">get_connector_id_by_edge_id</span><span class="signature"><span class="signature-params">(eid)</span>&nbsp;&rarr; <span class="signature-returns"> String</span></span></h3>
+              <p>Return a connector by it's associated edge ID if extant.</p>
+              <section>
+                <h4>Parameter</h4>
+                <table class="jsdoc-details-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Type</th>
+                      <th>Optional</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <p>eid</p>
+                      </td>
+                      <td>
+                        <p>String</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>the ID of the edge</p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <dl class="dl-compact">
+                <dt>Returns</dt>
+                <dd>
+                  <p><code>String</code>&nbsp;- the connector ID</p>
+                </dd>
+              </dl>
+              <h3 id="get_edge_id_by_connector_id"><span class="symbol-name">get_edge_id_by_connector_id</span><span class="signature"><span class="signature-params">(cid)</span>&nbsp;&rarr; <span class="signature-returns"> String</span></span></h3>
+              <p>Return an edge ID by it's associated connector ID if extant.</p>
+              <section>
+                <h4>Parameter</h4>
+                <table class="jsdoc-details-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Type</th>
+                      <th>Optional</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <p>cid</p>
+                      </td>
+                      <td>
+                        <p>String</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>the ID of the connector.</p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <dl class="dl-compact">
+                <dt>Returns</dt>
+                <dd>
+                  <p><code>String</code>&nbsp;- the ID of the associated edge</p>
+                </dd>
+              </dl>
+              <h3 id="get_id"><span class="symbol-name">get_id</span><span class="signature"><span class="signature-params">()</span>&nbsp;&rarr; <span class="signature-returns"> String</span></span></h3>
+              <p>Get the ID from the graph.</p>
+              <p>Use .id() instead.</p>
+              <dl class="dl-compact">
+                <dt>Deprecated</dt>
+                <dd></dd>
+                <dt>See also</dt>
+                <dd>module:bbop-graph#id</dd>
+                <dt>Returns</dt>
+                <dd>
+                  <p><code>String</code>&nbsp;string</p>
+                </dd>
+              </dl>
+              <h3 id="get_node_by_elt_id"><span class="symbol-name">get_node_by_elt_id</span><span class="signature"><span class="signature-params">()</span>&nbsp;&rarr; <span class="signature-returns"> (<a href="node.html">node</a> or null)</span></span></h3>
+              <p>Return a node by its element id.</p>
+              <dl class="dl-compact">
+                <dt>Returns</dt>
+                <dd>
+                  <p><code>(<a href="node.html">node</a> or null)</code>&nbsp;node</p>
+                </dd>
+              </dl>
+              <h3 id="get_node_by_individual"><span class="symbol-name">get_node_by_individual</span><span class="signature"><span class="signature-params">()</span>&nbsp;&rarr; <span class="signature-returns"> (<a href="node.html">node</a> or null)</span></span></h3>
+              <p>Return a node by its corresponding Minerva JSON rep individual.</p>
+              <dl class="dl-compact">
+                <dt>Returns</dt>
+                <dd>
+                  <p><code>(<a href="node.html">node</a> or null)</code>&nbsp;node</p>
+                </dd>
+              </dl>
+              <h3 id="get_node_elt_id"><span class="symbol-name">get_node_elt_id</span><span class="signature"><span class="signature-params">()</span>&nbsp;&rarr; <span class="signature-returns"> (String or null)</span></span></h3>
+              <p>Return a node's element id.</p>
+              <dl class="dl-compact">
+                <dt>Returns</dt>
+                <dd>
+                  <p><code>(String or null)</code>&nbsp;node element id</p>
+                </dd>
+              </dl>
+              <h3 id="get_nodes"><span class="symbol-name">get_nodes</span><span class="signature"><span class="signature-params">()</span>&nbsp;&rarr; <span class="signature-returns"> Object</span></span></h3>
+              <p>Return a hash of node ids to nodes. Real, not a copy.</p>
+              <dl class="dl-compact">
+                <dt>See also</dt>
+                <dd>module:bbop-graph#all_nodes</dd>
+                <dt>Returns</dt>
+                <dd>
+                  <p><code>Object</code>&nbsp;node ids to nodes</p>
+                </dd>
+              </dl>
+              <h3 id="load_minerva_response_data"><span class="symbol-name">load_minerva_response_data</span><span class="signature"><span class="signature-params">(the)</span>&nbsp;&rarr; <span class="signature-returns"> this</span></span></h3>
+              <p>Load minerva data response.</p>
+              <section>
+                <h4>Parameter</h4>
+                <table class="jsdoc-details-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Type</th>
+                      <th>Optional</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <p>the</p>
+                      </td>
+                      <td>
+                        <p>Object</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>&quot;data&quot; portion of a Minerva graph-related response.</p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <dl class="dl-compact">
+                <dt>Returns</dt>
+                <dd>
+                  <p><code>this</code>&nbsp;</p>
+                </dd>
+              </dl>
+              <h3 id="remove_edge_by_id"><span class="symbol-name">remove_edge_by_id</span><span class="signature"><span class="signature-params">(edge_id)</span>&nbsp;&rarr; <span class="signature-returns"> Boolean</span></span></h3>
+              <p>Remove an edge to the graph. The edge as IDed.</p>
+              <section>
+                <h4>Parameter</h4>
+                <table class="jsdoc-details-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Type</th>
+                      <th>Optional</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <p>edge_id</p>
+                      </td>
+                      <td>
+                        <p>String</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>edge by ID</p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <dl class="dl-compact">
+                <dt>Returns</dt>
+                <dd>
+                  <p><code>Boolean</code>&nbsp;true if such an edge was found and deleted, false otherwise</p>
+                </dd>
+              </dl>
+              <h3 id="remove_node"><span class="symbol-name">remove_node</span><span class="signature"><span class="signature-params">(node_id, clean_p)</span>&nbsp;&rarr; <span class="signature-returns"> Boolean</span></span></h3>
+              <p>Remove a node from the graph.</p>
+              <section>
+                <h4>Parameters</h4>
+                <table class="jsdoc-details-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Type</th>
+                      <th>Optional</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <p>node_id</p>
+                      </td>
+                      <td>
+                        <p>String</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>the id for a node</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p>clean_p</p>
+                      </td>
+                      <td>
+                        <p>Boolean</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>(optional) remove all edges connects to node (default false)</p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <dl class="dl-compact">
+                <dt>Returns</dt>
+                <dd>
+                  <p><code>Boolean</code>&nbsp;true if node found and destroyed</p>
+                </dd>
+              </dl>
+            </section>
+          </section>
+        </div>
+      </div>
+      <nav id="jsdoc-toc-nav" role="navigation"></nav>
+    </div>
+  </div>
+  <footer id="jsdoc-footer" class="jsdoc-footer">
+    <div id="jsdoc-footer-container">
+      <p>
+        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc</a> 3.3.0 on June 5, 2015.
+      </p>
+    </div>
+  </footer>
+  <script src="scripts/jquery.min.js"></script>
+  <script src="scripts/jquery.cookie.js"></script>
+  <script src="scripts/tree.jquery.js"></script>
+  <script src="scripts/prettify.js"></script>
+  <script src="scripts/jsdoc-toc.js"></script>
+  <script src="scripts/linenumber.js"></script>
+  <script src="scripts/scrollanchor.js"></script>
+</body>
+
+</html>
