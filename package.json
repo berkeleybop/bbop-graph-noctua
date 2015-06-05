@@ -1,65 +1,65 @@
 {
     "name": "bbop-graph-noctua",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "license": "BSD-3-Clause",
     "description": "A subclass of bbop-graph that layers on a complete annotation and graph editing model for the Noctua set of tools.",
     "keywords": [
-	"node",
-	"npm",
-	"client",
-	"server",
-	"Gene Ontology",
-	"GO",
-	"bbop",
-	"Berkeley BOP",
-	"Minerva",
-	"Noctua",
-	"math",
-	"mathematics",
-	"graph"
+        "node",
+        "npm",
+        "client",
+        "server",
+        "Gene Ontology",
+        "GO",
+        "bbop",
+        "Berkeley BOP",
+        "Minerva",
+        "Noctua",
+        "math",
+        "mathematics",
+        "graph"
     ],
     "author": "SJC <sjcarbon@lbl.gov> (http://berkeleybop.org/)",
     "homepage": "http://berkeleybop.org/",
     "repository": {
-	"type": "git",
-	"url": "git+https://github.com/berkeleybop/bbop-graph-noctua.git"
+        "type": "git",
+        "url": "git+https://github.com/berkeleybop/bbop-graph-noctua.git"
     },
     "engines": {
-	"node": ">= 0.12.2",
-	"npm": ">= 2.7.4"
+        "node": ">= 0.12.2",
+        "npm": ">= 2.7.4"
     },
     "dependencies": {
-	"bbop-core": "0.0.4",
-	"bbop-graph": "0.0.12",
-	"class-expression": "0.0.3",
-	"underscore": "1.8.3"
+        "bbop-core": "0.0.4",
+        "bbop-graph": "0.0.12",
+        "class-expression": "0.0.3",
+        "underscore": "1.8.3"
     },
     "devDependencies": {
-	"chai": "^2.3.0",
-	"del": "^1.1.1",
-	"gulp": "^3.8.11",
-	"gulp-bump": "^0.3.0",
-	"gulp-git": "^1.2.3",
-	"gulp-jsdoc": "^0.1.4",
-	"gulp-mocha": "^2.0.1",
-	"gulp-pandoc": "^0.2.1",
-	"gulp-rename": "^1.2.2",
-	"gulp-uglify": "^1.2.0"
+        "chai": "^2.3.0",
+        "del": "^1.1.1",
+        "gulp": "^3.8.11",
+        "gulp-bump": "^0.3.0",
+        "gulp-git": "^1.2.3",
+        "gulp-jsdoc": "^0.1.4",
+        "gulp-mocha": "^2.0.1",
+        "gulp-pandoc": "^0.2.1",
+        "gulp-rename": "^1.2.2",
+        "gulp-uglify": "^1.2.0"
     },
     "bundleDependencies": [],
     "private": false,
     "directories": {
-	"doc": "doc",
+        "doc": "doc",
         "lib": "lib",
-	"test": "tests"
+        "test": "tests"
     },
     "main": "lib/edit.js",
     "bugs": {
-	"url": "https://github.com/berkeleybop/bbop-graph-noctua/issues"
+        "url": "https://github.com/berkeleybop/bbop-graph-noctua/issues"
     },
     "scripts": {
-	"update-docs": "git checkout gh-pages && git pull && git merge master && gulp doc && git commit -a -m 'bump docs' && git push && git checkout master",
-	"pull-tests": "cp -f ./node_modules/bbop-graph/tests/* ./tests",
+        "update-docs": "git checkout gh-pages && git pull && git merge master && gulp doc && git commit -a -m 'bump docs' && git push && git checkout master",
+        "pull-tests": "cp -f ./node_modules/bbop-graph/tests/* ./tests",
         "test": "./node_modules/.bin/gulp test"
     }
 }
