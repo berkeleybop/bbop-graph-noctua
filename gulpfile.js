@@ -3,13 +3,14 @@
 ////
 
 var gulp = require('gulp');
-var jsdoc = require('gulp-jsdoc');
+//var jsdoc = require('gulp-jsdoc');
 var mocha = require('gulp-mocha');
 var uglify = require('gulp-uglify');
 var rename = require("gulp-rename");
 var git = require('gulp-git');
 var bump = require('gulp-bump');
 var del = require('del');
+var shell = require('gulp-shell');
 
 var paths = {
     readme: ['./README.md'],
@@ -49,9 +50,17 @@ gulp.task('doc', ['jsdoc']);
 
 // Build docs directory with JSDoc.
 // Completely dependent on clean before running doc.
+// gulp.task('jsdoc', ['clean'], function(cb) {
+//     gulp.src(paths.docable, paths.readme)
+//         .pipe(jsdoc('./doc'));
+//     cb(null);
+// });
+// TODO: Ugh--do this manually until gulp-jsdoc gets its act together.
 gulp.task('jsdoc', ['clean'], function(cb) {
-    gulp.src(paths.docable, paths.readme)
-        .pipe(jsdoc('./doc'));
+    gulp.src('')
+        .pipe(shell([
+	    './node_modules/.bin/jsdoc --verbose --template ./node_modules/jsdoc-baseline --readme ./README.md --destination ./doc/ ./lib/*.js'
+	]));
     cb(null);
 });
 
