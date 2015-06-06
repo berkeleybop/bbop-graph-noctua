@@ -93,7 +93,7 @@ describe('flex new framework', function(){
 	// Setup.
 	var raw_resp = require('./minerva-01.json');
 	var g = new model.graph();
-	g.load_minerva_response_data(raw_resp['data']);
+	g.load_data_base(raw_resp['data']);
 
 	// Right?
 	assert.isDefined(raw_resp['data']['individuals'],
@@ -105,7 +105,14 @@ describe('flex new framework', function(){
 	// Setup.
 	var raw_resp = require('./minerva-01.json');
 	var g = new model.graph();
-	g.load_minerva_response_data(raw_resp['data']);
+	g.load_data_base(raw_resp['data']);
+
+	assert.equal(g.id(),'gomodel:taxon_559292-5525a0fc0000001_all_indivdual',
+		     'graph id');
+	assert.equal(g.annotations().length, 4, '4 graph annotation');
+	var anns = g.get_annotations_by_key('date');
+	assert.equal(anns.length, 1, 'one date annotation');
+	assert.equal(anns[0].value(), '2015-04-10', 'correct date annotation');
 
 	// Wee tests.
 	assert.equal(g.all_nodes().length, 22, 'right num nodes');
@@ -122,7 +129,7 @@ describe('flex new framework', function(){
 	// Setup.
 	var raw_resp = require('./minerva-01.json');
 	var g = new model.graph();
-	g.load_minerva_response_data(raw_resp['data']);
+	g.load_data_base(raw_resp['data']);
 	
 	// Head up from our one leaf
 	var nid = 'gomodel:taxon_559292-5525a0fc0000001-GO-0005515-5525a0fc0000023';
@@ -152,6 +159,33 @@ describe('flex new framework', function(){
 	
     });
 
+    it("evidence that evidence works", function(){
+
+	// Setup.
+	var raw_resp = require('./minerva-01.json');
+	var g = new model.graph();
+	g.load_data_fold_evidence(raw_resp['data']);
+	
+	// Okay, we should have a lot less nodes now.
+	assert.equal(g.all_nodes().length, 14, '22 - 8 ev nodes = 14');
+	
+	// Let's track down the evidence for one node.
+	var nid = 'gomodel:taxon_559292-5525a0fc0000001-GO-0005515-5525a0fc0000023';
+	var n = g.get_node(nid);
+	assert.equal(n.id(), nid, 'some weirdness here at one point');
+
+	// The hard way.
+	var ri = n.referenced_individuals();
+	assert.equal(ri.length, 1, 'one piece of ev');
+	var ev_ind = ri[0];
+	var types = ev_ind.types();
+	assert.equal(types.length, 1, 'one class exp');
+	var t = types[0];
+	assert.equal(t.class_id(), 'ECO:0000021', 'say hi');
+
+	// The easy way.
+	// TODO: profile
+    });
 });
 
 
@@ -162,4 +196,4 @@ describe('flex new framework', function(){
 // var keys = us.keys;
 // var raw_resp = require('./minerva-01.json');
 // var g = new model.graph();
-// g.load_minerva_response_data(raw_resp['data']);
+// g.load_data_fold_evidence(raw_resp['data']);
