@@ -306,6 +306,213 @@ function _get_annotation_by_id(aid){
 }
 
 ///
+/// Generic internal evidence (reference individuals) operations;
+/// dynamically attached to node and edge.
+///
+
+/**
+ * Get/set referenced individual list.
+ *
+ * Also, changes type to &quot;referenced&quot; from (probably) node.
+ *
+ * @name referenced_individuals
+ * @function
+ * @param {Array} indivs - (optional) list of {node} to clobber current list
+ * @returns {Array} list of all referenced individuals
+ */
+function _referenced_individuals(indivs){
+
+    if( us.isArray(indivs) ){
+
+	// Convert type.
+	each(indivs, function(ind){
+	    ind.type(&#x27;referenced&#x27;);
+	});
+
+	// Not copies, so add by replacement.
+	this._referenced_individuals = indivs;
+    }
+    return this._referenced_individuals;
+}
+
+/**
+ * Add referenced individual.
+ *
+ * Also, changes type to &quot;referenced&quot; from (probably) node.
+ *
+ * @name add_referenced_individual
+ * @function
+ * @param {annotation} indiv - individual to add
+ * @returns {Array} list of all individuals
+ */
+function _add_referenced_individual(indiv){
+    if( ! us.isArray(indiv) ){	
+	indiv.type(&#x27;referenced&#x27;);
+	this._referenced_individuals.push(indiv);
+    }
+    return this._referenced_individuals;
+}
+
+/**
+ * Get a sublist of referenced individuals using the filter
+ * function. The filter function take a single individual as an
+ * argument, and adds to the return list if it evaluates to true.
+ *
+ * @name get_referenced_individuals_by_filter
+ * @function
+ * @param {Function} filter - function described above
+ * @returns {Array} list of passing individuals
+ */
+function _get_referenced_individuals_by_filter(filter){
+    var anchor = this;
+
+    var ret = [];
+    each(anchor._referenced_individuals, function(ind){
+	var res = filter(ind);
+	if( res &amp;amp;&amp;amp; res == true ){
+	    ret.push(ind);
+	}
+    });
+
+    return ret;
+}
+
+/**
+ * Get sublist of referenced_individuals with a certain ID.
+ *
+ * @name get_referenced_individual_by_id
+ * @function
+ * @param {String} iid - referenced_individual ID to look for
+ * @returns {Array} list of referenced_individuals with that ID
+ */
+function _get_referenced_individual_by_id(iid){
+    var anchor = this;
+
+    var ret = null;
+    each(anchor._referenced_individuals, function(ind){
+	if( ind.id() == iid ){
+	    ret = ind;
+	}
+    });
+
+    return ret;
+}
+
+/**
+ * Returns a list with the following structure:
+ *
+ * : [ { id: &amp;lt;ID&gt;,
+ * :     class_expressions: [{class_expression}, ...],
+ * :     anntations: [{annotation}, ...] },
+ * :   ...
+ * : ]
+ *
+ * Each top-level element in the list represents the core information
+ * of a single referenced individual for a node or edge in this model.
+ *
+ * Keep in mind that this may be most useful in the GO Noctua use case
+ * where evidence is uniformly modeled as (a) referenced
+ * individual(s), where the class(es) are evidence and the annotations
+ * keep things such as source (e.g. PMID), etc.
+ *
+ * @name get_referenced_individual_profiles
+ * @function
+ * @returns {Array} list of referenced_individual information.
+ */
+function _get_referenced_individual_profiles(){
+    var anchor = this;
+
+    var ret = [];
+    each(anchor.referenced_individuals(), function(ind){
+
+	// Base.
+	var prof = {
+	    id: null,
+	    class_expressions: [],
+	    annotations: []
+	}
+
+	// Referenced instance ID.
+	prof.id = ind.id();
+
+	// Collect class expressions and annotations.
+	each(ind.types(), function(ce){
+	    prof.class_expressions.push(ce);
+	});
+	each(ind.annotations(), function(ann){
+	    prof.annotations.push(ann);
+	});
+
+	//
+	ret.push(prof);
+    });
+
+    return ret;
+}
+
+/**
+ * Returns a list with the following structure:
+ *
+ * : [ { id: &amp;lt;ID&gt;,
+ * :     cls: &amp;lt;ID&gt;,
+ * :     source: &amp;lt;STRING&gt;,
+ * :     date: &amp;lt;STRING&gt;,
+ * :     etc
+ * :   },
+ * :   ...
+ * : ]
+ *
+ * Each top-level element in the list represents the core information
+ * in a simple (GO-style) element. This is essentially a distilled
+ * version of get_referenced_individual_profiles for cases where that
+ * is modelling simple piece of evidence (single non-nested class
+ * expression and a set know list of annotations).
+ *
+ * @name get_basic_evidence
+ * @function
+ * @param {Array} annotation_ids - list of strings that identify the annotation keys that will be captured--
+ * @returns {Array} list of referenced_individual simple evidence information.
+ */
+function _get_basic_evidence(annotation_ids){
+    var anchor = this;
+
+    var ret = [];
+
+    // Get hash of the annotation keys present.
+    var test = us.object(us.map(annotation_ids,
+				function(e){ return [e, true]}));
+
+    each(anchor.get_referenced_individual_profiles(), function(cmplx_prof){
+	//console.log(cmplx_prof);
+
+	// Only add conformant referenced individuals.
+	if( cmplx_prof.id &amp;amp;&amp;amp; ! us.isEmpty(cmplx_prof.class_expressions) ){
+
+	    // Base.
+	    //console.log(cmplx_prof.class_expressions);
+	    var basic_prof = {
+		id: cmplx_prof.id,
+		cls: cmplx_prof.class_expressions[0].to_string()
+	    };
+	    
+	    // Match and clobber.
+	    each(cmplx_prof.annotations, function(ann){
+		//console.log(ann);
+		if( test[ann.key()] ){
+		    basic_prof[ann.key()] = ann.value();
+		}
+	    });
+
+	    //console.log(basic_prof);
+	    ret.push(basic_prof);
+	}
+	
+    });
+
+    return ret;
+}
+
+///
 /// Next, get some subclasses working for the core triumvirate: graph,
 /// node, edge. Start with graph.
 ///
@@ -341,6 +548,7 @@ function noctua_graph(new_id){
     };
 
     this._annotations = [];
+    //this._referenced_individuals = []; // not for graph yet, or maybe ever
 };
 bbop.extend(noctua_graph, bbop_graph);
 
@@ -754,32 +962,147 @@ noctua_graph.prototype.dump = function(){
 /**
  * Load minerva data response.
  *
+ * TODO: inferred individuals
+ *
  * @param {Object} the &quot;data&quot; portion of a Minerva graph-related response.
- * @returns {this} 
+ * @returns {Boolean} if data was loaded 
  */
-noctua_graph.prototype.load_minerva_response_data = function(data){
+noctua_graph.prototype.load_data_base = function(data){
     var anchor = this;
 
     var ret = false;
 
     if( data ){
 	
-	// TODO: Graph parts--annotations, etc.
-
-	var inds = data[&#x27;individuals&#x27;];
-	//var i_inds =raw_resp[&#x27;data&#x27;][&#x27;individuals-i&#x27;];
-	var facts = data[&#x27;facts&#x27;];
+	// Add the graph metadata.
+	var graph_id = data[&#x27;id&#x27;] || null;
+	var graph_anns = data[&#x27;annotations&#x27;] || [];
+	if( graph_id ){ anchor.id(graph_id); }
+	if( ! us.isEmpty(graph_anns) ){
+	    each(graph_anns, function(ann_kv_set){
+		var na = new annotation(ann_kv_set);
+		anchor.add_annotation(na);
+	    });
+	}
 	
-	// This is likely to be the seed for the graph builders ;)
-	each(inds, function(ind){
-	    anchor.add_node_from_individual(ind);
-	});
+	// Easy facts.
+	var facts = data[&#x27;facts&#x27;];
 	each(facts, function(fact){
 	    anchor.add_edge_from_fact(fact);
 	});
 
+	// Build the structure of the graph in the most obvious way.
+	var inds = data[&#x27;individuals&#x27;];
+	//var i_inds = raw_resp[&#x27;data&#x27;][&#x27;individuals-i&#x27;];
+	each(inds, function(ind){
+	    anchor.add_node_from_individual(ind);
+	});
+
 	ret = true;
     }	
+
+    return ret;
+};
+
+/**
+ * Load minerva data response. However, this time, we&#x27;re going to fold
+ * the evidence individuals into the edges and nodes that reference
+ * them under the referenced_individual functions.
+ *
+ * TODO: inferred individuals
+ *
+ * @param {Object} the &quot;data&quot; portion of a Minerva graph-related response.
+ * @returns {Boolean} if data was loaded 
+ */
+noctua_graph.prototype.load_data_fold_evidence = function(data){
+    var anchor = this;
+
+    var ret = false;
+
+    if( data ){
+	
+	// Load the graph parts as usual.
+	var graph_id = data[&#x27;id&#x27;] || null;
+	var graph_anns = data[&#x27;annotations&#x27;] || [];
+	if( graph_id ){ anchor.id(graph_id); }
+	if( ! us.isEmpty(graph_anns) ){
+	    each(graph_anns, function(ann_kv_set){
+		var na = new annotation(ann_kv_set);
+		anchor.add_annotation(na);
+	    });
+	}
+
+	// Currently, evidence does not have edges, and if they did,
+	// we wouldn&#x27;t want to handle them here. All edges in.
+	var facts = data[&#x27;facts&#x27;];
+	each(facts, function(fact){
+	    anchor.add_edge_from_fact(fact);
+	});
+
+	// Start by adding all of the individuals to the graph.
+	var inds = data[&#x27;individuals&#x27;];
+	//var i_inds = raw_resp[&#x27;data&#x27;][&#x27;individuals-i&#x27;];
+	each(inds, function(ind){
+	    anchor.add_node_from_individual(ind);
+	});
+
+	// Find the evidence singletons and remove them from the
+	// graph.
+	var singletons = {};
+	each(anchor.get_singleton_nodes(), function(singleton){
+	    var sid = singleton.id();
+	    singletons[sid] = singleton;
+	    anchor.remove_node(sid);
+	});
+
+	//console.log(&#x27;singletons&#x27;);
+	//console.log(singletons);
+
+	// Add the evidence singletons back into the structure by
+	// scanning through the nodes and adding them as referenced
+	// individuals.
+	each(anchor.all_nodes(), function(node){
+	    each(node.annotations(), function(ann){
+
+		//console.log(ann.key(), ann.value_type(), ann.value());
+		
+		// Is it an evidence annotation.
+		if( ann.key() == &#x27;evidence&#x27; &amp;amp;&amp;amp; ann.value_type() == &#x27;IRI&#x27; ){
+		    // If so, add it in.
+		    var ev_ref = ann.value();
+		    if( singletons[ev_ref] ){
+			var ev_indiv = singletons[ev_ref];
+			var c1 = node.add_referenced_individual(ev_indiv);
+//			console.log(&#x27;&amp;lt;&amp;lt;&#x27; + node.id() + &#x27;&gt;1&gt;&#x27;, c1.length);
+			var c2 = node.referenced_individuals();
+//			console.log(&#x27;&amp;lt;&amp;lt;&#x27; + node.id() + &#x27;&gt;2&gt;&#x27;, c2.length);
+//			console.log(node)
+		    }
+		}
+	    });
+	});
+
+	// We also need to do the same thing with the edges, adding
+	// back in the evidence as referenced individuals.
+	each(anchor.all_edges(), function(edge){
+	    each(edge.annotations(), function(ann){
+
+		// Is it an evidence annotation.
+		if( ann.key() == &#x27;evidence&#x27; &amp;amp;&amp;amp; ann.value_type() == &#x27;IRI&#x27; ){
+		    // If so, add it in.
+		    var ev_ref = ann.value();
+		    if( singletons[ev_ref] ){
+			var ev_indiv = singletons[ev_ref];
+			edge.add_referenced_individual(ev_indiv);
+		    }
+		}
+	    });
+	});
+
+	ret = true;
+    }	
+
+//    console.log(anchor);
 
     return ret;
 };
@@ -808,6 +1131,7 @@ function noctua_node(in_id, in_label, in_types){
     this._types = [];
     this._id2type = {};
     this._annotations = [];
+    this._referenced_individuals = [];
 
     // Incoming ID or generate ourselves.
     if( typeof(in_id) === &#x27;undefined&#x27; ){
@@ -853,6 +1177,9 @@ noctua_node.prototype.clone = function(){
     // Transfer over the new goodies.
     each(anchor._annotations, function(annotation){
 	new_clone._annotations.push(annotation.clone());
+    });
+    each(anchor._referenced_individuals, function(ind){
+	new_clone._referenced_individuals.push(ind.clone());
     });
     new_clone._x_init = anchor._x_init;
     new_clone._y_init = anchor._y_init;
@@ -972,6 +1299,7 @@ function noctua_edge(subject, object, predicate){
     this._id = bbop.uuid();
 
     this._annotations = [];
+    this._referenced_individuals = [];
 };
 bbop.extend(noctua_edge, bbop_edge);
 
@@ -999,6 +1327,9 @@ noctua_edge.prototype.clone = function(){
     // Transfer over the new goodies.
     each(anchor._annotations, function(annotation){
 	new_clone._annotations.push(annotation.clone());
+    });
+    each(anchor._referenced_individuals, function(ind){
+	new_clone._referenced_individuals.push(ind.clone());
     });
 
     return new_clone;
@@ -1049,16 +1380,30 @@ noctua_edge.prototype.relation = function(value){
     return this._predicate_id;
 };
 
-///
-/// Add generic bulk annotation operations to: graph, edge, and node.
-///
-
+// Add generic bulk annotation operations to: graph, edge, and node.
 each([noctua_graph, noctua_node, noctua_edge], function(constructr){
     constructr.prototype.annotations = _annotations;
     constructr.prototype.add_annotation = _add_annotation;
     constructr.prototype.get_annotations_by_filter = _get_annotations_by_filter;
     constructr.prototype.get_annotations_by_key = _get_annotations_by_key;
     constructr.prototype.get_annotation_by_id = _get_annotation_by_id;
+});
+
+// Add generic evidence (referenced individuals) operations to: edge
+// and node.
+each([noctua_node, noctua_edge], function(constructr){
+    constructr.prototype.referenced_individuals =
+	_referenced_individuals;
+    constructr.prototype.add_referenced_individual =
+	_add_referenced_individual;
+    constructr.prototype.get_referenced_individuals_by_filter =
+	_get_annotations_by_filter;
+    constructr.prototype.get_referenced_individual_by_id =
+	_get_referenced_individual_by_id;
+    constructr.prototype.get_referenced_individual_profiles
+	= _get_referenced_individual_profiles;
+    constructr.prototype.get_basic_evidence
+	= _get_basic_evidence;
 });
 
 ///
@@ -1083,7 +1428,7 @@ module.exports = {
   <footer id="jsdoc-footer" class="jsdoc-footer">
     <div id="jsdoc-footer-container">
       <p>
-        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc</a> 3.3.0 on June 5, 2015.
+        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc</a> 3.3.0 on June 7, 2015.
       </p>
     </div>
   </footer>

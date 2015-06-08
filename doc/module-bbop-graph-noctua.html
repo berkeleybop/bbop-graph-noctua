@@ -58,24 +58,42 @@
                     <dt><a href="module-bbop-graph-noctua.html#~add_annotation">add_annotation(in_ann)</a></dt>
                     <dd>
                     </dd>
+                    <dt><a href="module-bbop-graph-noctua.html#~add_referenced_individual">add_referenced_individual(indiv)</a></dt>
+                    <dd>
+                    </dd>
                     <dt><a href="module-bbop-graph-noctua.html#~annotations">annotations(in_anns)</a></dt>
                     <dd>
                     </dd>
-                  </dl>
-                </div>
-                <div class="summary-column">
-                  <dl class="dl-summary-callout">
                     <dt><a href="module-bbop-graph-noctua.html#~get_annotations_by_filter">get_annotations_by_filter(filter)</a></dt>
                     <dd>
                     </dd>
+                  </dl>
+                </div>
+                <div class="summary-column">
+                  <dl class="dl-summary-callout">
                     <dt><a href="module-bbop-graph-noctua.html#~get_annotations_by_id">get_annotations_by_id(aid)</a></dt>
+                    <dd>
+                    </dd>
+                    <dt><a href="module-bbop-graph-noctua.html#~get_annotations_by_key">get_annotations_by_key(key)</a></dt>
+                    <dd>
+                    </dd>
+                    <dt><a href="module-bbop-graph-noctua.html#~get_basic_evidence">get_basic_evidence(annotation_ids)</a></dt>
+                    <dd>
+                    </dd>
+                    <dt><a href="module-bbop-graph-noctua.html#~get_referenced_individual_by_id">get_referenced_individual_by_id(iid)</a></dt>
                     <dd>
                     </dd>
                   </dl>
                 </div>
                 <div class="summary-column">
                   <dl class="dl-summary-callout">
-                    <dt><a href="module-bbop-graph-noctua.html#~get_annotations_by_key">get_annotations_by_key(key)</a></dt>
+                    <dt><a href="module-bbop-graph-noctua.html#~get_referenced_individual_profiles">get_referenced_individual_profiles()</a></dt>
+                    <dd>
+                    </dd>
+                    <dt><a href="module-bbop-graph-noctua.html#~get_referenced_individuals_by_filter">get_referenced_individuals_by_filter(filter)</a></dt>
+                    <dd>
+                    </dd>
+                    <dt><a href="module-bbop-graph-noctua.html#~referenced_individuals">referenced_individuals(indivs)</a></dt>
                     <dd>
                     </dd>
                   </dl>
@@ -125,6 +143,44 @@
                 <dt>Returns</dt>
                 <dd>
                   <p><code>Array</code>&nbsp;list of all annotations</p>
+                </dd>
+              </dl>
+              <h3 id="~add_referenced_individual"><div class="symbol-detail-labels"><span class="label label-inner">inner</span></div><span class="symbol-name">add_referenced_individual</span><span class="signature"><span class="signature-params">(indiv)</span>&nbsp;&rarr; <span class="signature-returns"> Array</span></span></h3>
+              <p>Add referenced individual.</p>
+              <p>Also, changes type to &quot;referenced&quot; from (probably) node.</p>
+              <section>
+                <h4>Parameter</h4>
+                <table class="jsdoc-details-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Type</th>
+                      <th>Optional</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <p>indiv</p>
+                      </td>
+                      <td>
+                        <p><a href="annotation.html">annotation</a></p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>individual to add</p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <dl class="dl-compact">
+                <dt>Returns</dt>
+                <dd>
+                  <p><code>Array</code>&nbsp;list of all individuals</p>
                 </dd>
               </dl>
               <h3 id="~annotations"><div class="symbol-detail-labels"><span class="label label-inner">inner</span></div><span class="symbol-name">annotations</span><span class="signature"><span class="signature-params">(in_anns)</span>&nbsp;&rarr; <span class="signature-returns"> Array</span></span></h3>
@@ -275,6 +331,174 @@
                   <p><code>Array</code>&nbsp;list of list of annotations with that key</p>
                 </dd>
               </dl>
+              <h3 id="~get_basic_evidence"><div class="symbol-detail-labels"><span class="label label-inner">inner</span></div><span class="symbol-name">get_basic_evidence</span><span class="signature"><span class="signature-params">(annotation_ids)</span>&nbsp;&rarr; <span class="signature-returns"> Array</span></span></h3>
+              <p>Returns a list with the following structure:</p>
+              <p>: [ { id:
+                <ID>, : cls:
+                  <ID>, : source:
+                    <STRING>, : date:
+                      <STRING>, : etc : }, : ... : ]</p>
+              <p>Each top-level element in the list represents the core information in a simple (GO-style) element. This is essentially a distilled version of get_referenced_individual_profiles for cases where that is modelling simple piece of evidence (single
+                non-nested class expression and a set know list of annotations).</p>
+              <section>
+                <h4>Parameter</h4>
+                <table class="jsdoc-details-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Type</th>
+                      <th>Optional</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <p>annotation_ids</p>
+                      </td>
+                      <td>
+                        <p>Array</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>list of strings that identify the annotation keys that will be captured--</p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <dl class="dl-compact">
+                <dt>Returns</dt>
+                <dd>
+                  <p><code>Array</code>&nbsp;list of referenced_individual simple evidence information.</p>
+                </dd>
+              </dl>
+              <h3 id="~get_referenced_individual_by_id"><div class="symbol-detail-labels"><span class="label label-inner">inner</span></div><span class="symbol-name">get_referenced_individual_by_id</span><span class="signature"><span class="signature-params">(iid)</span>&nbsp;&rarr; <span class="signature-returns"> Array</span></span></h3>
+              <p>Get sublist of referenced_individuals with a certain ID.</p>
+              <section>
+                <h4>Parameter</h4>
+                <table class="jsdoc-details-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Type</th>
+                      <th>Optional</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <p>iid</p>
+                      </td>
+                      <td>
+                        <p>String</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>referenced_individual ID to look for</p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <dl class="dl-compact">
+                <dt>Returns</dt>
+                <dd>
+                  <p><code>Array</code>&nbsp;list of referenced_individuals with that ID</p>
+                </dd>
+              </dl>
+              <h3 id="~get_referenced_individual_profiles"><div class="symbol-detail-labels"><span class="label label-inner">inner</span></div><span class="symbol-name">get_referenced_individual_profiles</span><span class="signature"><span class="signature-params">()</span>&nbsp;&rarr; <span class="signature-returns"> Array</span></span></h3>
+              <p>Returns a list with the following structure:</p>
+              <p>: [ { id:
+                <ID>, : class_expressions: [{class_expression}, ...], : anntations: [{annotation}, ...] }, : ... : ]</p>
+              <p>Each top-level element in the list represents the core information of a single referenced individual for a node or edge in this model.</p>
+              <p>Keep in mind that this may be most useful in the GO Noctua use case where evidence is uniformly modeled as (a) referenced individual(s), where the class(es) are evidence and the annotations keep things such as source (e.g. PMID), etc.</p>
+              <dl class="dl-compact">
+                <dt>Returns</dt>
+                <dd>
+                  <p><code>Array</code>&nbsp;list of referenced_individual information.</p>
+                </dd>
+              </dl>
+              <h3 id="~get_referenced_individuals_by_filter"><div class="symbol-detail-labels"><span class="label label-inner">inner</span></div><span class="symbol-name">get_referenced_individuals_by_filter</span><span class="signature"><span class="signature-params">(filter)</span>&nbsp;&rarr; <span class="signature-returns"> Array</span></span></h3>
+              <p>Get a sublist of referenced individuals using the filter function. The filter function take a single individual as an argument, and adds to the return list if it evaluates to true.</p>
+              <section>
+                <h4>Parameter</h4>
+                <table class="jsdoc-details-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Type</th>
+                      <th>Optional</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <p>filter</p>
+                      </td>
+                      <td>
+                        <p>function()</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>function described above</p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <dl class="dl-compact">
+                <dt>Returns</dt>
+                <dd>
+                  <p><code>Array</code>&nbsp;list of passing individuals</p>
+                </dd>
+              </dl>
+              <h3 id="~referenced_individuals"><div class="symbol-detail-labels"><span class="label label-inner">inner</span></div><span class="symbol-name">referenced_individuals</span><span class="signature"><span class="signature-params">(indivs)</span>&nbsp;&rarr; <span class="signature-returns"> Array</span></span></h3>
+              <p>Get/set referenced individual list.</p>
+              <p>Also, changes type to &quot;referenced&quot; from (probably) node.</p>
+              <section>
+                <h4>Parameter</h4>
+                <table class="jsdoc-details-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Type</th>
+                      <th>Optional</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <p>indivs</p>
+                      </td>
+                      <td>
+                        <p>Array</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>(optional) list of {node} to clobber current list</p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <dl class="dl-compact">
+                <dt>Returns</dt>
+                <dd>
+                  <p><code>Array</code>&nbsp;list of all referenced individuals</p>
+                </dd>
+              </dl>
             </section>
           </section>
         </div>
@@ -285,7 +509,7 @@
   <footer id="jsdoc-footer" class="jsdoc-footer">
     <div id="jsdoc-footer-container">
       <p>
-        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc</a> 3.3.0 on June 5, 2015.
+        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc</a> 3.3.0 on June 7, 2015.
       </p>
     </div>
   </footer>

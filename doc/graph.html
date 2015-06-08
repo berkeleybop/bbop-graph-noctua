@@ -25,7 +25,7 @@
         <div id="jsdoc-main" role="main">
           <header class="page-header">
             <h1><div class="symbol-detail-labels"><span class="label label-kind">class</span></div><small></small><span class="symbol-name">graph</span></h1>
-            <p class="source-link">Source: <a href="edit.js.html#source-line-293">edit.<wbr>js:293</a></p>
+            <p class="source-link">Source: <a href="edit.js.html#source-line-500">edit.<wbr>js:500</a></p>
             <dl class="dl-compact">
             </dl>
           </header>
@@ -56,13 +56,13 @@
                     <dt><a href="graph.html#create_edge_mapping">create_edge_mapping(eedge, connector)</a></dt>
                     <dd>
                     </dd>
+                    <dt><a href="graph.html#create_graph">create_graph()</a></dt>
+                    <dd>
+                    </dd>
                   </dl>
                 </div>
                 <div class="summary-column">
                   <dl class="dl-summary-callout">
-                    <dt><a href="graph.html#create_graph">create_graph()</a></dt>
-                    <dd>
-                    </dd>
                     <dt><a href="graph.html#create_node">create_node(id, label, types)</a></dt>
                     <dd>
                     </dd>
@@ -81,23 +81,26 @@
                     <dt><a href="graph.html#get_id">get_id()</a></dt>
                     <dd>
                     </dd>
-                  </dl>
-                </div>
-                <div class="summary-column">
-                  <dl class="dl-summary-callout">
                     <dt><a href="graph.html#get_node_by_elt_id">get_node_by_elt_id()</a></dt>
                     <dd>
                     </dd>
                     <dt><a href="graph.html#get_node_by_individual">get_node_by_individual()</a></dt>
                     <dd>
                     </dd>
+                  </dl>
+                </div>
+                <div class="summary-column">
+                  <dl class="dl-summary-callout">
                     <dt><a href="graph.html#get_node_elt_id">get_node_elt_id()</a></dt>
                     <dd>
                     </dd>
                     <dt><a href="graph.html#get_nodes">get_nodes()</a></dt>
                     <dd>
                     </dd>
-                    <dt><a href="graph.html#load_minerva_response_data">load_minerva_response_data(the)</a></dt>
+                    <dt><a href="graph.html#load_data_base">load_data_base(the)</a></dt>
+                    <dd>
+                    </dd>
+                    <dt><a href="graph.html#load_data_fold_evidence">load_data_fold_evidence(the)</a></dt>
                     <dd>
                     </dd>
                     <dt><a href="graph.html#remove_edge_by_id">remove_edge_by_id(edge_id)</a></dt>
@@ -669,8 +672,9 @@
                   <p><code>Object</code>&nbsp;node ids to nodes</p>
                 </dd>
               </dl>
-              <h3 id="load_minerva_response_data"><span class="symbol-name">load_minerva_response_data</span><span class="signature"><span class="signature-params">(the)</span>&nbsp;&rarr; <span class="signature-returns"> this</span></span></h3>
+              <h3 id="load_data_base"><span class="symbol-name">load_data_base</span><span class="signature"><span class="signature-params">(the)</span>&nbsp;&rarr; <span class="signature-returns"> Boolean</span></span></h3>
               <p>Load minerva data response.</p>
+              <p>TODO: inferred individuals</p>
               <section>
                 <h4>Parameter</h4>
                 <table class="jsdoc-details-table">
@@ -703,7 +707,45 @@
               <dl class="dl-compact">
                 <dt>Returns</dt>
                 <dd>
-                  <p><code>this</code>&nbsp;</p>
+                  <p><code>Boolean</code>&nbsp;if data was loaded</p>
+                </dd>
+              </dl>
+              <h3 id="load_data_fold_evidence"><span class="symbol-name">load_data_fold_evidence</span><span class="signature"><span class="signature-params">(the)</span>&nbsp;&rarr; <span class="signature-returns"> Boolean</span></span></h3>
+              <p>Load minerva data response. However, this time, we're going to fold the evidence individuals into the edges and nodes that reference them under the referenced_individual functions.</p>
+              <p>TODO: inferred individuals</p>
+              <section>
+                <h4>Parameter</h4>
+                <table class="jsdoc-details-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Type</th>
+                      <th>Optional</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <p>the</p>
+                      </td>
+                      <td>
+                        <p>Object</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>&quot;data&quot; portion of a Minerva graph-related response.</p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <dl class="dl-compact">
+                <dt>Returns</dt>
+                <dd>
+                  <p><code>Boolean</code>&nbsp;if data was loaded</p>
                 </dd>
               </dl>
               <h3 id="remove_edge_by_id"><span class="symbol-name">remove_edge_by_id</span><span class="signature"><span class="signature-params">(edge_id)</span>&nbsp;&rarr; <span class="signature-returns"> Boolean</span></span></h3>
@@ -804,7 +846,7 @@
   <footer id="jsdoc-footer" class="jsdoc-footer">
     <div id="jsdoc-footer-container">
       <p>
-        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc</a> 3.3.0 on June 5, 2015.
+        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc</a> 3.3.0 on June 7, 2015.
       </p>
     </div>
   </footer>
