@@ -184,7 +184,14 @@ describe('flex new framework', function(){
 	assert.equal(t.class_id(), 'ECO:0000021', 'say hi');
 
 	// The easy way.
-	// TODO: profile
+	var profs = n.get_referenced_individual_profiles();
+	assert.equal(profs.length, 1, 'one profile using this method');
+	var first_prof = profs[0];
+	assert.isNotNull(first_prof.id, 'has id using this method');
+	assert.equal(first_prof.class_expressions.length, 1,
+		     'one ce using this method');
+	assert.equal(first_prof.annotations.length, 1,
+		     'one ann using this method');
     });
 });
 
