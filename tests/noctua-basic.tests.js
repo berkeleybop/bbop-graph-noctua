@@ -192,6 +192,15 @@ describe('flex new framework', function(){
 		     'one ce using this method');
 	assert.equal(first_prof.annotations.length, 1,
 		     'one ann using this method');
+
+	// The overly easy super-simple (GO) way.
+	var evs = n.get_basic_evidence(['source']);
+	//console.log(evs);
+	assert.equal(evs.length, 1, 'one evs');
+	var ev = evs[0];
+	assert.isString(ev['id'], 'got RI id');
+	assert.equal(ev['cls'], 'ECO:0000021', 'got ev class');
+	assert.equal(ev['source'], 'PMID:12048186', 'got source ref');
     });
 });
 
