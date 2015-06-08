@@ -31,7 +31,7 @@
     "dependencies": {
         "bbop-core": "0.0.4",
         "bbop-graph": "0.0.12",
-        "class-expression": "0.0.3",
+        "class-expression": "0.0.4",
         "underscore": "1.8.3"
     },
     "devDependencies": {
@@ -54,7 +54,7 @@
     "directories": {
         "doc": "doc",
         "lib": "lib",
-        "test": "tests"
+        "tests": "tests"
     },
     "main": "lib/edit.js",
     "bugs": {
