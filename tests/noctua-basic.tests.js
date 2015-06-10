@@ -223,6 +223,29 @@ describe('flex new framework', function(){
     });
 });
 
+describe('merging works as expected', function(){
+
+    it("we've got to merge it merge it", function(){	
+
+	// Setup.
+	var g_base = new model.graph();
+	var raw_resp = require('./minerva-01.json');
+	var g_new = new model.graph();
+	g_new.load_data_fold_evidence(raw_resp['data']);	
+
+	// Empty g_base should now essentially be g_new.
+	g_base.merge_in(g_new);
+
+	// Check it, make sure that bbop-graph-noctua structures are
+	// all present.
+	assert.equal(g_base.all_nodes().length, 14, 'right num nodes');
+	assert.equal(g_base.all_edges().length, 14, 'right num edges');	
+	var a_node = g_base.all_nodes()[0];
+	assert.isString(g_base.get_node_elt_id(a_node.id()),
+			'generated elt_id');
+    });
+    
+});
 
 // var assert = require('chai').assert;
 // var model = new require('..');
