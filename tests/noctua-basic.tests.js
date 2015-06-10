@@ -86,6 +86,25 @@ describe('trivial isolated graph ops', function(){
     });
 });
 
+describe('looking for edges', function(){
+
+    it('by id', function(){	
+
+	var g = new model.graph();
+	var n1 = new model.node('a');
+	var n2 = new model.node('b');
+	var e1 = new model.edge('a', 'b');
+	g.add_node(n1);
+	g.add_node(n2);
+	g.add_edge(e1);
+
+	assert.equal(g.get_edge_by_id(e1.id()).id(), e1.id(), 'same edge id');
+	assert.deepEqual(g.get_edge_by_id(e1.id()), e1, 'same edge');
+	assert.isNull(g.get_edge_by_id('foo'), 'no edge');
+    });
+});
+
+
 describe('flex new framework', function(){
 
     it('can we eat a minerva response?', function(){	
