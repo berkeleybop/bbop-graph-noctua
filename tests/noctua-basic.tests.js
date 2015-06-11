@@ -243,6 +243,7 @@ describe('merging works as expected', function(){
 	var a_node = g_base.all_nodes()[0];
 	assert.isString(g_base.get_node_elt_id(a_node.id()),
 			'generated elt_id');
+	assert.equal(g_base.annotations().length, 4, 'four annotations');
     });
     
 });
