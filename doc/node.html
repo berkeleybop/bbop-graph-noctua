@@ -25,7 +25,7 @@
         <div id="jsdoc-main" role="main">
           <header class="page-header">
             <h1><div class="symbol-detail-labels"><span class="label label-kind">class</span></div><small></small><span class="symbol-name">node</span></h1>
-            <p class="source-link">Source: <a href="edit.js.html#source-line-1145">edit.<wbr>js:1145</a></p>
+            <p class="source-link">Source: <a href="edit.js.html#source-line-1251">edit.<wbr>js:1251</a></p>
             <dl class="dl-compact">
             </dl>
           </header>
@@ -41,23 +41,26 @@
                     <dt><a href="node.html#clone">clone()</a></dt>
                     <dd>
                     </dd>
-                  </dl>
-                </div>
-                <div class="summary-column">
-                  <dl class="dl-summary-callout">
                     <dt><a href="node.html#get_type_by_id">get_type_by_id(type_id)</a></dt>
                     <dd>
                     </dd>
-                    <dt><a href="node.html#types">types(in_types)</a></dt>
+                  </dl>
+                </div>
+                <div class="summary-column">
+                  <dl class="dl-summary-callout">
+                    <dt><a href="node.html#subgraph">subgraph([subgraph])</a></dt>
+                    <dd>
+                    </dd>
+                    <dt><a href="node.html#types">types([in_types])</a></dt>
+                    <dd>
+                    </dd>
+                    <dt><a href="node.html#x_init">x_init(value)</a></dt>
                     <dd>
                     </dd>
                   </dl>
                 </div>
                 <div class="summary-column">
                   <dl class="dl-summary-callout">
-                    <dt><a href="node.html#x_init">x_init(value)</a></dt>
-                    <dd>
-                    </dd>
                     <dt><a href="node.html#y_init">y_init(value)</a></dt>
                     <dd>
                     </dd>
@@ -67,7 +70,7 @@
             </div>
           </section>
           <section>
-            <h2 id="node">new&nbsp;<span class="symbol-name">node</span><span class="signature"><span class="signature-params">(in_id, in_label, in_types)</span></span></h2>
+            <h2 id="node">new&nbsp;<span class="symbol-name">node</span><span class="signature"><span class="signature-params">([in_id][, in_label][, in_types])</span></span></h2>
             <p>Sublcass of bbop-graph.node for use with Noctua ideas and concepts.</p>
             <section>
               <h3>Parameters</h3>
@@ -89,10 +92,10 @@
                       <p>String</p>
                     </td>
                     <td>
-                      <p>&nbsp;</p>
+                      <p>Yes</p>
                     </td>
                     <td>
-                      <p>(optional) new id; otherwise new unique generated</p>
+                      <p>new id; otherwise new unique generated</p>
                     </td>
                   </tr>
                   <tr>
@@ -103,10 +106,10 @@
                       <p>String</p>
                     </td>
                     <td>
-                      <p>&nbsp;</p>
+                      <p>Yes</p>
                     </td>
                     <td>
-                      <p>(optional) node &quot;label&quot;</p>
+                      <p>node &quot;label&quot;</p>
                     </td>
                   </tr>
                   <tr>
@@ -117,10 +120,10 @@
                       <p>Array</p>
                     </td>
                     <td>
-                      <p>&nbsp;</p>
+                      <p>Yes</p>
                     </td>
                     <td>
-                      <p>(optional) list of Objects or strings--anything that can be parsed by class_expression</p>
+                      <p>list of Objects or strings--anything that can be parsed by class_expression</p>
                     </td>
                   </tr>
                 </tbody>
@@ -235,7 +238,45 @@
                   <p><code>(type or null)</code>&nbsp;type or null</p>
                 </dd>
               </dl>
-              <h3 id="types"><span class="symbol-name">types</span><span class="signature"><span class="signature-params">(in_types)</span>&nbsp;&rarr; <span class="signature-returns"> Array</span></span></h3>
+              <h3 id="subgraph"><span class="symbol-name">subgraph</span><span class="signature"><span class="signature-params">([subgraph])</span>&nbsp;&rarr; <span class="signature-returns"> (<a href="graph.html">graph</a> or null)</span></span></h3>
+              <p>Get/set the &quot;contained&quot; subgraph. This subgraph is still considered to be part of the graph, but is &quot;hidden&quot; under this node for most use cases except serialization.</p>
+              <p>To put it another way, unless you specifically load this with a specialized loader, it will remain unpopulated. During serialization, it should be recursively walked and dumped.</p>
+              <section>
+                <h4>Parameter</h4>
+                <table class="jsdoc-details-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Type</th>
+                      <th>Optional</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <p>subgraph</p>
+                      </td>
+                      <td>
+                        <p><a href="graph.html">graph</a></p>
+                      </td>
+                      <td>
+                        <p>Yes</p>
+                      </td>
+                      <td>
+                        <p>the subgraph to &quot;hide&quot; inside this individual in the graph</p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <dl class="dl-compact">
+                <dt>Returns</dt>
+                <dd>
+                  <p><code>(<a href="graph.html">graph</a> or null)</code>&nbsp;contained subgraph</p>
+                </dd>
+              </dl>
+              <h3 id="types"><span class="symbol-name">types</span><span class="signature"><span class="signature-params">([in_types])</span>&nbsp;&rarr; <span class="signature-returns"> Array</span></span></h3>
               <p>Get current types; replace current types.</p>
               <p>Parameters:</p>
               <section>
@@ -258,10 +299,10 @@
                         <p>Array</p>
                       </td>
                       <td>
-                        <p>&nbsp;</p>
+                        <p>Yes</p>
                       </td>
                       <td>
-                        <p>(optional) raw JSON type objects</p>
+                        <p>raw JSON type objects</p>
                       </td>
                     </tr>
                   </tbody>
@@ -357,7 +398,7 @@
   <footer id="jsdoc-footer" class="jsdoc-footer">
     <div id="jsdoc-footer-container">
       <p>
-        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc</a> 3.3.0 on June 12, 2015.
+        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc</a> 3.3.0 on June 16, 2015.
       </p>
     </div>
   </footer>

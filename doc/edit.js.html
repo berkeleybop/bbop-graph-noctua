@@ -63,7 +63,7 @@ var class_expression = require(&#x27;class-expression&#x27;);
  * : {&quot;key&quot;: &quot;contributor&quot;, &quot;value&quot;: &quot;GOC:kltm&quot;, &quot;value-type&quot;:&quot;foo&quot;}
  * 
  * @constructor
- * @param {Object} kv_set - (optional) a set of keys and values; a simple object
+ * @param {Object} [kv_set] - optional a set of keys and values; a simple object
  * @returns {this} new instance
  */
 function annotation(kv_set){
@@ -101,8 +101,8 @@ annotation.prototype.id = function(){
  * Add/modify a property by key and value (and maybe value_type).
  *
  * @param {String} key - string
- * @param {String} value - (optional) string
- * @param {String} value_type - (optional) string
+ * @param {String} [value] - string
+ * @param {String} [value_type] - string
  * @returns {String|null} returns property is key
  */
 annotation.prototype.annotation = function(key, value, value_type){
@@ -132,7 +132,7 @@ annotation.prototype.annotation = function(key, value, value_type){
 /**
  * Get/set annotation&#x27;s key.
  *
- * @param {String} key - (optional) string
+ * @param {String} [key] - string
  * @returns {String|null} returns string of annotation
  */
 annotation.prototype.key = function(key){
@@ -144,7 +144,7 @@ annotation.prototype.key = function(key){
 /**
  * Get/set annotation&#x27;s value.
  *
- * @param {String} value - (optional) string
+ * @param {String} [value] - string
  * @returns {String|null} returns string of annotation
  */
 annotation.prototype.value = function(value){
@@ -156,7 +156,7 @@ annotation.prototype.value = function(value){
 /**
  * Get/set annotation&#x27;s value-type.
  *
- * @param {String} value_type - (optional) string
+ * @param {String} [value_type] - string
  * @returns {String|null} returns string of annotation
  */
 annotation.prototype.value_type = function(value_type){
@@ -216,7 +216,7 @@ annotation.prototype.clone = function(){
  *
  * @name annotations
  * @function
- * @param {Array} in_anns - (optional) list of annotations to clobber current list
+ * @param {Array} [in_anns] - list of annotations to clobber current list
  * @returns {Array} list of all annotations
  */
 function _annotations(in_anns){
@@ -317,7 +317,7 @@ function _get_annotation_by_id(aid){
  *
  * @name referenced_individuals
  * @function
- * @param {Array} indivs - (optional) list of {node} to clobber current list
+ * @param {Array} [indivs] - list of {node} to clobber current list
  * @returns {Array} list of all referenced individuals
  */
 function _referenced_individuals(indivs){
@@ -525,7 +525,7 @@ var bbop_graph = bbop_model.graph;
  * @constructor
  * @see module:bbop-graph
  * @alias graph
- * @param {String} new_id - (optional) new id; otherwise new unique generated
+ * @param {String} [new_id] - new id; otherwise new unique generated
  * @returns {this}
  */
 function noctua_graph(new_id){
@@ -557,7 +557,7 @@ bbop.extend(noctua_graph, bbop_graph);
  *
  * @param {string} subject - node id string or node
  * @param {string} object - node id string or node
- * @param {string} predicate - (optional) a user-friendly description of the node
+ * @param {string} [predicate] - a user-friendly description of the node
  * @returns {edge} bbop model edge
  */
 noctua_graph.prototype.create_edge = function(subject, object, predicate){
@@ -568,12 +568,42 @@ noctua_graph.prototype.create_edge = function(subject, object, predicate){
  * Create a node for use in internal operations.
  *
  * @param {string} id - a unique id for the node
- * @param {string} label - (optional) a user-friendly description of the node
- * @param {Array} types - (optional) list of types to pre-load
+ * @param {string} [label] - a user-friendly description of the node
+ * @param {Array} [types] - list of types to pre-load
  * @returns {node} new bbop model node
  */
 noctua_graph.prototype.create_node = function(id, label, types){
     return new noctua_node(id, label, types);
+};
+
+/**
+ * Create a clone of the graph.
+ *
+ * @returns {graph} bbop model graph
+ */
+noctua_graph.prototype.clone = function(){
+    var anchor = this;
+
+    var new_graph = anchor.create_graph();
+
+    // Collect the nodes and edges.
+    each(anchor.all_nodes(), function(node){
+	new_graph.add_node(node.clone());
+    });
+    each(anchor.all_edges(), function(edge){
+	new_graph.add_edge(edge.clone());
+    });
+
+    // Collect other information.
+    new_graph.default_predicate = anchor.default_predicate;
+    new_graph._id = anchor._id;
+
+    // Copy new things: annotations.
+    each(anchor._annotations, function(annotation){
+	new_graph._annotations.push(annotation.clone());
+    });
+    
+    return new_graph;
 };
 
 /**
@@ -701,7 +731,7 @@ noctua_graph.prototype.get_node_elt_id = function(enid){
 };
 
 /**
- * Return a node by its element id.
+ * Return a copy of a {node} by its element id.
  *
  * @returns {node|null} node
  */
@@ -715,7 +745,8 @@ noctua_graph.prototype.get_node_by_elt_id = function(elt_id){
 };
 
 /**
- * Return a node by its corresponding Minerva JSON rep individual.
+ * Return a copy of a {node} by its corresponding Minerva JSON rep
+ * individual.
  *
  * @returns {node|null} node
  */
@@ -748,7 +779,7 @@ noctua_graph.prototype.get_nodes = function(){
  * Remove a node from the graph.
  *
  * @param {String} node_id - the id for a node
- * @param {Boolean} clean_p - (optional) remove all edges connects to node (default false)
+ * @param {Boolean} [clean_p] - remove all edges connects to node (default false)
  * @returns {Boolean} true if node found and destroyed
  */
 noctua_graph.prototype.remove_node = function(node_id, clean_p){
@@ -879,7 +910,7 @@ noctua_graph.prototype.get_connector_id_by_edge_id = function(eid){
  *
  * @param {String} subject_id - subject by ID
  * @param {String} object_id - object by ID
- * @param {String} predicate_id - (Optional) predicate ID or default
+ * @param {String} [predicate_id] - predicate ID or default
  * @returns {Boolean} true if such an edge was found and deleted, false otherwise
  */
 // noctua_graph.prototype.remove_edge = function(subject_id, object_id, predicate_id){
@@ -1157,6 +1188,81 @@ noctua_graph.prototype.load_data_fold_evidence = function(data){
     return ret;
 };
 
+/**
+ * Load minerva data response. However, this time, in addition to
+ * everything we did for {load_data_evidence_fold}, we&#x27;re going to
+ * search for nodes that have enabled_by and/or occurs_in targets
+ * (that are themselves leaves) fold them in to the contained subgraph
+ * item, and remove them from the top-level graph.
+ *
+ * TODO: inferred individuals
+ *
+ * @param {Object} the &quot;data&quot; portion of a Minerva graph-related response.
+ * @returns {Boolean} if data was loaded 
+ */
+noctua_graph.prototype.load_data_go_noctua = function(data){
+    var anchor = this;
+
+    // Start out with the evidence folded graph.
+    var ret = anchor.load_data_fold_evidence(data);
+    if( ! ret ){ return false; } // Early bail on bad upstream.
+    
+    // It is foldable if it is a root node (re: opposite of leaf--only
+    // target) and if it only has the one child (no way out--re: collapsible ).
+    function _foldable_p(node){
+	var ret = false;
+	if( anchor.is_root_node(node.id()) &amp;amp;&amp;amp;
+	    anchor.get_child_nodes(node.id()).length == 1 ){
+		//console.log(&quot;foldable: &quot; + node.id());
+		ret = true;
+	    }
+	return ret;
+    }
+
+    // Okay, first scan all nodes for our pattern.
+    each(anchor.all_nodes(), function(ind){
+
+	// The possible base subgraph (seeding with current node--note
+	// the clone so we don&#x27;t have infinite recursion) we might
+	// capture.
+	var subgraph = anchor.create_graph();
+	subgraph.add_node(ind.clone());
+
+	// Check a set of relations for completeness: enabled_by and
+	// occurs_in (location).
+	var collapsable_relations = [&#x27;RO:0002333&#x27;, &#x27;BFO:0000066&#x27;];
+	each(collapsable_relations, function(relation){
+	    
+	    var kids = anchor.get_parent_nodes(ind.id(), relation);
+	    each(kids, function(kid){
+		if( _foldable_p(kid) ){
+
+		    // Preserve it and its edge in the new subgraph.
+		    subgraph.add_node(kid.clone());
+		    subgraph.add_edge(
+			anchor.get_parent_edges(ind.id(), relation)[0].clone());
+
+		    // Remove same from the original graph, edge will be
+		    // destroyed in the halo.
+		    anchor.remove_node(kid.id(), true);
+		}
+	    });
+	});
+
+	// A usable folding subgraph only occurred when the are more
+	// than 1 node in it; i.e. we actually actually added things
+	// to our local subgraph and removed them from the master
+	// graph.
+	if( subgraph.all_nodes().length &gt; 1 ){
+	    //console.log(&#x27;slurpable subgraph for: &#x27; + ind.id());
+	    ind.subgraph(subgraph);
+	}
+
+    });
+
+    return ret;
+};
+
 ///
 /// Node subclass and overrides.
 ///
@@ -1168,9 +1274,9 @@ var bbop_node = bbop_model.node;
  * @constructor
  * @see module:bbop-graph
  * @alias node
- * @param {String} in_id - (optional) new id; otherwise new unique generated
- * @param {String} in_label - (optional) node &quot;label&quot;
- * @param {Array} in_types - (optional) list of Objects or strings--anything that can be parsed by class_expression
+ * @param {String} [in_id] - new id; otherwise new unique generated
+ * @param {String} [in_label] - node &quot;label&quot;
+ * @param {Array} [in_types] - list of Objects or strings--anything that can be parsed by class_expression
  * @returns {this}
  */
 function noctua_node(in_id, in_label, in_types){
@@ -1182,6 +1288,7 @@ function noctua_node(in_id, in_label, in_types){
     this._id2type = {};
     this._annotations = [];
     this._referenced_individuals = [];
+    this._embedded_subgraph = null;
 
     // Incoming ID or generate ourselves.
     if( typeof(in_id) === &#x27;undefined&#x27; ){
@@ -1224,13 +1331,23 @@ noctua_node.prototype.clone = function(){
     new_clone.type(this.type());
     new_clone.metadata(bbop.clone(this.metadata()));
 
-    // Transfer over the new goodies.
+    // Transfer over the new goodies, starting with annotations and
+    // referenced individuals.
     each(anchor._annotations, function(annotation){
 	new_clone._annotations.push(annotation.clone());
     });
     each(anchor._referenced_individuals, function(ind){
 	new_clone._referenced_individuals.push(ind.clone());
     });
+
+    // Embedded subgraph.
+    if( anchor._embedded_subgraph ){
+	new_clone._embedded_subgraph = anchor._embedded_subgraph.clone();
+    }else{
+	new_clone._embedded_subgraph = null;
+    }
+
+    // Coordinates.
     new_clone._x_init = anchor._x_init;
     new_clone._y_init = anchor._y_init;
 
@@ -1241,7 +1358,7 @@ noctua_node.prototype.clone = function(){
  * Get current types; replace current types.
  * 
  * Parameters:
- * @param {Array} in_types - (optional) raw JSON type objects
+ * @param {Array} [in_types] - raw JSON type objects
  * @returns {Array} array of types
  */
 noctua_node.prototype.types = function(in_types){
@@ -1304,6 +1421,25 @@ noctua_node.prototype.get_type_by_id = function(type_id){
 };
 
 /**
+ * Get/set the &quot;contained&quot; subgraph. This subgraph is still considered
+ * to be part of the graph, but is &quot;hidden&quot; under this node for most
+ * use cases except serialization.
+ * 
+ * To put it another way, unless you specifically load this with a
+ * specialized loader, it will remain unpopulated. During
+ * serialization, it should be recursively walked and dumped.
+ * 
+ * @param {graph} [subgraph] - the subgraph to &quot;hide&quot; inside this individual in the graph
+ * @returns {graph|null} contained subgraph
+ */
+noctua_node.prototype.subgraph = function(subgraph){
+    if( subgraph &amp;amp;&amp;amp; bbop.what_is(subgraph) == &#x27;bbop-graph-noctua.graph&#x27;){
+	this._embedded_subgraph = subgraph;
+    }
+    return this._embedded_subgraph;
+};
+
+/**
  * Get/set &quot;x&quot; value of node.
  * 
  * @param {Number} value - number
@@ -1338,7 +1474,7 @@ var bbop_edge = bbop_model.edge;
  * @alias edge
  * @param {String} subject - required subject id
  * @param {String} object - required object id
- * @param {String} predicate - (optional) preidcate id; if not provided, will use defined default (you probably want to provide one--explicit is better)
+ * @param {String} [predicate] - preidcate id; if not provided, will use defined default (you probably want to provide one--explicit is better)
  * @returns {this}
  */
 function noctua_edge(subject, object, predicate){
@@ -1398,7 +1534,7 @@ noctua_edge.prototype.id = function(){
  * Get/set &quot;source&quot; of edge.
  * 
  * @deprecated
- * @param {String} value - (optional) string
+ * @param {String} [value] - string
  * @returns {String} string
  */
 noctua_edge.prototype.source = function(value){
@@ -1410,7 +1546,7 @@ noctua_edge.prototype.source = function(value){
  * Get/set &quot;target&quot; of edge.
  * 
  * @deprecated
- * @param {String} value - (optional) string
+ * @param {String} [value] - string
  * @returns {String} string
  */
 noctua_edge.prototype.target = function(value){
@@ -1422,7 +1558,7 @@ noctua_edge.prototype.target = function(value){
  * Get/set &quot;relation&quot; of edge.
  * 
  * @deprecated
- * @param {String} value - (optional) string
+ * @param {String} [value] - string
  * @returns {String} string
  */
 noctua_edge.prototype.relation = function(value){
@@ -1478,7 +1614,7 @@ module.exports = {
   <footer id="jsdoc-footer" class="jsdoc-footer">
     <div id="jsdoc-footer-container">
       <p>
-        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc</a> 3.3.0 on June 12, 2015.
+        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc</a> 3.3.0 on June 16, 2015.
       </p>
     </div>
   </footer>

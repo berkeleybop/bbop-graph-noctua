@@ -50,7 +50,10 @@
                     <dt><a href="graph.html#add_node_from_individual">add_node_from_individual(indv)</a></dt>
                     <dd>
                     </dd>
-                    <dt><a href="graph.html#create_edge">create_edge(subject, object, predicate)</a></dt>
+                    <dt><a href="graph.html#clone">clone()</a></dt>
+                    <dd>
+                    </dd>
+                    <dt><a href="graph.html#create_edge">create_edge(subject, object[, predicate])</a></dt>
                     <dd>
                     </dd>
                     <dt><a href="graph.html#create_edge_mapping">create_edge_mapping(eedge, connector)</a></dt>
@@ -63,7 +66,7 @@
                 </div>
                 <div class="summary-column">
                   <dl class="dl-summary-callout">
-                    <dt><a href="graph.html#create_node">create_node(id, label, types)</a></dt>
+                    <dt><a href="graph.html#create_node">create_node(id[, label][, types])</a></dt>
                     <dd>
                     </dd>
                     <dt><a href="graph.html#dump">dump()</a></dt>
@@ -87,13 +90,13 @@
                     <dt><a href="graph.html#get_node_by_elt_id">get_node_by_elt_id()</a></dt>
                     <dd>
                     </dd>
+                    <dt><a href="graph.html#get_node_by_individual">get_node_by_individual()</a></dt>
+                    <dd>
+                    </dd>
                   </dl>
                 </div>
                 <div class="summary-column">
                   <dl class="dl-summary-callout">
-                    <dt><a href="graph.html#get_node_by_individual">get_node_by_individual()</a></dt>
-                    <dd>
-                    </dd>
                     <dt><a href="graph.html#get_node_elt_id">get_node_elt_id()</a></dt>
                     <dd>
                     </dd>
@@ -106,13 +109,16 @@
                     <dt><a href="graph.html#load_data_fold_evidence">load_data_fold_evidence(the)</a></dt>
                     <dd>
                     </dd>
+                    <dt><a href="graph.html#load_data_go_noctua">load_data_go_noctua(the)</a></dt>
+                    <dd>
+                    </dd>
                     <dt><a href="graph.html#merge_in">merge_in(in_graph)</a></dt>
                     <dd>
                     </dd>
                     <dt><a href="graph.html#remove_edge_by_id">remove_edge_by_id(edge_id)</a></dt>
                     <dd>
                     </dd>
-                    <dt><a href="graph.html#remove_node">remove_node(node_id, clean_p)</a></dt>
+                    <dt><a href="graph.html#remove_node">remove_node(node_id[, clean_p])</a></dt>
                     <dd>
                     </dd>
                   </dl>
@@ -121,7 +127,7 @@
             </div>
           </section>
           <section>
-            <h2 id="graph">new&nbsp;<span class="symbol-name">graph</span><span class="signature"><span class="signature-params">(new_id)</span></span></h2>
+            <h2 id="graph">new&nbsp;<span class="symbol-name">graph</span><span class="signature"><span class="signature-params">([new_id])</span></span></h2>
             <p>Sublcass of bbop-graph for use with Noctua ideas and concepts.</p>
             <section>
               <h3>Parameter</h3>
@@ -143,10 +149,10 @@
                       <p>String</p>
                     </td>
                     <td>
-                      <p>&nbsp;</p>
+                      <p>Yes</p>
                     </td>
                     <td>
-                      <p>(optional) new id; otherwise new unique generated</p>
+                      <p>new id; otherwise new unique generated</p>
                     </td>
                   </tr>
                 </tbody>
@@ -350,7 +356,15 @@
                   <p><code>(<a href="node.html">node</a> or null)</code>&nbsp;</p>
                 </dd>
               </dl>
-              <h3 id="create_edge"><span class="symbol-name">create_edge</span><span class="signature"><span class="signature-params">(subject, object, predicate)</span>&nbsp;&rarr; <span class="signature-returns"> <a href="edge.html">edge</a></span></span></h3>
+              <h3 id="clone"><span class="symbol-name">clone</span><span class="signature"><span class="signature-params">()</span>&nbsp;&rarr; <span class="signature-returns"> <a href="graph.html">graph</a></span></span></h3>
+              <p>Create a clone of the graph.</p>
+              <dl class="dl-compact">
+                <dt>Returns</dt>
+                <dd>
+                  <p><code><a href="graph.html">graph</a></code>&nbsp;bbop model graph</p>
+                </dd>
+              </dl>
+              <h3 id="create_edge"><span class="symbol-name">create_edge</span><span class="signature"><span class="signature-params">(subject, object[, predicate])</span>&nbsp;&rarr; <span class="signature-returns"> <a href="edge.html">edge</a></span></span></h3>
               <p>Create an edge for use in internal operations.</p>
               <section>
                 <h4>Parameters</h4>
@@ -400,10 +414,10 @@
                         <p>string</p>
                       </td>
                       <td>
-                        <p>&nbsp;</p>
+                        <p>Yes</p>
                       </td>
                       <td>
-                        <p>(optional) a user-friendly description of the node</p>
+                        <p>a user-friendly description of the node</p>
                       </td>
                     </tr>
                   </tbody>
@@ -473,7 +487,7 @@
                   <p><code><a href="graph.html">graph</a></code>&nbsp;bbop model graph</p>
                 </dd>
               </dl>
-              <h3 id="create_node"><span class="symbol-name">create_node</span><span class="signature"><span class="signature-params">(id, label, types)</span>&nbsp;&rarr; <span class="signature-returns"> <a href="node.html">node</a></span></span></h3>
+              <h3 id="create_node"><span class="symbol-name">create_node</span><span class="signature"><span class="signature-params">(id[, label][, types])</span>&nbsp;&rarr; <span class="signature-returns"> <a href="node.html">node</a></span></span></h3>
               <p>Create a node for use in internal operations.</p>
               <section>
                 <h4>Parameters</h4>
@@ -509,10 +523,10 @@
                         <p>string</p>
                       </td>
                       <td>
-                        <p>&nbsp;</p>
+                        <p>Yes</p>
                       </td>
                       <td>
-                        <p>(optional) a user-friendly description of the node</p>
+                        <p>a user-friendly description of the node</p>
                       </td>
                     </tr>
                     <tr>
@@ -523,10 +537,10 @@
                         <p>Array</p>
                       </td>
                       <td>
-                        <p>&nbsp;</p>
+                        <p>Yes</p>
                       </td>
                       <td>
-                        <p>(optional) list of types to pre-load</p>
+                        <p>list of types to pre-load</p>
                       </td>
                     </tr>
                   </tbody>
@@ -682,7 +696,7 @@
                 </dd>
               </dl>
               <h3 id="get_node_by_elt_id"><span class="symbol-name">get_node_by_elt_id</span><span class="signature"><span class="signature-params">()</span>&nbsp;&rarr; <span class="signature-returns"> (<a href="node.html">node</a> or null)</span></span></h3>
-              <p>Return a node by its element id.</p>
+              <p>Return a copy of a {node} by its element id.</p>
               <dl class="dl-compact">
                 <dt>Returns</dt>
                 <dd>
@@ -690,7 +704,8 @@
                 </dd>
               </dl>
               <h3 id="get_node_by_individual"><span class="symbol-name">get_node_by_individual</span><span class="signature"><span class="signature-params">()</span>&nbsp;&rarr; <span class="signature-returns"> (<a href="node.html">node</a> or null)</span></span></h3>
-              <p>Return a node by its corresponding Minerva JSON rep individual.</p>
+              <p>Return a copy of a {node} by its corresponding Minerva JSON rep individual.
+              </p>
               <dl class="dl-compact">
                 <dt>Returns</dt>
                 <dd>
@@ -755,6 +770,45 @@
               </dl>
               <h3 id="load_data_fold_evidence"><span class="symbol-name">load_data_fold_evidence</span><span class="signature"><span class="signature-params">(the)</span>&nbsp;&rarr; <span class="signature-returns"> Boolean</span></span></h3>
               <p>Load minerva data response. However, this time, we're going to fold the evidence individuals into the edges and nodes that reference them under the referenced_individual functions.</p>
+              <p>TODO: inferred individuals</p>
+              <section>
+                <h4>Parameter</h4>
+                <table class="jsdoc-details-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Type</th>
+                      <th>Optional</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <p>the</p>
+                      </td>
+                      <td>
+                        <p>Object</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>&quot;data&quot; portion of a Minerva graph-related response.</p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <dl class="dl-compact">
+                <dt>Returns</dt>
+                <dd>
+                  <p><code>Boolean</code>&nbsp;if data was loaded</p>
+                </dd>
+              </dl>
+              <h3 id="load_data_go_noctua"><span class="symbol-name">load_data_go_noctua</span><span class="signature"><span class="signature-params">(the)</span>&nbsp;&rarr; <span class="signature-returns"> Boolean</span></span></h3>
+              <p>Load minerva data response. However, this time, in addition to everything we did for {load_data_evidence_fold}, we're going to search for nodes that have enabled_by and/or occurs_in targets (that are themselves leaves) fold them in to the
+                contained subgraph item, and remove them from the top-level graph.</p>
               <p>TODO: inferred individuals</p>
               <section>
                 <h4>Parameter</h4>
@@ -865,7 +919,7 @@
                   <p><code>Boolean</code>&nbsp;true if such an edge was found and deleted, false otherwise</p>
                 </dd>
               </dl>
-              <h3 id="remove_node"><span class="symbol-name">remove_node</span><span class="signature"><span class="signature-params">(node_id, clean_p)</span>&nbsp;&rarr; <span class="signature-returns"> Boolean</span></span></h3>
+              <h3 id="remove_node"><span class="symbol-name">remove_node</span><span class="signature"><span class="signature-params">(node_id[, clean_p])</span>&nbsp;&rarr; <span class="signature-returns"> Boolean</span></span></h3>
               <p>Remove a node from the graph.</p>
               <section>
                 <h4>Parameters</h4>
@@ -901,10 +955,10 @@
                         <p>Boolean</p>
                       </td>
                       <td>
-                        <p>&nbsp;</p>
+                        <p>Yes</p>
                       </td>
                       <td>
-                        <p>(optional) remove all edges connects to node (default false)</p>
+                        <p>remove all edges connects to node (default false)</p>
                       </td>
                     </tr>
                   </tbody>
@@ -926,7 +980,7 @@
   <footer id="jsdoc-footer" class="jsdoc-footer">
     <div id="jsdoc-footer-container">
       <p>
-        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc</a> 3.3.0 on June 12, 2015.
+        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc</a> 3.3.0 on June 16, 2015.
       </p>
     </div>
   </footer>

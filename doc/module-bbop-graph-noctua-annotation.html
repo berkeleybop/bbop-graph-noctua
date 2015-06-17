@@ -35,7 +35,7 @@
               <div class="summary-content">
                 <div class="summary-column">
                   <dl class="dl-summary-callout">
-                    <dt><a href="module-bbop-graph-noctua-annotation.html#annotation">annotation(key, value, value_type)</a></dt>
+                    <dt><a href="module-bbop-graph-noctua-annotation.html#annotation">annotation(key[, value][, value_type])</a></dt>
                     <dd>
                     </dd>
                     <dt><a href="module-bbop-graph-noctua-annotation.html#clone">clone()</a></dt>
@@ -51,17 +51,17 @@
                     <dt><a href="module-bbop-graph-noctua-annotation.html#id">id()</a></dt>
                     <dd>
                     </dd>
-                    <dt><a href="module-bbop-graph-noctua-annotation.html#key">key(key)</a></dt>
+                    <dt><a href="module-bbop-graph-noctua-annotation.html#key">key([key])</a></dt>
                     <dd>
                     </dd>
-                    <dt><a href="module-bbop-graph-noctua-annotation.html#value">value(value)</a></dt>
+                    <dt><a href="module-bbop-graph-noctua-annotation.html#value">value([value])</a></dt>
                     <dd>
                     </dd>
                   </dl>
                 </div>
                 <div class="summary-column">
                   <dl class="dl-summary-callout">
-                    <dt><a href="module-bbop-graph-noctua-annotation.html#value_type">value_type(value_type)</a></dt>
+                    <dt><a href="module-bbop-graph-noctua-annotation.html#value_type">value_type([value_type])</a></dt>
                     <dd>
                     </dd>
                   </dl>
@@ -70,7 +70,7 @@
             </div>
           </section>
           <section>
-            <h2 id="annotation">new&nbsp;<span class="symbol-name">annotation</span><span class="signature"><span class="signature-params">(kv_set)</span></span></h2>
+            <h2 id="annotation">new&nbsp;<span class="symbol-name">annotation</span><span class="signature"><span class="signature-params">([kv_set])</span></span></h2>
             <p>Edit annotations. Everything can take annotations.</p>
             <p>This structure of the raw key-value set has been updated in the wire protocol. It now looks like:</p>
             <p>: {&quot;key&quot;: &quot;contributor&quot;, &quot;value&quot;: &quot;GOC:kltm&quot; }</p>
@@ -96,10 +96,10 @@
                       <p>Object</p>
                     </td>
                     <td>
-                      <p>&nbsp;</p>
+                      <p>Yes</p>
                     </td>
                     <td>
-                      <p>(optional) a set of keys and values; a simple object</p>
+                      <p>optional a set of keys and values; a simple object</p>
                     </td>
                   </tr>
                 </tbody>
@@ -115,7 +115,7 @@
           <section>
             <h2>Methods</h2>
             <section>
-              <h3 id="annotation"><span class="symbol-name">annotation</span><span class="signature"><span class="signature-params">(key, value, value_type)</span>&nbsp;&rarr; <span class="signature-returns"> (String or null)</span></span></h3>
+              <h3 id="annotation"><span class="symbol-name">annotation</span><span class="signature"><span class="signature-params">(key[, value][, value_type])</span>&nbsp;&rarr; <span class="signature-returns"> (String or null)</span></span></h3>
               <p>Add/modify a property by key and value (and maybe value_type).</p>
               <section>
                 <h4>Parameters</h4>
@@ -151,10 +151,10 @@
                         <p>String</p>
                       </td>
                       <td>
-                        <p>&nbsp;</p>
+                        <p>Yes</p>
                       </td>
                       <td>
-                        <p>(optional) string</p>
+                        <p>string</p>
                       </td>
                     </tr>
                     <tr>
@@ -165,10 +165,10 @@
                         <p>String</p>
                       </td>
                       <td>
-                        <p>&nbsp;</p>
+                        <p>Yes</p>
                       </td>
                       <td>
-                        <p>(optional) string</p>
+                        <p>string</p>
                       </td>
                     </tr>
                   </tbody>
@@ -233,7 +233,7 @@
                   <p><code>String</code>&nbsp;string</p>
                 </dd>
               </dl>
-              <h3 id="key"><span class="symbol-name">key</span><span class="signature"><span class="signature-params">(key)</span>&nbsp;&rarr; <span class="signature-returns"> (String or null)</span></span></h3>
+              <h3 id="key"><span class="symbol-name">key</span><span class="signature"><span class="signature-params">([key])</span>&nbsp;&rarr; <span class="signature-returns"> (String or null)</span></span></h3>
               <p>Get/set annotation's key.</p>
               <section>
                 <h4>Parameter</h4>
@@ -255,10 +255,10 @@
                         <p>String</p>
                       </td>
                       <td>
-                        <p>&nbsp;</p>
+                        <p>Yes</p>
                       </td>
                       <td>
-                        <p>(optional) string</p>
+                        <p>string</p>
                       </td>
                     </tr>
                   </tbody>
@@ -270,7 +270,7 @@
                   <p><code>(String or null)</code>&nbsp;returns string of annotation</p>
                 </dd>
               </dl>
-              <h3 id="value"><span class="symbol-name">value</span><span class="signature"><span class="signature-params">(value)</span>&nbsp;&rarr; <span class="signature-returns"> (String or null)</span></span></h3>
+              <h3 id="value"><span class="symbol-name">value</span><span class="signature"><span class="signature-params">([value])</span>&nbsp;&rarr; <span class="signature-returns"> (String or null)</span></span></h3>
               <p>Get/set annotation's value.</p>
               <section>
                 <h4>Parameter</h4>
@@ -292,10 +292,10 @@
                         <p>String</p>
                       </td>
                       <td>
-                        <p>&nbsp;</p>
+                        <p>Yes</p>
                       </td>
                       <td>
-                        <p>(optional) string</p>
+                        <p>string</p>
                       </td>
                     </tr>
                   </tbody>
@@ -307,7 +307,7 @@
                   <p><code>(String or null)</code>&nbsp;returns string of annotation</p>
                 </dd>
               </dl>
-              <h3 id="value_type"><span class="symbol-name">value_type</span><span class="signature"><span class="signature-params">(value_type)</span>&nbsp;&rarr; <span class="signature-returns"> (String or null)</span></span></h3>
+              <h3 id="value_type"><span class="symbol-name">value_type</span><span class="signature"><span class="signature-params">([value_type])</span>&nbsp;&rarr; <span class="signature-returns"> (String or null)</span></span></h3>
               <p>Get/set annotation's value-type.</p>
               <section>
                 <h4>Parameter</h4>
@@ -329,10 +329,10 @@
                         <p>String</p>
                       </td>
                       <td>
-                        <p>&nbsp;</p>
+                        <p>Yes</p>
                       </td>
                       <td>
-                        <p>(optional) string</p>
+                        <p>string</p>
                       </td>
                     </tr>
                   </tbody>
@@ -354,7 +354,7 @@
   <footer id="jsdoc-footer" class="jsdoc-footer">
     <div id="jsdoc-footer-container">
       <p>
-        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc</a> 3.3.0 on June 12, 2015.
+        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc</a> 3.3.0 on June 16, 2015.
       </p>
     </div>
   </footer>
