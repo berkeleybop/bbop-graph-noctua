@@ -248,6 +248,51 @@ describe('merging works as expected', function(){
     
 });
 
+describe('abbreviate graph as expected in go noctua loader', function(){
+
+    it('pull in many subgraphs', function(){	
+
+	// Setup.
+	var g = new model.graph();
+	var raw_resp = require('./minerva-01.json');
+	g.load_data_go_noctua(raw_resp['data']);	
+
+	// Basic structure count.
+	assert.equal(g.all_nodes().length, 7, 'only seven nodes left');
+	assert.equal(g.all_edges().length, 7, 'only seven edges left');
+
+	// Five subragphs, all containing the embedding individual as
+	// part of this loader's process.
+	var num_sub = 0;
+	var self_contained_sub = 0;
+	each(g.all_nodes(), function(n){
+	    if( n.subgraph() ){
+		num_sub++;
+		var s = n.subgraph();
+		//console.log('sub in: ' + n.id());
+		//console.log('sub is: ' + typeof(s.get_node));
+		if( s.get_node(n.id()) ){
+		    self_contained_sub++;
+		}
+	    }
+	});
+	assert.equal(num_sub, 5, 'five embedded subgraphs');
+	assert.equal(self_contained_sub, 5, 'five self-containing subgraphs');
+
+	// Close examination of a single subgraph.
+	var nid = 'gomodel:taxon_559292-5525a0fc0000001-GO-0005515-5525a0fc0000023';
+	var n = g.get_node(nid);
+	assert.equal(n._is_a, 'bbop-graph-noctua.node', 'node is a node');
+	var s = n.subgraph();
+	//console.log(s);
+	assert.equal(s._is_a, 'bbop-graph-noctua.graph', 'graph is a graph');
+	assert.equal(s.all_nodes().length, 2, 'subgraph has two nodes');
+	assert.equal(s.all_edges().length, 1, 'subgraph has one edges');
+	assert.equal(s.all_edges()[0].predicate_id(), 'RO:0002333', 'correct subraph edge');
+	//console.log();
+    });
+});
+
 // var assert = require('chai').assert;
 // var model = new require('..');
 // var us = require('underscore');
