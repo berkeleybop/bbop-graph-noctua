@@ -1,234 +1,14 @@
 {
     "data": {
-        "individuals-i": [
-            {
-                "type": [
-                    {
-                        "id": "SGD:S000004659",
-                        "type": "class"
-                    }
-                ],
-                "id": "gomodel_taxon_559292-5525a0fc0000001-SGD-S000004659-553ff9ed0000010"
-            },
-            {
-                "type": [
-                    {
-                        "label": "GTPase inhibitor activity",
-                        "id": "GO:0005095",
-                        "type": "class"
-                    }
-                ],
-                "id": "gomodel:taxon_559292-5525a0fc0000001-GO-0005095-5525a0fc0000009"
-            },
-            {
-                "type": [
-                    {
-                        "label": "direct assay evidence",
-                        "id": "ECO:0000002",
-                        "type": "class"
-                    }
-                ],
-                "id": "gomodel_taxon_559292-5525a0fc0000001-ECO-0000002-553ff9ed0000017"
-            },
-            {
-                "type": [
-                    {
-                        "label": "enzyme assay evidence",
-                        "id": "ECO:0000005",
-                        "type": "class"
-                    }
-                ],
-                "id": "gomodel_taxon_559292-5525a0fc0000001-ECO-0000005-553ff9ed0000003"
-            },
-            {
-                "type": [
-                    {
-                        "id": "SGD:S000004529",
-                        "type": "class"
-                    }
-                ],
-                "id": "gomodel_taxon_559292-5525a0fc0000001-SGD-S000004529-553ff9ed0000004"
-            },
-            {
-                "type": [
-                    {
-                        "label": "enzyme assay evidence",
-                        "id": "ECO:0000005",
-                        "type": "class"
-                    }
-                ],
-                "id": "gomodel_taxon_559292-5525a0fc0000001-ECO-0000005-553ff9ed0000001"
-            },
-            {
-                "type": [
-                    {
-                        "label": "direct assay evidence",
-                        "id": "ECO:0000002",
-                        "type": "class"
-                    }
-                ],
-                "id": "gomodel_taxon_559292-5525a0fc0000001-ECO-0000002-553ff9ed0000005"
-            },
-            {
-                "type": [
-                    {
-                        "id": "SGD:S000003814",
-                        "type": "class"
-                    }
-                ],
-                "id": "gomodel_taxon_559292-5525a0fc0000001-SGD-S000003814-553ff9ed0000002"
-            },
-            {
-                "type": [
-                    {
-                        "id": "SGD:S000003814",
-                        "type": "class"
-                    }
-                ],
-                "id": "gomodel_taxon_559292-5525a0fc0000001-SGD-S000003814-553ff9ed0000007"
-            },
-            {
-                "type": [
-                    {
-                        "label": "physical interaction evidence",
-                        "id": "ECO:0000021",
-                        "type": "class"
-                    }
-                ],
-                "id": "gomodel_taxon_559292-5525a0fc0000001-ECO-0000021-553ff9ed0000009"
-            },
-            {
-                "type": [
-                    {
-                        "label": "GTP binding",
-                        "id": "GO:0005525",
-                        "type": "class"
-                    }
-                ],
-                "id": "gomodel:taxon_559292-5525a0fc0000001-GO-0005525-5525a0fc0000010"
-            },
-            {
-                "type": [
-                    {
-                        "id": "SGD:S000004659",
-                        "type": "class"
-                    }
-                ],
-                "id": "gomodel_taxon_559292-5525a0fc0000001-SGD-S000004659-553ff9ed0000006"
-            },
-            {
-                "type": [
-                    {
-                        "label": "Bfa1-Bub2 complex",
-                        "id": "GO:1990334",
-                        "type": "class"
-                    }
-                ],
-                "id": "gomodel_taxon_559292-5525a0fc0000001-GO-1990334-553ff9ed0000011"
-            },
-            {
-                "type": [
-                    {
-                        "id": "SGD:S000004529",
-                        "type": "class"
-                    }
-                ],
-                "id": "gomodel_taxon_559292-5525a0fc0000001-SGD-S000004529-553ff9ed0000014"
-            },
-            {
-                "type": [
-                    {
-                        "label": "in vitro binding evidence",
-                        "id": "ECO:0000148",
-                        "type": "class"
-                    }
-                ],
-                "id": "gomodel_taxon_559292-5525a0fc0000001-ECO-0000148-553ff9ed0000013"
-            },
-            {
-                "type": [
-                    {
-                        "label": "direct assay evidence",
-                        "id": "ECO:0000002",
-                        "type": "class"
-                    }
-                ],
-                "id": "gomodel_taxon_559292-5525a0fc0000001-ECO-0000002-553ff9ed0000016"
-            },
-            {
-                "type": [
-                    {
-                        "label": "direct assay evidence",
-                        "id": "ECO:0000002",
-                        "type": "class"
-                    }
-                ],
-                "id": "gomodel_taxon_559292-5525a0fc0000001-ECO-0000002-553ff9ed0000015"
-            },
-            {
-                "type": [
-                    {
-                        "label": "GTPase activator complex",
-                        "id": "GO:1902773",
-                        "type": "class"
-                    }
-                ],
-                "id": "gomodel_taxon_559292-5525a0fc0000001-GO-1902773-553ff9ed0000008"
-            },
-            {
-                "type": [
-                    {
-                        "id": "SGD:S000003814",
-                        "type": "class"
-                    }
-                ],
-                "id": "gomodel_taxon_559292-5525a0fc0000001-SGD-S000003814-553ff9ed0000012"
-            },
-            {
-                "type": [
-                    {
-                        "label": "GTPase activator activity",
-                        "id": "GO:0005096",
-                        "type": "class"
-                    }
-                ],
-                "id": "gomodel:taxon_559292-5525a0fc0000001-GO-0005096-5525a0fc0000012"
-            },
-            {
-                "type": [
-                    {
-                        "label": "GTPase activity",
-                        "id": "GO:0003924",
-                        "type": "class"
-                    }
-                ],
-                "id": "gomodel:taxon_559292-5525a0fc0000001-GO-0003924-5525a0fc0000008"
-            },
-            {
-                "type": [
-                    {
-                        "label": "molecular function regulator",
-                        "id": "GO:0098772",
-                        "type": "class"
-                    },
-                    {
-                        "label": "protein binding",
-                        "id": "GO:0005515",
-                        "type": "class"
-                    }
-                ],
-                "id": "gomodel:taxon_559292-5525a0fc0000001-GO-0005515-5525a0fc0000023"
-            }
-        ],
         "properties": [
-            {
-                "label": "occurs in",
-                "id": "BFO:0000066",
-                "type": "property"
-            },
             {
                 "label": "has input",
                 "id": "RO:0002233",
+                "type": "property"
+            },
+            {
+                "label": "occurs in",
+                "id": "BFO:0000066",
                 "type": "property"
             },
             {
@@ -264,6 +44,12 @@
                         "key": "contributor"
                     }
                 ],
+                "inferred-type": [
+                    {
+                        "id": "SGD:S000004659",
+                        "type": "class"
+                    }
+                ],
                 "type": [
                     {
                         "id": "SGD:S000004659",
@@ -288,6 +74,13 @@
                         "key": "date"
                     }
                 ],
+                "inferred-type": [
+                    {
+                        "label": "GTPase inhibitor activity",
+                        "id": "GO:0005095",
+                        "type": "class"
+                    }
+                ],
                 "type": [
                     {
                         "label": "GTPase inhibitor activity",
@@ -302,6 +95,13 @@
                     {
                         "value": "PMID:12048186",
                         "key": "source"
+                    }
+                ],
+                "inferred-type": [
+                    {
+                        "label": "direct assay evidence",
+                        "id": "ECO:0000002",
+                        "type": "class"
                     }
                 ],
                 "type": [
@@ -320,6 +120,13 @@
                         "key": "source"
                     }
                 ],
+                "inferred-type": [
+                    {
+                        "label": "enzyme assay evidence",
+                        "id": "ECO:0000005",
+                        "type": "class"
+                    }
+                ],
                 "type": [
                     {
                         "label": "enzyme assay evidence",
@@ -332,27 +139,40 @@
             {
                 "annotations": [
                     {
-                        "value": "2015-04-13",
-                        "key": "date"
-                    },
-                    {
                         "value": "http://orcid.org/0000-0001-7476-6306",
                         "key": "contributor"
+                    },
+                    {
+                        "value": "2015-04-13",
+                        "key": "date"
+                    }
+                ],
+                "inferred-type": [
+                    {
+                        "id": "SGD:S000003814",
+                        "type": "class"
                     }
                 ],
                 "type": [
                     {
-                        "id": "SGD:S000004529",
+                        "id": "SGD:S000003814",
                         "type": "class"
                     }
                 ],
-                "id": "gomodel_taxon_559292-5525a0fc0000001-SGD-S000004529-553ff9ed0000004"
+                "id": "gomodel_taxon_559292-5525a0fc0000001-SGD-S000003814-553ff9ed0000007"
             },
             {
                 "annotations": [
                     {
                         "value": "PMID:12048186",
                         "key": "source"
+                    }
+                ],
+                "inferred-type": [
+                    {
+                        "label": "enzyme assay evidence",
+                        "id": "ECO:0000005",
+                        "type": "class"
                     }
                 ],
                 "type": [
@@ -369,6 +189,13 @@
                     {
                         "value": "PMID:12048186",
                         "key": "source"
+                    }
+                ],
+                "inferred-type": [
+                    {
+                        "label": "direct assay evidence",
+                        "id": "ECO:0000002",
+                        "type": "class"
                     }
                 ],
                 "type": [
@@ -391,6 +218,12 @@
                         "key": "date"
                     }
                 ],
+                "inferred-type": [
+                    {
+                        "id": "SGD:S000003814",
+                        "type": "class"
+                    }
+                ],
                 "type": [
                     {
                         "id": "SGD:S000003814",
@@ -402,27 +235,40 @@
             {
                 "annotations": [
                     {
-                        "value": "http://orcid.org/0000-0001-7476-6306",
-                        "key": "contributor"
-                    },
-                    {
                         "value": "2015-04-13",
                         "key": "date"
+                    },
+                    {
+                        "value": "http://orcid.org/0000-0001-7476-6306",
+                        "key": "contributor"
+                    }
+                ],
+                "inferred-type": [
+                    {
+                        "id": "SGD:S000004529",
+                        "type": "class"
                     }
                 ],
                 "type": [
                     {
-                        "id": "SGD:S000003814",
+                        "id": "SGD:S000004529",
                         "type": "class"
                     }
                 ],
-                "id": "gomodel_taxon_559292-5525a0fc0000001-SGD-S000003814-553ff9ed0000007"
+                "id": "gomodel_taxon_559292-5525a0fc0000001-SGD-S000004529-553ff9ed0000004"
             },
             {
                 "annotations": [
                     {
                         "value": "PMID:12048186",
                         "key": "source"
+                    }
+                ],
+                "inferred-type": [
+                    {
+                        "label": "physical interaction evidence",
+                        "id": "ECO:0000021",
+                        "type": "class"
                     }
                 ],
                 "type": [
@@ -450,6 +296,13 @@
                         "key": "date"
                     }
                 ],
+                "inferred-type": [
+                    {
+                        "label": "GTP binding",
+                        "id": "GO:0005525",
+                        "type": "class"
+                    }
+                ],
                 "type": [
                     {
                         "label": "GTP binding",
@@ -470,6 +323,12 @@
                         "key": "date"
                     }
                 ],
+                "inferred-type": [
+                    {
+                        "id": "SGD:S000004659",
+                        "type": "class"
+                    }
+                ],
                 "type": [
                     {
                         "id": "SGD:S000004659",
@@ -487,6 +346,13 @@
                     {
                         "value": "http://orcid.org/0000-0001-7476-6306",
                         "key": "contributor"
+                    }
+                ],
+                "inferred-type": [
+                    {
+                        "label": "Bfa1-Bub2 complex",
+                        "id": "GO:1990334",
+                        "type": "class"
                     }
                 ],
                 "type": [
@@ -509,6 +375,12 @@
                         "key": "date"
                     }
                 ],
+                "inferred-type": [
+                    {
+                        "id": "SGD:S000004529",
+                        "type": "class"
+                    }
+                ],
                 "type": [
                     {
                         "id": "SGD:S000004529",
@@ -522,6 +394,13 @@
                     {
                         "value": "PMID:12048186",
                         "key": "source"
+                    }
+                ],
+                "inferred-type": [
+                    {
+                        "label": "in vitro binding evidence",
+                        "id": "ECO:0000148",
+                        "type": "class"
                     }
                 ],
                 "type": [
@@ -540,6 +419,13 @@
                         "key": "source"
                     }
                 ],
+                "inferred-type": [
+                    {
+                        "label": "direct assay evidence",
+                        "id": "ECO:0000002",
+                        "type": "class"
+                    }
+                ],
                 "type": [
                     {
                         "label": "direct assay evidence",
@@ -554,6 +440,13 @@
                     {
                         "value": "PMID:12048186",
                         "key": "source"
+                    }
+                ],
+                "inferred-type": [
+                    {
+                        "label": "direct assay evidence",
+                        "id": "ECO:0000002",
+                        "type": "class"
                     }
                 ],
                 "type": [
@@ -576,6 +469,13 @@
                         "key": "date"
                     }
                 ],
+                "inferred-type": [
+                    {
+                        "label": "GTPase activator complex",
+                        "id": "GO:1902773",
+                        "type": "class"
+                    }
+                ],
                 "type": [
                     {
                         "label": "GTPase activator complex",
@@ -594,6 +494,12 @@
                     {
                         "value": "http://orcid.org/0000-0001-7476-6306",
                         "key": "contributor"
+                    }
+                ],
+                "inferred-type": [
+                    {
+                        "id": "SGD:S000003814",
+                        "type": "class"
                     }
                 ],
                 "type": [
@@ -618,6 +524,13 @@
                         "value-type": "IRI",
                         "value": "gomodel_taxon_559292-5525a0fc0000001-ECO-0000002-553ff9ed0000005",
                         "key": "evidence"
+                    }
+                ],
+                "inferred-type": [
+                    {
+                        "label": "GTPase activator activity",
+                        "id": "GO:0005096",
+                        "type": "class"
                     }
                 ],
                 "type": [
@@ -645,6 +558,13 @@
                         "key": "contributor"
                     }
                 ],
+                "inferred-type": [
+                    {
+                        "label": "GTPase activity",
+                        "id": "GO:0003924",
+                        "type": "class"
+                    }
+                ],
                 "type": [
                     {
                         "label": "GTPase activity",
@@ -668,6 +588,18 @@
                     {
                         "value": "2015-04-14",
                         "key": "date"
+                    }
+                ],
+                "inferred-type": [
+                    {
+                        "label": "molecular function regulator",
+                        "id": "GO:0098772",
+                        "type": "class"
+                    },
+                    {
+                        "label": "protein binding",
+                        "id": "GO:0005515",
+                        "type": "class"
                     }
                 ],
                 "type": [
@@ -722,38 +654,23 @@
                         "key": "date"
                     }
                 ],
-                "object": "gomodel:taxon_559292-5525a0fc0000001-GO-0003924-5525a0fc0000008",
-                "property": "RO:0002406",
-                "subject": "gomodel:taxon_559292-5525a0fc0000001-GO-0005096-5525a0fc0000012"
-            },
-            {
-                "annotations": [
-                    {
-                        "value": "http://orcid.org/0000-0001-7476-6306",
-                        "key": "contributor"
-                    },
-                    {
-                        "value": "2015-04-13",
-                        "key": "date"
-                    }
-                ],
-                "object": "gomodel_taxon_559292-5525a0fc0000001-SGD-S000004529-553ff9ed0000004",
+                "object": "gomodel_taxon_559292-5525a0fc0000001-SGD-S000004529-553ff9ed0000014",
                 "property": "RO:0002333",
-                "subject": "gomodel:taxon_559292-5525a0fc0000001-GO-0003924-5525a0fc0000008"
+                "subject": "gomodel:taxon_559292-5525a0fc0000001-GO-0005525-5525a0fc0000010"
             },
             {
                 "annotations": [
                     {
-                        "value": "http://orcid.org/0000-0001-7476-6306",
+                        "value": "GOC:kmv",
                         "key": "contributor"
                     },
                     {
-                        "value": "2015-04-14",
+                        "value": "2015-04-20",
                         "key": "date"
                     }
                 ],
-                "object": "gomodel_taxon_559292-5525a0fc0000001-SGD-S000003814-553ff9ed0000012",
-                "property": "RO:0002233",
+                "object": "gomodel:taxon_559292-5525a0fc0000001-GO-0005096-5525a0fc0000012",
+                "property": "RO:0002406",
                 "subject": "gomodel:taxon_559292-5525a0fc0000001-GO-0005515-5525a0fc0000023"
             },
             {
@@ -767,9 +684,9 @@
                         "key": "date"
                     }
                 ],
-                "object": "gomodel_taxon_559292-5525a0fc0000001-SGD-S000004529-553ff9ed0000014",
-                "property": "RO:0002333",
-                "subject": "gomodel:taxon_559292-5525a0fc0000001-GO-0005525-5525a0fc0000010"
+                "object": "gomodel:taxon_559292-5525a0fc0000001-GO-0003924-5525a0fc0000008",
+                "property": "RO:0002406",
+                "subject": "gomodel:taxon_559292-5525a0fc0000001-GO-0005096-5525a0fc0000012"
             },
             {
                 "annotations": [
@@ -824,17 +741,32 @@
             {
                 "annotations": [
                     {
-                        "value": "GOC:kmv",
+                        "value": "http://orcid.org/0000-0001-7476-6306",
                         "key": "contributor"
                     },
                     {
-                        "value": "2015-04-20",
+                        "value": "2015-04-14",
                         "key": "date"
                     }
                 ],
-                "object": "gomodel:taxon_559292-5525a0fc0000001-GO-0005096-5525a0fc0000012",
-                "property": "RO:0002406",
+                "object": "gomodel_taxon_559292-5525a0fc0000001-SGD-S000003814-553ff9ed0000012",
+                "property": "RO:0002233",
                 "subject": "gomodel:taxon_559292-5525a0fc0000001-GO-0005515-5525a0fc0000023"
+            },
+            {
+                "annotations": [
+                    {
+                        "value": "http://orcid.org/0000-0001-7476-6306",
+                        "key": "contributor"
+                    },
+                    {
+                        "value": "2015-04-13",
+                        "key": "date"
+                    }
+                ],
+                "object": "gomodel_taxon_559292-5525a0fc0000001-SGD-S000004529-553ff9ed0000004",
+                "property": "RO:0002333",
+                "subject": "gomodel:taxon_559292-5525a0fc0000001-GO-0003924-5525a0fc0000008"
             },
             {
                 "annotations": [
@@ -932,5 +864,5 @@
     "signal": "rebuild",
     "intention": "query",
     "uid": "GOC:kltm",
-    "packet-id": "5b87bdc7d497b3"
+    "packet-id": "6f17aa2bf1d784"
 }
