@@ -293,6 +293,33 @@ describe('abbreviate graph as expected in go noctua loader', function(){
     });
 });
 
+describe("let's take a close look at types and inferred types", function(){
+
+    it('are they working as expected?', function(){	
+
+	// Setup.
+	var g = new model.graph();
+	var raw_resp = require('./minerva-01.json');
+	g.load_data_go_noctua(raw_resp['data']);	
+
+	var nid = 'gomodel:taxon_559292-5525a0fc0000001-GO-0005515-5525a0fc0000023';
+	var n = g.get_node(nid);	
+
+	//console.log('type:', n.types());
+	//console.log('inferred type:', n.inferred_types());
+
+	assert.equal(n.types().length, 1, 'one std');
+	assert.equal(n.inferred_types().length, 2, 'two inferred');
+	assert.equal(n.get_unique_inferred_types().length, 1,
+		     'one unique inferred');
+	assert.equal(n.types()[0].class_id(), 'GO:0005515',
+		     'std class id');
+	assert.equal(n.get_unique_inferred_types()[0].class_id(), 'GO:0098772',
+		     'one unique inferred class id');
+
+    });
+});
+
 // var assert = require('chai').assert;
 // var model = new require('..');
 // var us = require('underscore');
