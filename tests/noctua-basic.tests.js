@@ -320,6 +320,50 @@ describe("let's take a close look at types and inferred types", function(){
     });
 });
 
+describe("clobbering updating", function(){
+
+    it('updating with a subgraph is not the same as a merge', function(){	
+
+	// Setup.
+	var g = new model.graph();
+	var raw_resp = require('./minerva-01.json');
+	g.load_data_go_noctua(raw_resp['data']);	
+
+	// Make a new graph to operate on.
+	var update_g = new model.graph();
+	// Graph annotations.
+	var an1 = new model.annotation({"key": "title",	"value": "meow"});
+	update_g.add_annotation(an1);
+	// Graph parts.
+	var un1 = new model.node('gomodel:taxon_559292-5525a0fc0000001-GO-0005515-5525a0fc0000023');
+	var un2 = new model.node('gomodel_taxon_559292-5525a0fc0000001-GO-1990334-553ff9ed0000011');
+	var un3 = new model.node('blahblah');
+	var ue1 = new model.edge(un1.id(), un2.id(), 'RO:1234567');
+	update_g.add_node(un1);
+	update_g.add_node(un2);
+	update_g.add_node(un3);
+	update_g.add_edge(ue1);
+
+	// Double check.
+	assert.equal(update_g.all_nodes().length, 3, 'subgraph has 3 nodes');
+	assert.equal(update_g.all_edges().length, 1, 'subgraph has 1 edge');
+	assert.equal(update_g.annotations().length, 1, 'subgraph has 1 ann');
+
+	// Update our graph with new graph.
+	g.update_with(update_g);
+
+	// Graph annotations clobbered to one.
+	assert.equal(g.annotations().length, 1, 'updated graph has 1 ann');
+	assert.equal(g.annotations()[0].key(), 'title', 'has title');
+	assert.equal(g.annotations()[0].value(), 'meow', 'title "meow"');
+
+	// We have one new node and same edges.
+	assert.equal(g.all_nodes().length, 8, 'updated graph has eight nodes');
+	assert.equal(g.all_edges().length, 4, 'updated graph has seven edges');
+
+    });
+});
+
 // var assert = require('chai').assert;
 // var model = new require('..');
 // var us = require('underscore');
