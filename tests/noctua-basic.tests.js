@@ -255,7 +255,8 @@ describe('abbreviate graph as expected in go noctua loader', function(){
 	// Setup.
 	var g = new model.graph();
 	var raw_resp = require('./minerva-01.json');
-	g.load_data_go_noctua(raw_resp['data']);	
+	var rellist = ['RO:0002333', 'BFO:0000066'];
+	g.load_data_go_noctua(raw_resp['data'], rellist);
 
 	// Basic structure count.
 	assert.equal(g.all_nodes().length, 7, 'only seven nodes left');
@@ -300,7 +301,8 @@ describe("let's take a close look at types and inferred types", function(){
 	// Setup.
 	var g = new model.graph();
 	var raw_resp = require('./minerva-01.json');
-	g.load_data_go_noctua(raw_resp['data']);	
+	var rellist = ['RO:0002333', 'BFO:0000066'];
+	g.load_data_go_noctua(raw_resp['data'], rellist);
 
 	var nid = 'gomodel:taxon_559292-5525a0fc0000001-GO-0005515-5525a0fc0000023';
 	var n = g.get_node(nid);	
@@ -327,7 +329,8 @@ describe("clobbering updating", function(){
 	// Setup.
 	var g = new model.graph();
 	var raw_resp = require('./minerva-01.json');
-	g.load_data_go_noctua(raw_resp['data']);	
+	var rellist = ['RO:0002333', 'BFO:0000066'];
+	g.load_data_go_noctua(raw_resp['data'], rellist);
 
 	// Make a new graph to operate on.
 	var update_g = new model.graph();
