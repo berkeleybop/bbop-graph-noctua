@@ -372,6 +372,59 @@ describe("clobbering updating", function(){
     });
 });
 
+describe("unfolding works", function(){
+
+    it('basic unfolded graph checks', function(){
+
+	// Setup.
+	var raw_resp = require('./minerva-01.json');
+	var g = new model.graph();
+	g.load_data_basic(raw_resp['data']);
+
+	// Double-check fold.
+	var rellist = ['RO:0002333', 'BFO:0000066'];
+	g.fold_go_noctua(rellist);
+	assert.equal(g.all_nodes().length, 7, 'only seven nodes left');
+	assert.equal(g.all_edges().length, 7, 'only seven edges left');
+
+	// Unfold and check.
+	g.unfold();
+	assert.equal(g.all_nodes().length, 22, 'return to right num nodes');
+	assert.equal(g.all_edges().length, 14, 'return to right num edges');
+
+	///
+	/// The next three examples are from various tests
+	/// above--copied to ensure.
+	///
+
+	// Deeper check.
+	assert.equal(g.id(),'gomodel:taxon_559292-5525a0fc0000001_all_indivdual',
+		     'graph id');
+	assert.equal(g.annotations().length, 4, '4 graph annotation');
+	var anns = g.get_annotations_by_key('date');
+	assert.equal(anns.length, 1, 'one date annotation');
+	assert.equal(anns[0].value(), '2015-04-10', 'correct date annotation');
+
+	// More exploring.
+	assert.equal(g.get_singleton_nodes().length, 8, 'ev makes singletons');
+	assert.equal(g.get_root_nodes().length, 17, 'technically lots of roots');
+	assert.equal(g.get_leaf_nodes().length, 9, 'leaves are ev + 1 here');
+	
+	// S'more.
+	var nid =
+	    'gomodel:taxon_559292-5525a0fc0000001-GO-0005515-5525a0fc0000023';
+	var n = g.get_node(nid);	
+	assert.equal(n.types().length, 1, 'one std');
+	assert.equal(n.inferred_types().length, 2, 'two inferred');
+	assert.equal(n.get_unique_inferred_types().length, 1,
+		     'one unique inferred');
+	assert.equal(n.types()[0].class_id(), 'GO:0005515',
+		     'std class id');
+	assert.equal(n.get_unique_inferred_types()[0].class_id(), 'GO:0098772',
+		     'one unique inferred class id');
+    });
+});
+
 // var assert = require('chai').assert;
 // var model = new require('..');
 // var us = require('underscore');
