@@ -4,6 +4,9 @@
 //// Keep in mind that we regularly import the tests from upstream
 //// bbop-graph.
 ////
+//// The file we're using is a JSONified version of 5525a0fc00000001
+//// (Consistency Paper March dph)
+////
 
 var assert = require('chai').assert;
 var model = new require('..');
@@ -219,7 +222,9 @@ describe('flex new framework', function(){
 	assert.equal(evs.length, 1, 'one evs');
 	var ev = evs[0];
 	assert.isString(ev['id'], 'got RI id');
-	assert.equal(ev['cls'], 'ECO:0000021', 'got ev class');
+	// From class_expression.to_string()
+	//assert.equal(ev['cls'], 'ECO:0000021', 'got ev class');
+	assert.equal(ev['cls'], 'physical interaction evidence', 'got ev class');
 	assert.equal(ev['source'], 'PMID:12048186', 'got source ref');
     });
 });
@@ -254,11 +259,26 @@ describe('abbreviate graph as expected in go noctua loader', function(){
 
     it('pull in many subgraphs', function(){	
 
+	// Example node.
+	var ex_nid =
+	    'gomodel:taxon_559292-5525a0fc0000001-GO-0005515-5525a0fc0000023';
+
 	// Setup.
 	var g = new model.graph();
 	var raw_resp = require('./minerva-01.json');
 	var rellist = ['RO:0002333', 'BFO:0000066'];
 	g.load_data_basic(raw_resp['data']);
+
+	// Check type label.
+	var ex_n = g.get_node(ex_nid);
+	var ex_types = ex_n.types()
+	assert.equal(ex_types.length, 1, 'has one type');
+	var ex_type = ex_types[0];
+	assert.equal(ex_type.type(), 'class', 'is a class');
+	assert.equal(ex_type.class_id(), 'GO:0005515', 'has good id');
+	assert.equal(ex_type.class_label(), 'protein binding', 'has good label');
+	
+	// Fold and continue.
 	g.fold_go_noctua(rellist);
 
 	// Basic structure count.
@@ -284,16 +304,27 @@ describe('abbreviate graph as expected in go noctua loader', function(){
 	assert.equal(self_contained_sub, 5, 'five self-containing subgraphs');
 
 	// Close examination of a single subgraph.
-	var nid = 'gomodel:taxon_559292-5525a0fc0000001-GO-0005515-5525a0fc0000023';
-	var n = g.get_node(nid);
+	var n = g.get_node(ex_nid);
 	assert.equal(n._is_a, 'bbop-graph-noctua.node', 'node is a node');
 	var s = n.subgraph();
-	//console.log(s);
 	assert.equal(s._is_a, 'bbop-graph-noctua.graph', 'graph is a graph');
 	assert.equal(s.all_nodes().length, 2, 'subgraph has two nodes');
 	assert.equal(s.all_edges().length, 1, 'subgraph has one edges');
-	assert.equal(s.all_edges()[0].predicate_id(), 'RO:0002333', 'correct subraph edge');
-	//console.log();
+	assert.equal(s.all_edges()[0].predicate_id(), 'RO:0002333',
+		     'correct subraph edge');
+
+	// Unfold and retest labels.
+	(function(){
+	    g.unfold();
+	    var ex_n = g.get_node(ex_nid);
+	    var ex_types = ex_n.types()
+	    assert.equal(ex_types.length, 1, 'has one type');
+	    var ex_type = ex_types[0];
+	    assert.equal(ex_type.type(), 'class', 'is a class');
+	    assert.equal(ex_type.class_id(), 'GO:0005515', 'has good id');
+	    assert.equal(ex_type.class_label(), 'protein binding',
+			 'has good label');
+	})();
     });
 });
 
