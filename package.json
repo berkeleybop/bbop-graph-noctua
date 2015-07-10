@@ -1,6 +1,6 @@
 {
     "name": "bbop-graph-noctua",
-    "version": "0.0.15",
+    "version": "0.0.16",
     "license": "BSD-3-Clause",
     "description": "A subclass of bbop-graph that layers on a complete annotation and graph editing model for the Noctua set of tools.",
     "keywords": [
@@ -31,7 +31,7 @@
     "dependencies": {
         "bbop-core": "0.0.4",
         "bbop-graph": "0.0.13",
-        "class-expression": "0.0.7",
+        "class-expression": "0.0.8",
         "underscore": "1.8.3"
     },
     "devDependencies": {
