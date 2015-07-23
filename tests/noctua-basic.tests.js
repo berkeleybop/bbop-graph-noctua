@@ -68,7 +68,7 @@ describe('annotation bulk ops', function(){
 
 	function filter(ann){
 	    var ret = false;
-	    if( ann.key() == 'foo' ){
+	    if( ann.key() === 'foo' ){
 		ret = true;
 	    }
 	    return ret;
@@ -271,7 +271,7 @@ describe('abbreviate graph as expected in go noctua loader', function(){
 
 	// Check type label.
 	var ex_n = g.get_node(ex_nid);
-	var ex_types = ex_n.types()
+	var ex_types = ex_n.types();
 	assert.equal(ex_types.length, 1, 'has one type');
 	var ex_type = ex_types[0];
 	assert.equal(ex_type.type(), 'class', 'is a class');
@@ -317,7 +317,7 @@ describe('abbreviate graph as expected in go noctua loader', function(){
 	(function(){
 	    g.unfold();
 	    var ex_n = g.get_node(ex_nid);
-	    var ex_types = ex_n.types()
+	    var ex_types = ex_n.types();
 	    assert.equal(ex_types.length, 1, 'has one type');
 	    var ex_type = ex_types[0];
 	    assert.equal(ex_type.type(), 'class', 'is a class');
