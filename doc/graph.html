@@ -25,7 +25,7 @@
         <div id="jsdoc-main" role="main">
           <header class="page-header">
             <h1><div class="symbol-detail-labels"><span class="label label-kind">class</span></div><small></small><span class="symbol-name">graph</span></h1>
-            <p class="source-link">Source: <a href="edit.js.html#source-line-500">edit.<wbr>js:500</a></p>
+            <p class="source-link">Source: <a href="edit.js.html#source-line-546">edit.<wbr>js:546</a></p>
             <dl class="dl-compact">
             </dl>
           </header>
@@ -65,20 +65,23 @@
                     <dt><a href="graph.html#create_node">create_node(id[, label][, types][, inferred_types])</a></dt>
                     <dd>
                     </dd>
+                    <dt><a href="graph.html#dump">dump()</a></dt>
+                    <dd>
+                    </dd>
                   </dl>
                 </div>
                 <div class="summary-column">
                   <dl class="dl-summary-callout">
-                    <dt><a href="graph.html#dump">dump()</a></dt>
-                    <dd>
-                    </dd>
                     <dt><a href="graph.html#edit_node_order">edit_node_order()</a></dt>
                     <dd>
                     </dd>
-                    <dt><a href="graph.html#fold_evidence">fold_evidence(the)</a></dt>
+                    <dt><a href="graph.html#extract_evidence_seeds">extract_evidence_seeds()</a></dt>
                     <dd>
                     </dd>
-                    <dt><a href="graph.html#fold_go_noctua">fold_go_noctua(the, list)</a></dt>
+                    <dt><a href="graph.html#fold_evidence">fold_evidence()</a></dt>
+                    <dd>
+                    </dd>
+                    <dt><a href="graph.html#fold_go_noctua">fold_go_noctua(list)</a></dt>
                     <dd>
                     </dd>
                     <dt><a href="graph.html#get_connector_id_by_edge_id">get_connector_id_by_edge_id(eid)</a></dt>
@@ -90,19 +93,25 @@
                     <dt><a href="graph.html#get_edge_id_by_connector_id">get_edge_id_by_connector_id(cid)</a></dt>
                     <dd>
                     </dd>
+                    <dt><a href="graph.html#get_evidence_clique">get_evidence_clique(node_id)</a></dt>
+                    <dd>
+                    </dd>
+                    <dt><a href="graph.html#get_evidence_subclique">get_evidence_subclique(node_id)</a></dt>
+                    <dd>
+                    </dd>
                     <dt><a href="graph.html#get_id">get_id()</a></dt>
                     <dd>
                     </dd>
                     <dt><a href="graph.html#get_node_by_elt_id">get_node_by_elt_id()</a></dt>
                     <dd>
                     </dd>
-                    <dt><a href="graph.html#get_node_by_individual">get_node_by_individual()</a></dt>
-                    <dd>
-                    </dd>
                   </dl>
                 </div>
                 <div class="summary-column">
                   <dl class="dl-summary-callout">
+                    <dt><a href="graph.html#get_node_by_individual">get_node_by_individual()</a></dt>
+                    <dd>
+                    </dd>
                     <dt><a href="graph.html#get_node_elt_id">get_node_elt_id()</a></dt>
                     <dd>
                     </dd>
@@ -138,6 +147,7 @@
           <section>
             <h2 id="graph">new&nbsp;<span class="symbol-name">graph</span><span class="signature"><span class="signature-params">([new_id])</span></span></h2>
             <p>Sublcass of bbop-graph for use with Noctua ideas and concepts.</p>
+            <p>Unlike the superclass, can take an id as an argument, or will generate on on its own.</p>
             <section>
               <h3>Parameter</h3>
               <table class="jsdoc-details-table">
@@ -367,6 +377,7 @@
               </dl>
               <h3 id="clone"><span class="symbol-name">clone</span><span class="signature"><span class="signature-params">()</span>&nbsp;&rarr; <span class="signature-returns"> <a href="graph.html">graph</a></span></span></h3>
               <p>Create a clone of the graph.</p>
+              <p>Naturally, ID is copied.</p>
               <dl class="dl-compact">
                 <dt>Returns</dt>
                 <dd>
@@ -594,9 +605,30 @@
                   <p><code>Array</code>&nbsp;node order by id?</p>
                 </dd>
               </dl>
-              <h3 id="fold_evidence"><span class="symbol-name">fold_evidence</span><span class="signature"><span class="signature-params">(the)</span>&nbsp;&rarr; <span class="signature-returns"> Boolean</span></span></h3>
-              <p>Fold the evidence individuals into the edges and nodes that reference them under the referenced_individual functions.</p>
-              <p>Currently, a single pass is run to fold evidence individuals into other nodes as referenced individuals. However, additional passes can very easily be added to fold away references to references as long as a matching function is provided.</p>
+              <h3 id="extract_evidence_seeds"><span class="symbol-name">extract_evidence_seeds</span><span class="signature"><span class="signature-params">()</span>&nbsp;&rarr; <span class="signature-returns"> Object</span></span></h3>
+              <p>Extract all of the evidence seeds from the graph--nodes and edges.</p>
+              <p>An evidence seed is a: 1) real node in the graph that 2) is referenced by the value of a node or edge special evidence annotation.
+              </p>
+              <dl class="dl-compact">
+                <dt>Returns</dt>
+                <dd>
+                  <p><code>Object</code>&nbsp;a map of seeds (by id) to their referencing enity {node} or {edge}</p>
+                </dd>
+              </dl>
+              <h3 id="fold_evidence"><span class="symbol-name">fold_evidence</span><span class="signature"><span class="signature-params">()</span>&nbsp;&rarr; <span class="signature-returns"> Boolean</span></span></h3>
+              <p>Fold the evidence individuals into the edges and nodes that reference them under the referenced_subgraph functions.</p>
+              <p>Currently, a single pass is run to fold evidence subgraphs (sometimes containing a single node) into other nodes/edges as referenced subgraphs. However, additional passes can very easily be added to fold away references to references as
+                long as a matching function is provided.</p>
+              <dl class="dl-compact">
+                <dt>Returns</dt>
+                <dd>
+                  <p><code>Boolean</code>&nbsp;if data was loaded</p>
+                </dd>
+              </dl>
+              <h3 id="fold_go_noctua"><span class="symbol-name">fold_go_noctua</span><span class="signature"><span class="signature-params">(list)</span>&nbsp;&rarr; <span class="signature-returns"> Boolean</span></span></h3>
+              <p>In addition to everything we did for {fold_evidence}, we're going to search for nodes that have enabled_by and/or occurs_in (or any other specified relation) targets (that are themselves leaves) fold them in to the contained subgraph item,
+                and remove them from the top-level graph.</p>
+              <p>TODO: inferred individuals</p>
               <section>
                 <h4>Parameter</h4>
                 <table class="jsdoc-details-table">
@@ -609,59 +641,6 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>
-                        <p>the</p>
-                      </td>
-                      <td>
-                        <p>Object</p>
-                      </td>
-                      <td>
-                        <p>&nbsp;</p>
-                      </td>
-                      <td>
-                        <p>&quot;data&quot; portion of a Minerva graph-related response.</p>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </section>
-              <dl class="dl-compact">
-                <dt>Returns</dt>
-                <dd>
-                  <p><code>Boolean</code>&nbsp;if data was loaded</p>
-                </dd>
-              </dl>
-              <h3 id="fold_go_noctua"><span class="symbol-name">fold_go_noctua</span><span class="signature"><span class="signature-params">(the, list)</span>&nbsp;&rarr; <span class="signature-returns"> Boolean</span></span></h3>
-              <p>In addition to everything we did for {fold_evidence}, we're going to search for nodes that have enabled_by and/or occurs_in (or any other specified relation) targets (that are themselves leaves) fold them in to the contained subgraph item,
-                and remove them from the top-level graph.</p>
-              <p>TODO: inferred individuals</p>
-              <section>
-                <h4>Parameters</h4>
-                <table class="jsdoc-details-table">
-                  <thead>
-                    <tr>
-                      <th>Name</th>
-                      <th>Type</th>
-                      <th>Optional</th>
-                      <th>Description</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>
-                        <p>the</p>
-                      </td>
-                      <td>
-                        <p>Object</p>
-                      </td>
-                      <td>
-                        <p>&nbsp;</p>
-                      </td>
-                      <td>
-                        <p>&quot;data&quot; portion of a Minerva graph-related response.</p>
-                      </td>
-                    </tr>
                     <tr>
                       <td>
                         <p>list</p>
@@ -794,6 +773,87 @@
                 <dt>Returns</dt>
                 <dd>
                   <p><code>String</code>&nbsp;- the ID of the associated edge</p>
+                </dd>
+              </dl>
+              <h3 id="get_evidence_clique"><span class="symbol-name">get_evidence_clique</span><span class="signature"><span class="signature-params">(node_id)</span>&nbsp;&rarr; <span class="signature-returns"> <a href="graph.html">graph</a></span></span></h3>
+              <p>Extract the entire super clique subgraph for an entity.</p>
+              <p>The ID for the graph will be the ID of the seed node.</p>
+              <p>BUG/WARNING: The clique actually needs to use the walked rather than the anc/desc functions it uses now.</p>
+              <section>
+                <h4>Parameter</h4>
+                <table class="jsdoc-details-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Type</th>
+                      <th>Optional</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <p>node_id</p>
+                      </td>
+                      <td>
+                        <p>String</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>the ID of the see node in an evidence clique</p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <dl class="dl-compact">
+                <dt>Returns</dt>
+                <dd>
+                  <p><code><a href="graph.html">graph</a></code>&nbsp;a list of found seeds as {node} ids</p>
+                </dd>
+              </dl>
+              <h3 id="get_evidence_subclique"><span class="symbol-name">get_evidence_subclique</span><span class="signature"><span class="signature-params">(node_id)</span>&nbsp;&rarr; <span class="signature-returns"> (<a href="graph.html">graph</a> or null)</span></span></h3>
+              <p>Extract an evidence subclique starting at a seed node.</p>
+              <p>A subclique is a subgraph within a clique that represents a piece of evidence, and may overlap with other pieces of evidence.</p>
+              <p>The ID for the graph will be the ID of the seed node.</p>
+              <p>Returns a clone.</p>
+              <p>TODO: More to do as we expand what the evidence subgraphs look like.
+              </p>
+              <section>
+                <h4>Parameter</h4>
+                <table class="jsdoc-details-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Type</th>
+                      <th>Optional</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <p>node_id</p>
+                      </td>
+                      <td>
+                        <p>String</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>the ID of the seed node in an evidence clique - it is <em>assumed</em> that this is a legit seed node id</p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <dl class="dl-compact">
+                <dt>Returns</dt>
+                <dd>
+                  <p><code>(<a href="graph.html">graph</a> or null)</code>&nbsp;a list of found seeds as {node} ids</p>
                 </dd>
               </dl>
               <h3 id="get_id"><span class="symbol-name">get_id</span><span class="signature"><span class="signature-params">()</span>&nbsp;&rarr; <span class="signature-returns"> String</span></span></h3>
@@ -1114,7 +1174,7 @@
   <footer id="jsdoc-footer" class="jsdoc-footer">
     <div id="jsdoc-footer-container">
       <p>
-        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc</a> 3.3.0 on July 21, 2015.
+        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc</a> 3.3.0 on July 27, 2015.
       </p>
     </div>
   </footer>

@@ -29,6 +29,24 @@
             <div class="symbol-description">
               <p>Purpose: Noctua editing operations ove a bbop-graph base.</p>
               <p>The base pieces are just subclasses of their analogs in bbop-graph.</p>
+              <p>Now, a discussion if the structure an terminology of the evidence model.
+              </p>
+              <p>Definitions:</p>
+              <ul>
+                <li>&quot;model&quot;: the graph model as a whole</li>
+                <li>&quot;seed&quot;: an evidence instance that is referenced ; a seed may only belong to a single clique</li>
+                <li>&quot;sub_clique&quot;: the evidence subgraph pattern built off of a seed</li>
+                <li>&quot;clique&quot; the complete evidence subgraph, obtained by walking all edges from any node in it (should be same no matter what node)</li>
+                <li>&quot;shared_struct&quot;: (currently) nodes of the clique that may be shared between different sub_cliques; for now, just pmid nodes</li>
+              </ul>
+              <p>Rules:</p>
+              <p>A clique may only be removed from the graph, with its constitutent sub_cliques contained as referenced subgraphs, when:
+              </p>
+              <ul>
+                <li>all constituent sub_cliques have the &quot;correct&quot; structure</li>
+                <li>all clique nodes are in at least one sub_clique</li>
+                <li>sub_cliques only share structure in shared_struct nodes</li>
+              </ul>
             </div>
             <dl class="dl-compact">
             </dl>
@@ -58,7 +76,7 @@
                     <dt><a href="module-bbop-graph-noctua.html#~add_annotation">add_annotation(in_ann)</a></dt>
                     <dd>
                     </dd>
-                    <dt><a href="module-bbop-graph-noctua.html#~add_referenced_individual">add_referenced_individual(indiv)</a></dt>
+                    <dt><a href="module-bbop-graph-noctua.html#~add_referenced_subgraph">add_referenced_subgraph(subgraph)</a></dt>
                     <dd>
                     </dd>
                     <dt><a href="module-bbop-graph-noctua.html#~annotations">annotations([in_anns])</a></dt>
@@ -80,20 +98,20 @@
                     <dt><a href="module-bbop-graph-noctua.html#~get_basic_evidence">get_basic_evidence(annotation_ids)</a></dt>
                     <dd>
                     </dd>
-                    <dt><a href="module-bbop-graph-noctua.html#~get_referenced_individual_by_id">get_referenced_individual_by_id(iid)</a></dt>
+                    <dt><a href="module-bbop-graph-noctua.html#~get_referenced_subgraph_by_id">get_referenced_subgraph_by_id(iid)</a></dt>
                     <dd>
                     </dd>
                   </dl>
                 </div>
                 <div class="summary-column">
                   <dl class="dl-summary-callout">
-                    <dt><a href="module-bbop-graph-noctua.html#~get_referenced_individual_profiles">get_referenced_individual_profiles()</a></dt>
+                    <dt><a href="module-bbop-graph-noctua.html#~get_referenced_subgraph_profiles">get_referenced_subgraph_profiles([extractor])</a></dt>
                     <dd>
                     </dd>
-                    <dt><a href="module-bbop-graph-noctua.html#~get_referenced_individuals_by_filter">get_referenced_individuals_by_filter(filter)</a></dt>
+                    <dt><a href="module-bbop-graph-noctua.html#~get_referenced_subgraphs_by_filter">get_referenced_subgraphs_by_filter(filter)</a></dt>
                     <dd>
                     </dd>
-                    <dt><a href="module-bbop-graph-noctua.html#~referenced_individuals">referenced_individuals([indivs])</a></dt>
+                    <dt><a href="module-bbop-graph-noctua.html#~referenced_subgraph">referenced_subgraph([subgraphs])</a></dt>
                     <dd>
                     </dd>
                   </dl>
@@ -145,9 +163,8 @@
                   <p><code>Array</code>&nbsp;list of all annotations</p>
                 </dd>
               </dl>
-              <h3 id="~add_referenced_individual"><div class="symbol-detail-labels"><span class="label label-inner">inner</span></div><span class="symbol-name">add_referenced_individual</span><span class="signature"><span class="signature-params">(indiv)</span>&nbsp;&rarr; <span class="signature-returns"> Array</span></span></h3>
-              <p>Add referenced individual.</p>
-              <p>Also, changes type to &quot;referenced&quot; from (probably) node.</p>
+              <h3 id="~add_referenced_subgraph"><div class="symbol-detail-labels"><span class="label label-inner">inner</span></div><span class="symbol-name">add_referenced_subgraph</span><span class="signature"><span class="signature-params">(subgraph)</span>&nbsp;&rarr; <span class="signature-returns"> Array</span></span></h3>
+              <p>Add referenced subgraph.</p>
               <section>
                 <h4>Parameter</h4>
                 <table class="jsdoc-details-table">
@@ -162,16 +179,16 @@
                   <tbody>
                     <tr>
                       <td>
-                        <p>indiv</p>
+                        <p>subgraph</p>
                       </td>
                       <td>
-                        <p>annotation</p>
+                        <p><a href="graph.html">graph</a></p>
                       </td>
                       <td>
                         <p>&nbsp;</p>
                       </td>
                       <td>
-                        <p>individual to add</p>
+                        <p>subgraph to add</p>
                       </td>
                     </tr>
                   </tbody>
@@ -180,7 +197,7 @@
               <dl class="dl-compact">
                 <dt>Returns</dt>
                 <dd>
-                  <p><code>Array</code>&nbsp;list of all individuals</p>
+                  <p><code>Array</code>&nbsp;list of all subgraphs</p>
                 </dd>
               </dl>
               <h3 id="~annotations"><div class="symbol-detail-labels"><span class="label label-inner">inner</span></div><span class="symbol-name">annotations</span><span class="signature"><span class="signature-params">([in_anns])</span>&nbsp;&rarr; <span class="signature-returns"> Array</span></span></h3>
@@ -375,8 +392,8 @@
                   <p><code>Array</code>&nbsp;list of referenced_individual simple evidence information.</p>
                 </dd>
               </dl>
-              <h3 id="~get_referenced_individual_by_id"><div class="symbol-detail-labels"><span class="label label-inner">inner</span></div><span class="symbol-name">get_referenced_individual_by_id</span><span class="signature"><span class="signature-params">(iid)</span>&nbsp;&rarr; <span class="signature-returns"> Array</span></span></h3>
-              <p>Get sublist of referenced_individuals with a certain ID.</p>
+              <h3 id="~get_referenced_subgraph_by_id"><div class="symbol-detail-labels"><span class="label label-inner">inner</span></div><span class="symbol-name">get_referenced_subgraph_by_id</span><span class="signature"><span class="signature-params">(iid)</span>&nbsp;&rarr; <span class="signature-returns"> Array</span></span></h3>
+              <p>Get sublist of referenced_subgraphs with a certain ID.</p>
               <section>
                 <h4>Parameter</h4>
                 <table class="jsdoc-details-table">
@@ -409,23 +426,52 @@
               <dl class="dl-compact">
                 <dt>Returns</dt>
                 <dd>
-                  <p><code>Array</code>&nbsp;list of referenced_individuals with that ID</p>
+                  <p><code>Array</code>&nbsp;list of referenced_subgraphs with that ID</p>
                 </dd>
               </dl>
-              <h3 id="~get_referenced_individual_profiles"><div class="symbol-detail-labels"><span class="label label-inner">inner</span></div><span class="symbol-name">get_referenced_individual_profiles</span><span class="signature"><span class="signature-params">()</span>&nbsp;&rarr; <span class="signature-returns"> Array</span></span></h3>
+              <h3 id="~get_referenced_subgraph_profiles"><div class="symbol-detail-labels"><span class="label label-inner">inner</span></div><span class="symbol-name">get_referenced_subgraph_profiles</span><span class="signature"><span class="signature-params">([extractor])</span>&nbsp;&rarr; <span class="signature-returns"> Array</span></span></h3>
               <p>Returns a list with the following structure:</p>
               <p>: [ { id:
                 <ID>, : class_expressions: [{class_expression}, ...], : anntations: [{annotation}, ...] }, : ... : ]</p>
-              <p>Each top-level element in the list represents the core information of a single referenced individual for a node or edge in this model.</p>
-              <p>Keep in mind that this may be most useful in the GO Noctua use case where evidence is uniformly modeled as (a) referenced individual(s), where the class(es) are evidence and the annotations keep things such as source (e.g. PMID), etc.</p>
+              <p>Each top-level element in the list represents the core information of a single referenced graph for a node or edge in this model.</p>
+              <p>Keep in mind that this may be most useful in the GO Noctua use case as reference subgraphs with singleton elements, where the class(es) are evidence and the annotations keep things such as source (e.g. PMID), etc.</p>
+              <section>
+                <h4>Parameter</h4>
+                <table class="jsdoc-details-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Type</th>
+                      <th>Optional</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <p>extractor</p>
+                      </td>
+                      <td>
+                        <p>function()</p>
+                      </td>
+                      <td>
+                        <p>Yes</p>
+                      </td>
+                      <td>
+                        <p>extraction functions to use instead of default</p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
               <dl class="dl-compact">
                 <dt>Returns</dt>
                 <dd>
-                  <p><code>Array</code>&nbsp;list of referenced_individual information.</p>
+                  <p><code>Array</code>&nbsp;list of referenced_individual information</p>
                 </dd>
               </dl>
-              <h3 id="~get_referenced_individuals_by_filter"><div class="symbol-detail-labels"><span class="label label-inner">inner</span></div><span class="symbol-name">get_referenced_individuals_by_filter</span><span class="signature"><span class="signature-params">(filter)</span>&nbsp;&rarr; <span class="signature-returns"> Array</span></span></h3>
-              <p>Get a sublist of referenced individuals using the filter function. The filter function take a single individual as an argument, and adds to the return list if it evaluates to true.</p>
+              <h3 id="~get_referenced_subgraphs_by_filter"><div class="symbol-detail-labels"><span class="label label-inner">inner</span></div><span class="symbol-name">get_referenced_subgraphs_by_filter</span><span class="signature"><span class="signature-params">(filter)</span>&nbsp;&rarr; <span class="signature-returns"> Array</span></span></h3>
+              <p>Get a sublist of referenced subgraphs using the filter function. The filter function take a single subgraph as an argument, and adds it to the return list if it evaluates to true.</p>
               <section>
                 <h4>Parameter</h4>
                 <table class="jsdoc-details-table">
@@ -458,12 +504,12 @@
               <dl class="dl-compact">
                 <dt>Returns</dt>
                 <dd>
-                  <p><code>Array</code>&nbsp;list of passing individuals</p>
+                  <p><code>Array</code>&nbsp;list of passing subgraphs</p>
                 </dd>
               </dl>
-              <h3 id="~referenced_individuals"><div class="symbol-detail-labels"><span class="label label-inner">inner</span></div><span class="symbol-name">referenced_individuals</span><span class="signature"><span class="signature-params">([indivs])</span>&nbsp;&rarr; <span class="signature-returns"> Array</span></span></h3>
-              <p>Get/set referenced individual list.</p>
-              <p>Also, changes type to &quot;referenced&quot; from (probably) node.</p>
+              <h3 id="~referenced_subgraph"><div class="symbol-detail-labels"><span class="label label-inner">inner</span></div><span class="symbol-name">referenced_subgraph</span><span class="signature"><span class="signature-params">([subgraphs])</span>&nbsp;&rarr; <span class="signature-returns"> Array</span></span></h3>
+              <p>Get/set referenced subgraph list.</p>
+              <p>Copies in new data.</p>
               <section>
                 <h4>Parameter</h4>
                 <table class="jsdoc-details-table">
@@ -478,7 +524,7 @@
                   <tbody>
                     <tr>
                       <td>
-                        <p>indivs</p>
+                        <p>subgraphs</p>
                       </td>
                       <td>
                         <p>Array</p>
@@ -487,7 +533,7 @@
                         <p>Yes</p>
                       </td>
                       <td>
-                        <p>list of {node} to clobber current list</p>
+                        <p>list of {graph} to clobber current list</p>
                       </td>
                     </tr>
                   </tbody>
@@ -496,7 +542,7 @@
               <dl class="dl-compact">
                 <dt>Returns</dt>
                 <dd>
-                  <p><code>Array</code>&nbsp;list of all referenced individuals</p>
+                  <p><code>Array</code>&nbsp;list of all referenced subgraphs</p>
                 </dd>
               </dl>
             </section>
@@ -509,7 +555,7 @@
   <footer id="jsdoc-footer" class="jsdoc-footer">
     <div id="jsdoc-footer-container">
       <p>
-        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc</a> 3.3.0 on July 21, 2015.
+        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc</a> 3.3.0 on July 27, 2015.
       </p>
     </div>
   </footer>
