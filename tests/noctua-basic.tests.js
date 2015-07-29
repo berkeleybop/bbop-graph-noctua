@@ -19,7 +19,7 @@ var each = us.each;
 ///
 
 function _get_standard_graph(){
-    var raw_resp = require('./minerva-02.json');
+    var raw_resp = require('./minerva-03.json');
     var g = new model.graph();
     g.load_data_basic(raw_resp['data']);
     return g;
@@ -27,12 +27,11 @@ function _get_standard_graph(){
 
 // Should lead to "physical interaction evidence"
 var model_a = 'gomodel:5525a0fc00000001';
-var seed_a =
-	"http://purl.obolibrary.org/obo/#5525a0fc00000001%2F5595c4cb00000425";
+var seed_a = "obo:#5525a0fc00000001%2F5595c4cb00000425";
 // The one leaf in the graph ("protein binding").
-var leaf_a = 'http://model.geneontology.org/5525a0fc00000001/5525a0fc0000023';
+var leaf_a = 'gomodel:5525a0fc00000001\/5525a0fc0000023';
 // Bub2.
-var node_a = 'http://purl.obolibrary.org/obo/#5525a0fc00000001%2F5595c4cb00000431';
+var node_a = 'obo:#5525a0fc00000001%2F5595c4cb00000431';
 
 ///
 /// Tests.
@@ -369,32 +368,32 @@ describe('abbreviate graph as expected in go noctua loader', function(){
     });
 });
 
-// describe("let's take a close look at types and inferred types", function(){
+describe("let's take a close look at types and inferred types", function(){
 
-//     it('are they working as expected?', function(){	
+    it('are they working as expected?', function(){	
 
-// 	// Setup.
-// 	var g = _get_standard_graph();
-// 	var rellist = ['RO:0002333', 'BFO:0000066'];
-// 	g.fold_go_noctua(rellist);
+	// Setup.
+	var g = _get_standard_graph();
+	var rellist = ['RO:0002333', 'BFO:0000066'];
+	g.fold_go_noctua(rellist);
 
-// 	var nid = leaf_a;
-// 	var n = g.get_node(nid);	
+	var nid = leaf_a;
+	var n = g.get_node(nid);	
 
-// 	//console.log('type:', n.types());
-// 	//console.log('inferred type:', n.inferred_types());
+	//console.log('type:', n.types());
+	//console.log('inferred type:', n.inferred_types());
 
-// 	assert.equal(n.types().length, 1, 'one std');
-// 	assert.equal(n.inferred_types().length, 2, 'two inferred');
-// 	assert.equal(n.get_unique_inferred_types().length, 1,
-// 		     'one unique inferred');
-// 	assert.equal(n.types()[0].class_id(), 'GO:0005515',
-// 		     'std class id');
-// 	assert.equal(n.get_unique_inferred_types()[0].class_id(), 'GO:0098772',
-// 		     'one unique inferred class id');
+	assert.equal(n.types().length, 1, 'one std');
+	assert.equal(n.inferred_types().length, 2, 'two inferred');
+	assert.equal(n.get_unique_inferred_types().length, 1,
+		     'one unique inferred');
+	assert.equal(n.types()[0].class_id(), 'GO:0005515',
+		     'std class id');
+	assert.equal(n.get_unique_inferred_types()[0].class_id(), 'GO:0098772',
+		     'one unique inferred class id');
 
-//     });
-// });
+    });
+});
 
 describe("clobbering updating", function(){
 
@@ -531,18 +530,16 @@ describe("unfolding works", function(){
 	var n = g.get_node(nid);	
 	assert.equal(n.types().length, 1, 'one std');
 	// Currently dealing with possibly bad data in minerva-02.json
-	//assert.equal(n.inferred_types().length, 2, 'two inferred');
-	assert.equal(n.inferred_types().length, 0, 'two inferred');
+	assert.equal(n.inferred_types().length, 2, 'two inferred');
+
 	// Ditto
-	// assert.equal(n.get_unique_inferred_types().length, 1,
-	// 	     'one unique inferred');
-	assert.equal(n.get_unique_inferred_types().length, 0,
+	assert.equal(n.get_unique_inferred_types().length, 1,
 		     'one unique inferred');
 	assert.equal(n.types()[0].class_id(), 'GO:0005515',
 		     'std class id');
 	// Ditto.
-	// assert.equal(n.get_unique_inferred_types()[0].class_id(), 'GO:0098772',
-	// 	     'one unique inferred class id');
+	assert.equal(n.get_unique_inferred_types()[0].class_id(), 'GO:0098772',
+		     'one unique inferred class id');
     });
 });
 
