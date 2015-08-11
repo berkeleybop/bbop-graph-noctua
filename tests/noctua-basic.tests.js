@@ -637,6 +637,65 @@ describe("new evidence operations", function(){
     });
 });
 
+describe("inconsistent_p and modified_p", function(){
+
+    it('would expect them not to usually be defined', function(){
+
+	// Setup.
+	var g = _get_standard_graph();
+
+	//
+	assert.equal(g.inconsistent_p(), null, "consistency unknown");
+	assert.equal(g.modified_p(), null, "modification unknown");
+    });
+
+    it('goose setup so they are false', function(){
+
+	// Setup.
+	var raw_resp = require('./minerva-03.json');
+	raw_resp['data']['inconsistent-p'] = false;
+	raw_resp['data']['modified-p'] = false;
+	var g = new model.graph();
+	g.load_data_basic(raw_resp['data']);
+
+	//
+	assert.equal(g.inconsistent_p(), false, "consistency false");
+	assert.equal(g.modified_p(), false, "modification false");
+    });
+
+    it('goose setup so they are true', function(){
+
+	// Setup.
+	var raw_resp = require('./minerva-03.json');
+	raw_resp['data']['inconsistent-p'] = true;
+	raw_resp['data']['modified-p'] = true;
+	var g = new model.graph();
+	g.load_data_basic(raw_resp['data']);
+
+	//
+	assert.equal(g.inconsistent_p(), true, "consistency true");
+	assert.equal(g.modified_p(), true, "modification true");
+    });
+
+    it('make sure truth survives a cloning', function(){
+
+	// Setup.
+	var raw_resp = require('./minerva-03.json');
+	raw_resp['data']['inconsistent-p'] = true;
+	raw_resp['data']['modified-p'] = true;
+	var g = new model.graph();
+	g.load_data_basic(raw_resp['data']);
+
+	var c = g.clone()
+
+	//
+	assert.equal(c.inconsistent_p(), true, "clone consistency true");
+	assert.equal(c.modified_p(), true, "clone modification true");
+    });
+
+});
+
+
 // var assert = require('chai').assert;
 // var model = new require('..');
 // var us = require('underscore');
