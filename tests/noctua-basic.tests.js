@@ -686,7 +686,7 @@ describe("inconsistent_p and modified_p", function(){
 	var g = new model.graph();
 	g.load_data_basic(raw_resp['data']);
 
-	var c = g.clone()
+	var c = g.clone();
 
 	//
 	assert.equal(c.inconsistent_p(), true, "clone consistency true");
@@ -695,6 +695,33 @@ describe("inconsistent_p and modified_p", function(){
 
 });
 
+
+describe("folding and unfolding of second-order evidence", function(){
+
+    it('model is folded & unfold, all individuals should be there', function(){
+
+	var raw_resp = require('./minerva-04.json');
+	var g = new model.graph();
+	g.load_data_basic(raw_resp['data']);
+
+	// Make sure we're starting at a sane point...
+	assert.equal(g.all_nodes().length, 8, "all nodes accounted for");
+	assert.equal(g.all_edges().length, 3, "all edges accounted for");
+	
+	// ...and that fold compacts most out of existance.
+	var rellist = ['RO:0002333', 'BFO:0000066'];
+	g.fold_go_noctua(rellist);
+	assert.equal(g.all_nodes().length, 2, "less nodes in full fold");
+	assert.equal(g.all_edges().length, 1, "less edges in full fold");
+	
+	// Now try and unfold.
+	g.unfold();
+	assert.equal(g.all_nodes().length, 8, "all nodes returned");
+	assert.equal(g.all_edges().length, 3, "all edges returned");
+	
+    });
+    
+});
 
 // var assert = require('chai').assert;
 // var model = new require('..');
