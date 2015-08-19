@@ -723,6 +723,33 @@ describe("folding and unfolding of second-order evidence", function(){
     
 });
 
+describe("new issues in recent data", function(){
+
+    it('model is folded and all possible subgraphs should be taken', function(){
+
+	var raw_resp = require('./minerva-05.json');
+	var g = new model.graph();
+	g.load_data_basic(raw_resp['data']);
+
+	// Make sure we're starting at a sane point...
+	assert.equal(g.all_nodes().length, 15, "all nodes accounted for");
+	assert.equal(g.all_edges().length, 7, "all edges accounted for");
+	
+	// And simple evidence fold is fine.
+	g.fold_evidence();
+	assert.equal(g.all_nodes().length, 10, "less nodes in evidence fold");
+	assert.equal(g.all_edges().length, 7, "less edges in evidence fold");
+
+	// ...and this fold compacts most out of existance.
+	var rellist = ['RO:0002333', 'BFO:0000066', 'RO:0002233', 'RO:0002488'];
+	g.fold_go_noctua(rellist);
+	assert.equal(g.all_nodes().length, 6, "few nodes in noctua fold");
+	assert.equal(g.all_edges().length, 3, "few edges in noctua fold");
+	
+    });
+    
+});
+
 // var assert = require('chai').assert;
 // var model = new require('..');
 // var us = require('underscore');
