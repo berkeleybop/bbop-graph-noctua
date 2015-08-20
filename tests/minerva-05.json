@@ -1,5 +1,5 @@
 {
-    "packet-id": "429f3529c6a7b15",
+    "packet-id": "443a6e263a9b0e",
     "uid": "GOC:kltm",
     "intention": "query",
     "signal": "rebuild",
@@ -35,10 +35,25 @@
             },
             {
                 "key": "date",
-                "value": "2015-08-18"
+                "value": "2015-08-19"
             }
         ],
         "facts": [
+            {
+                "subject": "gomodel:55ad81df00000001/55ad81df00000004",
+                "property": "RO:0002333",
+                "object": "gomodel:55ad81df00000001/55ad81df00000005",
+                "annotations": [
+                    {
+                        "key": "contributor",
+                        "value": "GOC:sjc"
+                    },
+                    {
+                        "key": "date",
+                        "value": "2015-07-20"
+                    }
+                ]
+            },
             {
                 "subject": "gomodel:55ad81df00000001/55d23de300000002",
                 "property": "BFO:0000066",
@@ -55,24 +70,9 @@
                 ]
             },
             {
-                "subject": "gomodel:55ad81df00000001/55d23de300000005",
-                "property": "RO:0002333",
-                "object": "gomodel:55ad81df00000001/55d23de300000006",
-                "annotations": [
-                    {
-                        "key": "contributor",
-                        "value": "http://orcid.org/0000-0002-6601-2165"
-                    },
-                    {
-                        "key": "date",
-                        "value": "2015-08-18"
-                    }
-                ]
-            },
-            {
                 "subject": "gomodel:55ad81df00000001/55ad81df00000004",
-                "property": "RO:0002333",
-                "object": "gomodel:55ad81df00000001/55ad81df00000005",
+                "property": "BFO:0000050",
+                "object": "gomodel:55ad81df00000001/55afdcd900000001",
                 "annotations": [
                     {
                         "key": "contributor",
@@ -80,7 +80,7 @@
                     },
                     {
                         "key": "date",
-                        "value": "2015-07-20"
+                        "value": "2015-07-22"
                     }
                 ]
             },
@@ -109,36 +109,6 @@
                 ]
             },
             {
-                "subject": "gomodel:55ad81df00000001/55ad81df00000004",
-                "property": "BFO:0000050",
-                "object": "gomodel:55ad81df00000001/55afdcd900000001",
-                "annotations": [
-                    {
-                        "key": "contributor",
-                        "value": "GOC:sjc"
-                    },
-                    {
-                        "key": "date",
-                        "value": "2015-07-22"
-                    }
-                ]
-            },
-            {
-                "subject": "gomodel:55ad81df00000001/55d23de300000005",
-                "property": "BFO:0000066",
-                "object": "gomodel:55ad81df00000001/55d23de300000007",
-                "annotations": [
-                    {
-                        "key": "contributor",
-                        "value": "http://orcid.org/0000-0002-6601-2165"
-                    },
-                    {
-                        "key": "date",
-                        "value": "2015-08-18"
-                    }
-                ]
-            },
-            {
                 "subject": "gomodel:55ad81df00000001/55d23de300000002",
                 "property": "RO:0002333",
                 "object": "gomodel:55ad81df00000001/55d23de300000003",
@@ -160,30 +130,6 @@
             }
         ],
         "individuals": [
-            {
-                "id": "gomodel:55ad81df00000001/55d23de300000008",
-                "type": [
-                    {
-                        "type": "class",
-                        "id": "ECO:0000176",
-                        "label": "mutant visible phenotype evidence"
-                    }
-                ],
-                "annotations": [
-                    {
-                        "key": "date",
-                        "value": "2015-08-18"
-                    },
-                    {
-                        "key": "source",
-                        "value": "CJM:123"
-                    },
-                    {
-                        "key": "contributor",
-                        "value": "http://orcid.org/0000-0002-6601-2165"
-                    }
-                ]
-            },
             {
                 "id": "gomodel:55ad81df00000001/55d24a8b00000003",
                 "type": [
@@ -231,47 +177,52 @@
                         "value": "2015-08-17"
                     },
                     {
-                        "key": "contributor",
-                        "value": "GOC:kltm"
+                        "key": "source",
+                        "value": "PMID:9999999"
                     },
                     {
                         "key": "hint-layout-x",
                         "value": "199"
                     },
                     {
-                        "key": "source",
-                        "value": "PMID:9999999"
-                    },
-                    {
                         "key": "hint-layout-y",
                         "value": "309"
+                    },
+                    {
+                        "key": "contributor",
+                        "value": "GOC:kltm"
                     }
                 ]
             },
             {
-                "id": "gomodel:55ad81df00000001/55d23de300000007",
+                "id": "gomodel:55ad81df00000001/55d24a8b00000001",
                 "type": [
                     {
                         "type": "class",
-                        "id": "UBERON:0010403"
+                        "id": "ECO:0000034",
+                        "label": "non-traceable author statement"
                     }
                 ],
                 "annotations": [
                     {
-                        "key": "contributor",
-                        "value": "http://orcid.org/0000-0002-6601-2165"
+                        "key": "hint-layout-x",
+                        "value": "45"
                     },
                     {
                         "key": "hint-layout-y",
-                        "value": "356"
+                        "value": "10"
+                    },
+                    {
+                        "key": "contributor",
+                        "value": "GOC:kltm"
                     },
                     {
                         "key": "date",
-                        "value": "2015-08-18"
+                        "value": "2015-08-17"
                     },
                     {
-                        "key": "hint-layout-x",
-                        "value": "898"
+                        "key": "source",
+                        "value": "PMID:0000000"
                     }
                 ]
             },
@@ -312,39 +263,12 @@
                 ]
             },
             {
-                "id": "gomodel:55ad81df00000001/55d23de300000005",
-                "type": [
-                    {
-                        "type": "class",
-                        "id": "GO:0038040",
-                        "label": "cross-receptor activation within G-protein coupled receptor heterodimer"
-                    }
-                ],
-                "annotations": [
-                    {
-                        "key": "hint-layout-y",
-                        "value": "139"
-                    },
-                    {
-                        "key": "hint-layout-x",
-                        "value": "931"
-                    },
-                    {
-                        "key": "date",
-                        "value": "2015-08-18"
-                    },
-                    {
-                        "key": "contributor",
-                        "value": "http://orcid.org/0000-0002-6601-2165"
-                    }
-                ]
-            },
-            {
                 "id": "gomodel:55ad81df00000001/55d23de300000004",
                 "type": [
                     {
                         "type": "class",
-                        "id": "UBERON:0010403"
+                        "id": "UBERON:0010403",
+                        "label": "brain marginal zone"
                     }
                 ],
                 "annotations": [
@@ -423,62 +347,26 @@
                 ]
             },
             {
-                "id": "gomodel:55ad81df00000001/55d23de300000006",
+                "id": "gomodel:55ad81df00000001/55d23de300000008",
                 "type": [
                     {
                         "type": "class",
-                        "id": "PseudoCAP:PA1528",
-                        "label": "zipA"
+                        "id": "ECO:0000176",
+                        "label": "mutant visible phenotype evidence"
                     }
                 ],
                 "annotations": [
-                    {
-                        "key": "contributor",
-                        "value": "http://orcid.org/0000-0002-6601-2165"
-                    },
-                    {
-                        "key": "hint-layout-x",
-                        "value": "1200"
-                    },
                     {
                         "key": "date",
                         "value": "2015-08-18"
                     },
                     {
-                        "key": "hint-layout-y",
-                        "value": "75"
-                    }
-                ]
-            },
-            {
-                "id": "gomodel:55ad81df00000001/55d24a8b00000001",
-                "type": [
-                    {
-                        "type": "class",
-                        "id": "ECO:0000034",
-                        "label": "non-traceable author statement"
-                    }
-                ],
-                "annotations": [
-                    {
-                        "key": "hint-layout-x",
-                        "value": "45"
-                    },
-                    {
-                        "key": "hint-layout-y",
-                        "value": "10"
-                    },
-                    {
                         "key": "source",
-                        "value": "PMID:0000000"
+                        "value": "CJM:123"
                     },
                     {
                         "key": "contributor",
-                        "value": "GOC:kltm"
-                    },
-                    {
-                        "key": "date",
-                        "value": "2015-08-17"
+                        "value": "http://orcid.org/0000-0002-6601-2165"
                     }
                 ]
             },
@@ -493,16 +381,16 @@
                 ],
                 "annotations": [
                     {
-                        "key": "date",
-                        "value": "2015-08-17"
-                    },
-                    {
                         "key": "contributor",
                         "value": "GOC:kltm"
                     },
                     {
                         "key": "hint-layout-x",
                         "value": "17"
+                    },
+                    {
+                        "key": "date",
+                        "value": "2015-08-17"
                     },
                     {
                         "key": "hint-layout-y",
