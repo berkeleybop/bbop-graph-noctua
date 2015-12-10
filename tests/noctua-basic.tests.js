@@ -795,6 +795,49 @@ describe("new issues in recent data", function(){
     
 });
 
+describe("looking at how (un)folding would work in reverse world", function(){
+
+    it('model is folded, including reverses, and subgraphs should be absorbed, unfolding', function(){
+
+    	var raw_resp = require('./minerva-05.json');
+    	var g = new model.graph();
+    	g.load_data_basic(raw_resp['data']);
+    	//g.report_state(); console.log('');
+
+    	// Make sure we're starting at a sane point...
+    	assert.equal(g.all_nodes().length, 12, "all nodes accounted for (1)");
+    	assert.equal(g.all_edges().length, 5, "all edges accounted for (1)");
+	
+    	// And check.
+    	g.unfold();
+    	//g.report_state(); console.log('');
+    	assert.equal(g.all_nodes().length, 12, "all nodes accounted for (2)");
+    	assert.equal(g.all_edges().length, 5, "all edges accounted for (2)");	
+
+    	// And simple evidence fold is fine.
+    	g.fold_evidence();
+    	//g.report_state(); console.log('');
+    	assert.equal(g.all_nodes().length, 7, "less nodes in evidence fold");
+    	assert.equal(g.all_edges().length, 5, "less edges in evidence fold");
+
+    	// And check.
+    	g.unfold();
+    	//g.report_state(); console.log('');
+    	assert.equal(g.all_nodes().length, 12, "all nodes accounted for (3)");
+    	assert.equal(g.all_edges().length, 5, "all edges accounted for (3)");	
+
+    	// ...and this fold compacts most out of existance.
+    	var rellist = ['RO:0002333', 'BFO:0000066', 'RO:0002233', 'RO:0002488'];
+    	var revrellist = ['BFO:0000051'];
+    	g.fold_go_noctua(rellist, revrellist);
+    	//g.report_state(); console.log('');
+    	assert.equal(g.all_nodes().length, 3, "few nodes in noctua fold");
+    	assert.equal(g.all_edges().length, 1, "few edges in noctua fold");
+	
+    });
+    
+});
+
 // var assert = require('chai').assert;
 // var model = new require('..');
 // var us = require('underscore');
