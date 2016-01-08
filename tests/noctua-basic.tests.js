@@ -732,8 +732,8 @@ describe("new issues in recent data", function(){
     	g.load_data_basic(raw_resp['data']);
 
     	// Make sure we're starting at a sane point...
-    	assert.equal(g.all_nodes().length, 12, "all nodes accounted for (1)");
-    	assert.equal(g.all_edges().length, 5, "all edges accounted for (1)");
+    	assert.equal(g.all_nodes().length, 12, "all nodes accounted for (12)");
+    	assert.equal(g.all_edges().length, 5, "all edges accounted for (5)");
 	
     	// And simple evidence fold is fine.
     	g.fold_evidence();
@@ -763,14 +763,14 @@ describe("new issues in recent data", function(){
     	//g.report_state(); console.log('');
 
     	// Make sure we're starting at a sane point...
-    	assert.equal(g.all_nodes().length, 12, "all nodes accounted for (1)");
-    	assert.equal(g.all_edges().length, 5, "all edges accounted for (1)");
+    	assert.equal(g.all_nodes().length, 12, "all nodes accounted for (12)");
+    	assert.equal(g.all_edges().length, 5, "all edges accounted for (5)");
 	
     	// And check.
     	g.unfold();
     	//g.report_state(); console.log('');
-    	assert.equal(g.all_nodes().length, 12, "all nodes accounted for (2)");
-    	assert.equal(g.all_edges().length, 5, "all edges accounted for (2)");	
+    	assert.equal(g.all_nodes().length, 12, "all nodes accounted for (12)");
+    	assert.equal(g.all_edges().length, 5, "all edges accounted for (5)");	
 
     	// And simple evidence fold is fine.
     	g.fold_evidence();
@@ -781,8 +781,8 @@ describe("new issues in recent data", function(){
     	// And check.
     	g.unfold();
     	//g.report_state(); console.log('');
-    	assert.equal(g.all_nodes().length, 12, "all nodes accounted for (3)");
-    	assert.equal(g.all_edges().length, 5, "all edges accounted for (3)");	
+    	assert.equal(g.all_nodes().length, 12, "all nodes accounted for (12)");
+    	assert.equal(g.all_edges().length, 5, "all edges accounted for (5)");	
 
     	// ...and this fold compacts most out of existance.
     	var rellist = ['RO:0002333', 'BFO:0000066', 'RO:0002233', 'RO:0002488'];
@@ -805,14 +805,14 @@ describe("looking at how (un)folding would work in reverse world", function(){
     	//g.report_state(); console.log('');
 
     	// Make sure we're starting at a sane point...
-    	assert.equal(g.all_nodes().length, 12, "all nodes accounted for (1)");
-    	assert.equal(g.all_edges().length, 5, "all edges accounted for (1)");
+    	assert.equal(g.all_nodes().length, 12, "all nodes accounted for (12)");
+    	assert.equal(g.all_edges().length, 5, "all edges accounted for (5)");
 	
     	// And check.
     	g.unfold();
     	//g.report_state(); console.log('');
-    	assert.equal(g.all_nodes().length, 12, "all nodes accounted for (2)");
-    	assert.equal(g.all_edges().length, 5, "all edges accounted for (2)");	
+    	assert.equal(g.all_nodes().length, 12, "all nodes accounted for (12)");
+    	assert.equal(g.all_edges().length, 5, "all edges accounted for (5)");	
 
     	// And simple evidence fold is fine.
     	g.fold_evidence();
@@ -823,8 +823,8 @@ describe("looking at how (un)folding would work in reverse world", function(){
     	// And check.
     	g.unfold();
     	//g.report_state(); console.log('');
-    	assert.equal(g.all_nodes().length, 12, "all nodes accounted for (3)");
-    	assert.equal(g.all_edges().length, 5, "all edges accounted for (3)");	
+    	assert.equal(g.all_nodes().length, 12, "all nodes accounted for (12)");
+    	assert.equal(g.all_edges().length, 5, "all edges accounted for (5)");	
 
     	// ...and this fold compacts most out of existance.
     	var rellist = ['RO:0002333', 'BFO:0000066', 'RO:0002233', 'RO:0002488'];
@@ -834,6 +834,31 @@ describe("looking at how (un)folding would work in reverse world", function(){
     	assert.equal(g.all_nodes().length, 3, "few nodes in noctua fold");
     	assert.equal(g.all_edges().length, 1, "few edges in noctua fold");
 	
+    });
+    
+});
+
+describe("looking at another real-world example of inferred types", function(){
+
+    it('simple model, should be able to get inferred type', function(){
+
+    	var raw_resp = require('./minerva-06.json');
+    	var g = new model.graph();
+    	g.load_data_basic(raw_resp['data']);
+    	//g.report_state(); console.log('');
+
+    	// Make sure we're starting at a sane point...
+    	assert.equal(g.all_nodes().length, 2, "all nodes accounted for (2)");
+    	assert.equal(g.all_edges().length, 1, "all edges accounted for (1)");
+	
+	// And that we've picked up the right number of inferred types.
+	var inf_total = 0;
+	us.each(g.all_nodes(), function(enode){
+	    var inf_types = enode.get_unique_inferred_types();
+	    inf_total = inf_total + inf_types.length;
+	});
+	assert.equal(inf_total, 1, 'there shoud be exactly 1 inferred type');
+
     });
     
 });
