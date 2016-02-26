@@ -863,6 +863,23 @@ describe("looking at another real-world example of inferred types", function(){
     
 });
 
+describe("try looking at edge labels in minerva wire protocol", function(){
+
+    it('edge labels during creation', function(){
+
+    	var raw_resp = require('./minerva-07.json');
+    	var g = new model.graph();
+    	g.load_data_basic(raw_resp['data']);
+    	//g.report_state(); console.log('');
+
+    	// Make sure we're starting at a sane point...
+	var an_edge = g.all_edges()[0];
+    	assert.isNotNull(an_edge.label(), "label is there");
+    	assert.notEqual(an_edge.id(), an_edge.label(), "label != id");
+    });
+    
+});
+
 // var assert = require('chai').assert;
 // var model = new require('..');
 // var us = require('underscore');
