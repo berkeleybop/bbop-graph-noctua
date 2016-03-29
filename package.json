@@ -30,7 +30,7 @@
     },
     "dependencies": {
         "bbop-core": "0.0.5",
-        "bbop-graph": "0.0.18",
+        "bbop-graph": "0.0.19",
         "class-expression": "0.0.11",
         "underscore": "1.8.3"
     },
