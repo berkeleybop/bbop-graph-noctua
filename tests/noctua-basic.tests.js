@@ -885,6 +885,8 @@ describe("try looking at edge labels in minerva wire protocol", function(){
 // var us = require('underscore');
 // var each = us.each;
 // var keys = us.keys;
-// var raw_resp = require('./minerva-01.json');
+// var raw_resp = require('./minerva-07.json');
 // var g = new model.graph();
-// g.load_data_fold_evidence(raw_resp['data']);
+// g.load_data_basic(raw_resp['data']);
+// g.fold_go_noctua()
+// var p = us.map(g.all_edges(), function(x){ return x.get_referenced_subgraph_profiles(); })[0][0]
