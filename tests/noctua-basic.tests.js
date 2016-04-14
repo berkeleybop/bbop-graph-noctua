@@ -880,6 +880,74 @@ describe("try looking at edge labels in minerva wire protocol", function(){
     
 });
 
+describe("more evidence extraction", function(){
+
+    it('edge labels during creation', function(){
+
+    	var raw_resp = require('./minerva-08.json');
+    	var g = new model.graph();
+    	g.load_data_basic(raw_resp['data']);
+    	//g.report_state(); console.log('');
+
+	var all_evidence_profiles = [];
+	g.fold_evidence();
+	us.each(g.all_edges(), function(e){
+	    var profs = e.get_referenced_subgraph_profiles();
+	    if( profs && profs.length > 0 ){
+		us.each(profs, function(p){
+		    all_evidence_profiles.push(p);
+		});
+	    }
+	});
+
+    	assert.equal(all_evidence_profiles.length, 44, "should be 44 profiles");
+
+	var ce_cache = {};
+	us.each(all_evidence_profiles, function(prof){
+	    
+	    // Mine out class expressions..
+	    //var cln_ce_str = [];
+	    //var cln_ce = [];
+	    us.each(prof.class_expressions, function(ce){
+		//cln_ce.push(ce.class_id());
+		//cln_ce_str.push(ce.to_string_plus());
+		//console.log(ce);
+		// Uniquify
+		ce_cache[ce.class_id()] = true;
+	    });
+	});
+	
+	//console.log(ce_cache);
+    	assert.equal(us.keys(ce_cache).length, 4, "should be 4 ev classes");
+
+    });
+
+    it('edge labels during creation (clone)', function(){
+
+    	var raw_resp = require('./minerva-08.json');
+    	var g = new model.graph();
+    	g.load_data_basic(raw_resp['data']);
+    	//g.report_state(); console.log('');
+
+     	var all_evidence_profiles = [];
+    	var rellist = ['RO:0002333', 'BFO:0000066', 'RO:0002233', 'RO:0002488'];
+    	var revrellist = ['BFO:0000051'];
+    	g.fold_go_noctua(rellist, revrellist);
+    	us.each(g.all_edges(), function(e){
+    	    var profs = e.get_referenced_subgraph_profiles();
+    	    if( profs && profs.length > 0 ){
+    		us.each(profs, function(p){
+    		    all_evidence_profiles.push(p);
+    		});
+    	    }
+    	});
+
+    	assert.equal(all_evidence_profiles.length, 15,
+		     "should be waaay less findable profiles");
+
+    });
+});
+    
 // var assert = require('chai').assert;
 // var model = new require('..');
 // var us = require('underscore');
