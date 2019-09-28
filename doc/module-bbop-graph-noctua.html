@@ -1,571 +1,2007 @@
-<!doctype html>
-<html>
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta name="generator" content="JSDoc 3.3.0">
-  <meta charset="utf-8">
-  <title>Module: bbop-graph-noctua</title>
-  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Karla:400,400i,700,700i" type="text/css">
-  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Noto+Serif:400,400i,700,700i" type="text/css">
-  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Inconsolata:500" type="text/css">
-  <link href="css/baseline.css" rel="stylesheet">
+    <meta charset="utf-8">
+    <title>JSDoc: Module: bbop-graph-noctua</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
 </head>
 
-<body onload="prettyPrint()">
-  <nav id="jsdoc-navbar" role="navigation" class="jsdoc-navbar">
-    <div id="jsdoc-navbar-container">
-      <div id="jsdoc-navbar-content">
-        <a href="index.html" class="jsdoc-navbar-package-name">Home</a>
-      </div>
-    </div>
-  </nav>
-  <div id="jsdoc-body-container">
-    <div id="jsdoc-content">
-      <div id="jsdoc-content-container">
-        <div id="jsdoc-main" role="main">
-          <header class="page-header">
-            <h1><div class="symbol-detail-labels"><span class="label label-kind">module</span></div><small></small><span class="symbol-name">bbop-graph-noctua</span></h1>
-            <p class="source-link">Source: <a href="edit.js.html">edit.<wbr>js</a></p>
-            <div class="symbol-description">
-              <p>Purpose: Noctua editing operations ove a bbop-graph base.</p>
-              <p>The base pieces are just subclasses of their analogs in bbop-graph.</p>
-              <p>Now, a discussion if the structure an terminology of the evidence model.
-              </p>
-              <p>Definitions:</p>
-              <ul>
-                <li>&quot;model&quot;: the graph model as a whole</li>
-                <li>&quot;seed&quot;: an evidence instance that is referenced ; a seed may only belong to a single clique</li>
-                <li>&quot;sub_clique&quot;: the evidence subgraph pattern built off of a seed</li>
-                <li>&quot;clique&quot; the complete evidence subgraph, obtained by walking all edges from any node in it (should be same no matter what node)</li>
-                <li>&quot;shared_struct&quot;: (currently) nodes of the clique that may be shared between different sub_cliques; for now, just pmid nodes</li>
-              </ul>
-              <p>Rules:</p>
-              <p>A clique may only be removed from the graph, with its constitutent sub_cliques contained as referenced subgraphs, when:
-              </p>
-              <ul>
-                <li>all constituent sub_cliques have the &quot;correct&quot; structure</li>
-                <li>all clique nodes are in at least one sub_clique</li>
-                <li>sub_cliques only share structure in shared_struct nodes</li>
-              </ul>
-            </div>
-            <dl class="dl-compact">
-            </dl>
-          </header>
-          <section id="summary">
-            <div class="summary-callout">
-              <h2 class="summary-callout-heading">Child class</h2>
-              <div class="summary-content">
-                <div class="summary-column">
-                  <dl class="dl-summary-callout">
-                    <dt><a href="module-bbop-graph-noctua-annotation.html">annotation([kv_set])</a></dt>
-                    <dd>
-                    </dd>
-                  </dl>
-                </div>
-                <div class="summary-column">
-                </div>
-                <div class="summary-column">
-                </div>
-              </div>
-            </div>
-            <div class="summary-callout">
-              <h2 class="summary-callout-heading">Methods</h2>
-              <div class="summary-content">
-                <div class="summary-column">
-                  <dl class="dl-summary-callout">
-                    <dt><a href="module-bbop-graph-noctua.html#~add_annotation">add_annotation(in_ann)</a></dt>
-                    <dd>
-                    </dd>
-                    <dt><a href="module-bbop-graph-noctua.html#~add_referenced_subgraph">add_referenced_subgraph(subgraph)</a></dt>
-                    <dd>
-                    </dd>
-                    <dt><a href="module-bbop-graph-noctua.html#~annotations">annotations([in_anns])</a></dt>
-                    <dd>
-                    </dd>
-                    <dt><a href="module-bbop-graph-noctua.html#~get_annotations_by_filter">get_annotations_by_filter(filter)</a></dt>
-                    <dd>
-                    </dd>
-                  </dl>
-                </div>
-                <div class="summary-column">
-                  <dl class="dl-summary-callout">
-                    <dt><a href="module-bbop-graph-noctua.html#~get_annotations_by_id">get_annotations_by_id(aid)</a></dt>
-                    <dd>
-                    </dd>
-                    <dt><a href="module-bbop-graph-noctua.html#~get_annotations_by_key">get_annotations_by_key(key)</a></dt>
-                    <dd>
-                    </dd>
-                    <dt><a href="module-bbop-graph-noctua.html#~get_basic_evidence">get_basic_evidence(annotation_ids)</a></dt>
-                    <dd>
-                    </dd>
-                    <dt><a href="module-bbop-graph-noctua.html#~get_referenced_subgraph_by_id">get_referenced_subgraph_by_id(iid)</a></dt>
-                    <dd>
-                    </dd>
-                  </dl>
-                </div>
-                <div class="summary-column">
-                  <dl class="dl-summary-callout">
-                    <dt><a href="module-bbop-graph-noctua.html#~get_referenced_subgraph_profiles">get_referenced_subgraph_profiles([extractor])</a></dt>
-                    <dd>
-                    </dd>
-                    <dt><a href="module-bbop-graph-noctua.html#~get_referenced_subgraphs_by_filter">get_referenced_subgraphs_by_filter(filter)</a></dt>
-                    <dd>
-                    </dd>
-                    <dt><a href="module-bbop-graph-noctua.html#~referenced_subgraph">referenced_subgraph([subgraphs])</a></dt>
-                    <dd>
-                    </dd>
-                  </dl>
-                </div>
-              </div>
-            </div>
-          </section>
-          <section>
-            <h2>Class</h2>
-            <section id='members-links'>
-              <h3><a href="module-bbop-graph-noctua-annotation.html">annotation</a></h3>
-            </section>
-            <h2>Methods</h2>
-            <section>
-              <h3 id="~add_annotation"><div class="symbol-detail-labels"><span class="label label-inner">inner</span></div><span class="symbol-name">add_annotation</span><span class="signature"><span class="signature-params">(in_ann)</span>&nbsp;&rarr; <span class="signature-returns"> Array</span></span></h3>
-              <p>Add annotation.</p>
-              <section>
-                <h4>Parameter</h4>
-                <table class="jsdoc-details-table">
-                  <thead>
-                    <tr>
-                      <th>Name</th>
-                      <th>Type</th>
-                      <th>Optional</th>
-                      <th>Description</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>
-                        <p>in_ann</p>
-                      </td>
-                      <td>
-                        <p>annotation</p>
-                      </td>
-                      <td>
-                        <p>&nbsp;</p>
-                      </td>
-                      <td>
-                        <p>annotation to add</p>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </section>
-              <dl class="dl-compact">
-                <dt>Returns</dt>
-                <dd>
-                  <p><code>Array</code>&nbsp;list of all annotations</p>
-                </dd>
-              </dl>
-              <h3 id="~add_referenced_subgraph"><div class="symbol-detail-labels"><span class="label label-inner">inner</span></div><span class="symbol-name">add_referenced_subgraph</span><span class="signature"><span class="signature-params">(subgraph)</span>&nbsp;&rarr; <span class="signature-returns"> Array</span></span></h3>
-              <p>Add referenced subgraph.</p>
-              <section>
-                <h4>Parameter</h4>
-                <table class="jsdoc-details-table">
-                  <thead>
-                    <tr>
-                      <th>Name</th>
-                      <th>Type</th>
-                      <th>Optional</th>
-                      <th>Description</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>
-                        <p>subgraph</p>
-                      </td>
-                      <td>
-                        <p><a href="graph.html">graph</a></p>
-                      </td>
-                      <td>
-                        <p>&nbsp;</p>
-                      </td>
-                      <td>
-                        <p>subgraph to add</p>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </section>
-              <dl class="dl-compact">
-                <dt>Returns</dt>
-                <dd>
-                  <p><code>Array</code>&nbsp;list of all subgraphs</p>
-                </dd>
-              </dl>
-              <h3 id="~annotations"><div class="symbol-detail-labels"><span class="label label-inner">inner</span></div><span class="symbol-name">annotations</span><span class="signature"><span class="signature-params">([in_anns])</span>&nbsp;&rarr; <span class="signature-returns"> Array</span></span></h3>
-              <p>Get/set annotation list.</p>
-              <section>
-                <h4>Parameter</h4>
-                <table class="jsdoc-details-table">
-                  <thead>
-                    <tr>
-                      <th>Name</th>
-                      <th>Type</th>
-                      <th>Optional</th>
-                      <th>Description</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>
-                        <p>in_anns</p>
-                      </td>
-                      <td>
-                        <p>Array</p>
-                      </td>
-                      <td>
-                        <p>Yes</p>
-                      </td>
-                      <td>
-                        <p>list of annotations to clobber current list</p>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </section>
-              <dl class="dl-compact">
-                <dt>Returns</dt>
-                <dd>
-                  <p><code>Array</code>&nbsp;list of all annotations</p>
-                </dd>
-              </dl>
-              <h3 id="~get_annotations_by_filter"><div class="symbol-detail-labels"><span class="label label-inner">inner</span></div><span class="symbol-name">get_annotations_by_filter</span><span class="signature"><span class="signature-params">(filter)</span>&nbsp;&rarr; <span class="signature-returns"> Array</span></span></h3>
-              <p>Get a sublist of annotation using the filter function. The filter function take a single annotation as an argument, and adds to the return list if it evaluates to true.</p>
-              <section>
-                <h4>Parameter</h4>
-                <table class="jsdoc-details-table">
-                  <thead>
-                    <tr>
-                      <th>Name</th>
-                      <th>Type</th>
-                      <th>Optional</th>
-                      <th>Description</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>
-                        <p>filter</p>
-                      </td>
-                      <td>
-                        <p>function()</p>
-                      </td>
-                      <td>
-                        <p>&nbsp;</p>
-                      </td>
-                      <td>
-                        <p>function described above</p>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </section>
-              <dl class="dl-compact">
-                <dt>Returns</dt>
-                <dd>
-                  <p><code>Array</code>&nbsp;list of passing annotations</p>
-                </dd>
-              </dl>
-              <h3 id="~get_annotations_by_id"><div class="symbol-detail-labels"><span class="label label-inner">inner</span></div><span class="symbol-name">get_annotations_by_id</span><span class="signature"><span class="signature-params">(aid)</span>&nbsp;&rarr; <span class="signature-returns"> Array</span></span></h3>
-              <p>Get sublist of annotations with a certain ID.</p>
-              <section>
-                <h4>Parameter</h4>
-                <table class="jsdoc-details-table">
-                  <thead>
-                    <tr>
-                      <th>Name</th>
-                      <th>Type</th>
-                      <th>Optional</th>
-                      <th>Description</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>
-                        <p>aid</p>
-                      </td>
-                      <td>
-                        <p>String</p>
-                      </td>
-                      <td>
-                        <p>&nbsp;</p>
-                      </td>
-                      <td>
-                        <p>annotation ID to look for</p>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </section>
-              <dl class="dl-compact">
-                <dt>Returns</dt>
-                <dd>
-                  <p><code>Array</code>&nbsp;list of list of annotations with that ID</p>
-                </dd>
-              </dl>
-              <h3 id="~get_annotations_by_key"><div class="symbol-detail-labels"><span class="label label-inner">inner</span></div><span class="symbol-name">get_annotations_by_key</span><span class="signature"><span class="signature-params">(key)</span>&nbsp;&rarr; <span class="signature-returns"> Array</span></span></h3>
-              <p>Get sublist of annotations with a certain key.</p>
-              <section>
-                <h4>Parameter</h4>
-                <table class="jsdoc-details-table">
-                  <thead>
-                    <tr>
-                      <th>Name</th>
-                      <th>Type</th>
-                      <th>Optional</th>
-                      <th>Description</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>
-                        <p>key</p>
-                      </td>
-                      <td>
-                        <p>String</p>
-                      </td>
-                      <td>
-                        <p>&nbsp;</p>
-                      </td>
-                      <td>
-                        <p>key to look for.</p>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </section>
-              <dl class="dl-compact">
-                <dt>Returns</dt>
-                <dd>
-                  <p><code>Array</code>&nbsp;list of list of annotations with that key</p>
-                </dd>
-              </dl>
-              <h3 id="~get_basic_evidence"><div class="symbol-detail-labels"><span class="label label-inner">inner</span></div><span class="symbol-name">get_basic_evidence</span><span class="signature"><span class="signature-params">(annotation_ids)</span>&nbsp;&rarr; <span class="signature-returns"> Array</span></span></h3>
-              <p>Returns a list with the following structure:</p>
-              <p>: [ { id:
-                <ID>, : cls:
-                  <ID>, : source:
-                    <STRING>, : date:
-                      <STRING>, : etc : }, : ... : ]</p>
-              <p>Each top-level element in the list represents the core information in a simple (GO-style) element. This is essentially a distilled version of get_referenced_individual_profiles for cases where that is modelling simple piece of evidence (single
-                non-nested class expression and a set know list of annotations).</p>
-              <section>
-                <h4>Parameter</h4>
-                <table class="jsdoc-details-table">
-                  <thead>
-                    <tr>
-                      <th>Name</th>
-                      <th>Type</th>
-                      <th>Optional</th>
-                      <th>Description</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>
-                        <p>annotation_ids</p>
-                      </td>
-                      <td>
-                        <p>Array</p>
-                      </td>
-                      <td>
-                        <p>&nbsp;</p>
-                      </td>
-                      <td>
-                        <p>list of strings that identify the annotation keys that will be captured--</p>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </section>
-              <dl class="dl-compact">
-                <dt>Returns</dt>
-                <dd>
-                  <p><code>Array</code>&nbsp;list of referenced_individual simple evidence information.</p>
-                </dd>
-              </dl>
-              <h3 id="~get_referenced_subgraph_by_id"><div class="symbol-detail-labels"><span class="label label-inner">inner</span></div><span class="symbol-name">get_referenced_subgraph_by_id</span><span class="signature"><span class="signature-params">(iid)</span>&nbsp;&rarr; <span class="signature-returns"> Array</span></span></h3>
-              <p>Get sublist of referenced_subgraphs with a certain ID.</p>
-              <section>
-                <h4>Parameter</h4>
-                <table class="jsdoc-details-table">
-                  <thead>
-                    <tr>
-                      <th>Name</th>
-                      <th>Type</th>
-                      <th>Optional</th>
-                      <th>Description</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>
-                        <p>iid</p>
-                      </td>
-                      <td>
-                        <p>String</p>
-                      </td>
-                      <td>
-                        <p>&nbsp;</p>
-                      </td>
-                      <td>
-                        <p>referenced_individual ID to look for</p>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </section>
-              <dl class="dl-compact">
-                <dt>Returns</dt>
-                <dd>
-                  <p><code>Array</code>&nbsp;list of referenced_subgraphs with that ID</p>
-                </dd>
-              </dl>
-              <h3 id="~get_referenced_subgraph_profiles"><div class="symbol-detail-labels"><span class="label label-inner">inner</span></div><span class="symbol-name">get_referenced_subgraph_profiles</span><span class="signature"><span class="signature-params">([extractor])</span>&nbsp;&rarr; <span class="signature-returns"> Array</span></span></h3>
-              <p>Returns a list with the following structure:</p>
-              <p>: [ { id:
-                <ID>, : class_expressions: [{class_expression}, ...], : anntations: [{annotation}, ...] }, : ... : ]</p>
-              <p>Each top-level element in the list represents the core information of a single referenced graph for a node or edge in this model.</p>
-              <p>Keep in mind that this may be most useful in the GO Noctua use case as reference subgraphs with singleton elements, where the class(es) are evidence and the annotations keep things such as source (e.g. PMID), etc.</p>
-              <section>
-                <h4>Parameter</h4>
-                <table class="jsdoc-details-table">
-                  <thead>
-                    <tr>
-                      <th>Name</th>
-                      <th>Type</th>
-                      <th>Optional</th>
-                      <th>Description</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>
-                        <p>extractor</p>
-                      </td>
-                      <td>
-                        <p>function()</p>
-                      </td>
-                      <td>
-                        <p>Yes</p>
-                      </td>
-                      <td>
-                        <p>extraction functions to use instead of default</p>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </section>
-              <dl class="dl-compact">
-                <dt>Returns</dt>
-                <dd>
-                  <p><code>Array</code>&nbsp;list of referenced_individual information</p>
-                </dd>
-              </dl>
-              <h3 id="~get_referenced_subgraphs_by_filter"><div class="symbol-detail-labels"><span class="label label-inner">inner</span></div><span class="symbol-name">get_referenced_subgraphs_by_filter</span><span class="signature"><span class="signature-params">(filter)</span>&nbsp;&rarr; <span class="signature-returns"> Array</span></span></h3>
-              <p>Get a sublist of referenced subgraphs using the filter function. The filter function take a single subgraph as an argument, and adds it to the return list if it evaluates to true.</p>
-              <section>
-                <h4>Parameter</h4>
-                <table class="jsdoc-details-table">
-                  <thead>
-                    <tr>
-                      <th>Name</th>
-                      <th>Type</th>
-                      <th>Optional</th>
-                      <th>Description</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>
-                        <p>filter</p>
-                      </td>
-                      <td>
-                        <p>function()</p>
-                      </td>
-                      <td>
-                        <p>&nbsp;</p>
-                      </td>
-                      <td>
-                        <p>function described above</p>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </section>
-              <dl class="dl-compact">
-                <dt>Returns</dt>
-                <dd>
-                  <p><code>Array</code>&nbsp;list of passing subgraphs</p>
-                </dd>
-              </dl>
-              <h3 id="~referenced_subgraph"><div class="symbol-detail-labels"><span class="label label-inner">inner</span></div><span class="symbol-name">referenced_subgraph</span><span class="signature"><span class="signature-params">([subgraphs])</span>&nbsp;&rarr; <span class="signature-returns"> Array</span></span></h3>
-              <p>Get/set referenced subgraph list.</p>
-              <p>Copies in new data.</p>
-              <section>
-                <h4>Parameter</h4>
-                <table class="jsdoc-details-table">
-                  <thead>
-                    <tr>
-                      <th>Name</th>
-                      <th>Type</th>
-                      <th>Optional</th>
-                      <th>Description</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>
-                        <p>subgraphs</p>
-                      </td>
-                      <td>
-                        <p>Array</p>
-                      </td>
-                      <td>
-                        <p>Yes</p>
-                      </td>
-                      <td>
-                        <p>list of {graph} to clobber current list</p>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </section>
-              <dl class="dl-compact">
-                <dt>Returns</dt>
-                <dd>
-                  <p><code>Array</code>&nbsp;list of all referenced subgraphs</p>
-                </dd>
-              </dl>
-            </section>
-          </section>
-        </div>
-      </div>
-      <nav id="jsdoc-toc-nav" role="navigation"></nav>
-    </div>
-  </div>
-  <footer id="jsdoc-footer" class="jsdoc-footer">
-    <div id="jsdoc-footer-container">
-      <p>
-        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc</a> 3.3.0 on July 27, 2015.
-      </p>
-    </div>
-  </footer>
-  <script src="scripts/jquery.min.js"></script>
-  <script src="scripts/jquery.cookie.js"></script>
-  <script src="scripts/tree.jquery.js"></script>
-  <script src="scripts/prettify.js"></script>
-  <script src="scripts/jsdoc-toc.js"></script>
-  <script src="scripts/linenumber.js"></script>
-  <script src="scripts/scrollanchor.js"></script>
-</body>
+<body>
 
+<div id="main">
+
+    <h1 class="page-title">Module: bbop-graph-noctua</h1>
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        
+            
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description">Purpose: Noctua editing operations ove a bbop-graph base.
+
+The base pieces are just subclasses of their analogs in bbop-graph.
+
+Now, a discussion if the structure an terminology of the evidence
+model.
+
+Definitions:
+
+- "model": the graph model as a whole
+- "seed": an evidence instance that is referenced ; a seed may only belong to a single clique
+- "sub_clique": the evidence subgraph pattern built off of a seed
+- "clique" the complete evidence subgraph, obtained by walking all edges from any node in it (should be same no matter what node)
+- "shared_struct": (currently) nodes of the clique that may be shared between different sub_cliques; for now, just pmid nodes
+
+Rules:
+
+A clique may only be removed from the graph, with its
+constitutent sub_cliques contained as referenced subgraphs,
+when:
+- all constituent sub_cliques have the "correct" structure
+- all clique nodes are in at least one sub_clique
+- sub_cliques only share structure in shared_struct nodes</div>
+        
+
+        
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="edit.js.html">edit.js</a>, <a href="edit.js.html#line1">line 1</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li>module:bbop-graph</li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Classes</h3>
+
+        <dl>
+            <dt><a href="module-bbop-graph-noctua-annotation.html">annotation</a></dt>
+            <dd></dd>
+        
+            <dt><a href="module-bbop-graph-noctua-violation.html">violation</a></dt>
+            <dd></dd>
+        </dl>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="~add_annotation"><span class="type-signature">(inner) </span>add_annotation<span class="signature">(in_ann)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Add annotation.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>in_ann</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">annotation</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">annotation to add</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="edit.js.html">edit.js</a>, <a href="edit.js.html#line324">line 324</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    list of all annotations
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="~add_referenced_subgraph"><span class="type-signature">(inner) </span>add_referenced_subgraph<span class="signature">(subgraph)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Add referenced subgraph.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>subgraph</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="graph.html">graph</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">subgraph to add</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="edit.js.html">edit.js</a>, <a href="edit.js.html#line434">line 434</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    list of all subgraphs
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="~annotations"><span class="type-signature">(inner) </span>annotations<span class="signature">(in_anns<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Get/set annotation list.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>in_anns</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">list of annotations to clobber current list</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="edit.js.html">edit.js</a>, <a href="edit.js.html#line309">line 309</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    list of all annotations
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="~get_annotations_by_filter"><span class="type-signature">(inner) </span>get_annotations_by_filter<span class="signature">(filter)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Get a sublist of annotation using the filter function. The filter
+function take a single annotation as an argument, and adds to the
+return list if it evaluates to true.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>filter</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">function described above</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="edit.js.html">edit.js</a>, <a href="edit.js.html#line339">line 339</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    list of passing annotations
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="~get_annotations_by_id"><span class="type-signature">(inner) </span>get_annotations_by_id<span class="signature">(aid)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Get sublist of annotations with a certain ID.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>aid</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">annotation ID to look for</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="edit.js.html">edit.js</a>, <a href="edit.js.html#line383">line 383</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    list of list of annotations with that ID
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="~get_annotations_by_key"><span class="type-signature">(inner) </span>get_annotations_by_key<span class="signature">(key)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Get sublist of annotations with a certain key.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>key</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">key to look for.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="edit.js.html">edit.js</a>, <a href="edit.js.html#line362">line 362</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    list of list of annotations with that key
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="~get_basic_evidence"><span class="type-signature">(inner) </span>get_basic_evidence<span class="signature">(annotation_ids)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Returns a list with the following structure:
+
+: [ { id: <ID>,
+:     cls: <ID>,
+:     source: <STRING>,
+:     date: <STRING>,
+:     etc
+:   },
+:   ...
+: ]
+
+Each top-level element in the list represents the core information
+in a simple (GO-style) element. This is essentially a distilled
+version of get_referenced_individual_profiles for cases where that
+is modelling simple piece of evidence (single non-nested class
+expression and a set know list of annotations).
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>annotation_ids</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">list of strings that identify the annotation keys that will be captured--</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="edit.js.html">edit.js</a>, <a href="edit.js.html#line571">line 571</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    list of referenced_individual simple evidence information.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="~get_referenced_subgraph_by_id"><span class="type-signature">(inner) </span>get_referenced_subgraph_by_id<span class="signature">(iid)</span><span class="type-signature"> &rarr; {Object|null}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Get a referenced_subgraph with a certain ID.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>iid</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">referenced_individual ID to look for</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="edit.js.html">edit.js</a>, <a href="edit.js.html#line474">line 474</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    referenced_subgraph with that ID
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object</span>
+|
+
+<span class="param-type">null</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="~get_referenced_subgraph_profiles"><span class="type-signature">(inner) </span>get_referenced_subgraph_profiles<span class="signature">(extractor<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Returns a list with the following structure:
+
+: [ { id: <ID>,
+:     class_expressions: [{class_expression}, ...],
+:     anntations: [{annotation}, ...] },
+:   ...
+: ]
+
+Each top-level element in the list represents the core information
+of a single referenced graph for a node or edge in this model.
+
+Keep in mind that this may be most useful in the GO Noctua use case
+as reference subgraphs with singleton elements, where the class(es)
+are evidence and the annotations keep things such as source
+(e.g. PMID), etc.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>extractor</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">extraction functions to use instead of default</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="edit.js.html">edit.js</a>, <a href="edit.js.html#line495">line 495</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    list of referenced_individual information
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="~get_referenced_subgraphs_by_filter"><span class="type-signature">(inner) </span>get_referenced_subgraphs_by_filter<span class="signature">(filter)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Get a sublist of referenced subgraphs using the filter
+function. The filter function take a single subgraph as an
+argument, and adds it to the return list if it evaluates to true.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>filter</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">function described above</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="edit.js.html">edit.js</a>, <a href="edit.js.html#line450">line 450</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    list of passing subgraphs
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="~referenced_subgraph"><span class="type-signature">(inner) </span>referenced_subgraph<span class="signature">(subgraphs<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Get/set referenced subgraph list.
+
+Copies in new data.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>subgraphs</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">list of {graph} to clobber current list</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="edit.js.html">edit.js</a>, <a href="edit.js.html#line408">line 408</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    list of all referenced subgraphs
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-bbop-graph-noctua.html">bbop-graph-noctua</a></li></ul><h3>Classes</h3><ul><li><a href="edge.html">edge</a></li><li><a href="graph.html">graph</a></li><li><a href="module-bbop-graph-noctua-annotation.html">annotation</a></li><li><a href="module-bbop-graph-noctua-violation.html">violation</a></li><li><a href="node.html">node</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Fri Sep 27 2019 18:25:21 GMT-0700 (PDT)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
 </html>

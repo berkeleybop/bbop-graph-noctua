@@ -1,56 +1,53 @@
-<!doctype html>
-<html>
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta name="generator" content="JSDoc 3.3.0">
-  <meta charset="utf-8">
-  <title>Source: edit.js</title>
-  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Karla:400,400i,700,700i" type="text/css">
-  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Noto+Serif:400,400i,700,700i" type="text/css">
-  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Inconsolata:500" type="text/css">
-  <link href="css/baseline.css" rel="stylesheet">
+    <meta charset="utf-8">
+    <title>JSDoc: Source: edit.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
 </head>
 
-<body onload="prettyPrint()">
-  <nav id="jsdoc-navbar" role="navigation" class="jsdoc-navbar">
-    <div id="jsdoc-navbar-container">
-      <div id="jsdoc-navbar-content">
-        <a href="index.html" class="jsdoc-navbar-package-name">Home</a>
-      </div>
-    </div>
-  </nav>
-  <div id="jsdoc-body-container">
-    <div id="jsdoc-content">
-      <div id="jsdoc-content-container">
-        <div id="jsdoc-banner" role="banner">
-        </div>
-        <div id="jsdoc-main" role="main">
-          <header class="page-header">
-            <h1>Source: edit.js</h1>
-          </header>
-          <article>
-            <pre class="prettyprint linenums"><code>/** 
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: edit.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
  * Purpose: Noctua editing operations ove a bbop-graph base.
- * 
+ *
  * The base pieces are just subclasses of their analogs in bbop-graph.
- * 
+ *
  * Now, a discussion if the structure an terminology of the evidence
  * model.
  *
  * Definitions:
- * 
- * - &quot;model&quot;: the graph model as a whole
- * - &quot;seed&quot;: an evidence instance that is referenced ; a seed may only belong to a single clique
- * - &quot;sub_clique&quot;: the evidence subgraph pattern built off of a seed
- * - &quot;clique&quot; the complete evidence subgraph, obtained by walking all edges from any node in it (should be same no matter what node)
- * - &quot;shared_struct&quot;: (currently) nodes of the clique that may be shared between different sub_cliques; for now, just pmid nodes
+ *
+ * - "model": the graph model as a whole
+ * - "seed": an evidence instance that is referenced ; a seed may only belong to a single clique
+ * - "sub_clique": the evidence subgraph pattern built off of a seed
+ * - "clique" the complete evidence subgraph, obtained by walking all edges from any node in it (should be same no matter what node)
+ * - "shared_struct": (currently) nodes of the clique that may be shared between different sub_cliques; for now, just pmid nodes
  *
  * Rules:
  *
  * A clique may only be removed from the graph, with its
  * constitutent sub_cliques contained as referenced subgraphs,
  * when:
- * - all constituent sub_cliques have the &quot;correct&quot; structure
+ * - all constituent sub_cliques have the "correct" structure
  * - all clique nodes are in at least one sub_clique
  * - sub_cliques only share structure in shared_struct nodes
  *
@@ -58,52 +55,75 @@
  * @module bbop-graph-noctua
  */
 
-var us = require(&#x27;underscore&#x27;);
+var us = require('underscore');
 var each = us.each;
 var keys = us.keys;
-var bbop = require(&#x27;bbop-core&#x27;);
-var bbop_model = require(&#x27;bbop-graph&#x27;);
-var class_expression = require(&#x27;class-expression&#x27;);
+var bbop = require('bbop-core');
+var bbop_model = require('bbop-graph');
+var class_expression = require('class-expression');
 
 ///
-/// New stuff: annotations.
+/// Debug helpers.
+///
+
+// Change these as necessary.
+var debug_map = {
+    // 'gomodel:5798651000000002/5798651000000003': 'set of upper jaw teeth',
+    // 'gomodel:5798651000000002/5798651000000004': 'sharp',
+    // 'gomodel:5798651000000002/5798651000000005': 'mouth',
+    // 'gomodel:5798651000000002/5798651000000006': 'pointed',
+    // 'gomodel:5798651000000002/5798651000000008': 'tongue',
+    // 'gomodel:5798651000000002/5798651000000009': 'lip',
+    // 'gomodel:5798651000000002/5798651000000010': 'tusk',
+    // 'gomodel:5798651000000002/5798651000000033': 'taste bud'
+};
+var dd = function(id){
+    var ret = id;
+    if( debug_map[id] ){
+	ret = debug_map[id];
+    }
+    return ret;
+};
+
+///
+/// Annotations.
 ///
 
 /**
  * Edit annotations.
  * Everything can take annotations.
- * 
+ *
  * This structure of the raw key-value set has been updated in the
  * wire protocol. It now looks like:
- * 
- * : {&quot;key&quot;: &quot;contributor&quot;, &quot;value&quot;: &quot;GOC:kltm&quot; }
- * 
+ *
+ * : {"key": "contributor", "value": "GOC:kltm" }
+ *
  * or:
- * 
- * : {&quot;key&quot;: &quot;contributor&quot;, &quot;value&quot;: &quot;GOC:kltm&quot;, &quot;value-type&quot;:&quot;foo&quot;}
- * 
+ *
+ * : {"key": "contributor", "value": "GOC:kltm", "value-type":"foo"}
+ *
  * @constructor
  * @param {Object} [kv_set] - optional a set of keys and values; a simple object
  * @returns {this} new instance
  */
 function annotation(kv_set){
     this._id = bbop.uuid();
-    
+
     this._properties = {};
-    
-    if( kv_set &amp;amp;&amp;amp; bbop.what_is(kv_set) === &#x27;object&#x27; ){
-	
+
+    if( kv_set &amp;&amp; bbop.what_is(kv_set) === 'object' ){
+
 	// Attempt to convert
-	if( kv_set[&#x27;key&#x27;] &amp;amp;&amp;amp; kv_set[&#x27;value&#x27;] ){
-	    // var key = kv_set[&#x27;key&#x27;];
-	    // var val = kv_set[&#x27;value&#x27;];
+	if( kv_set['key'] &amp;&amp; kv_set['value'] ){
+	    // var key = kv_set['key'];
+	    // var val = kv_set['value'];
 	    // var adj_set = {};
 	    // adj_set[key] = val;
 	    // Silently pass in value-type if there.
 	    this._properties = bbop.clone(kv_set);
 	}else{
 	    // TODO: Replace this at some point with the logger.
-	    console.log(&#x27;bad annotation k/v set: &#x27;, kv_set);
+	    console.log('bad annotation k/v set: ', kv_set);
 	}
     }
 }
@@ -132,15 +152,15 @@ annotation.prototype.annotation = function(key, value, value_type){
 
     // Set if the key and value are there.
     if( key ){
-	if( typeof(value) !== &#x27;undefined&#x27; ){
-	    anchor._properties[&#x27;key&#x27;] = key;
-	    anchor._properties[&#x27;value&#x27;] = value;
+	if( typeof(value) !== 'undefined' ){
+	    anchor._properties['key'] = key;
+	    anchor._properties['value'] = value;
 
 	    // Add or get rid of value type depending.
-	    if( typeof(value_type) === &#x27;undefined&#x27; ){
-		delete anchor._properties[&#x27;value-type&#x27;];
+	    if( typeof(value_type) === 'undefined' ){
+		delete anchor._properties['value-type'];
 	    }else{
-		anchor._properties[&#x27;value-type&#x27;] = value_type;
+		anchor._properties['value-type'] = value_type;
 	    }
 	}
     }
@@ -150,39 +170,39 @@ annotation.prototype.annotation = function(key, value, value_type){
 };
 
 /**
- * Get/set annotation&#x27;s key.
+ * Get/set annotation's key.
  *
  * @param {String} [key] - string
  * @returns {String|null} returns string of annotation
  */
 annotation.prototype.key = function(key){
     var anchor = this;
-    if( key ){ anchor._properties[&#x27;key&#x27;] = key; }
-    return anchor._properties[&#x27;key&#x27;];
+    if( key ){ anchor._properties['key'] = key; }
+    return anchor._properties['key'];
 };
 
 /**
- * Get/set annotation&#x27;s value.
+ * Get/set annotation's value.
  *
  * @param {String} [value] - string
  * @returns {String|null} returns string of annotation
  */
 annotation.prototype.value = function(value){
     var anchor = this;
-    if( value ){ anchor._properties[&#x27;value&#x27;] = value; }
-    return anchor._properties[&#x27;value&#x27;];
+    if( value ){ anchor._properties['value'] = value; }
+    return anchor._properties['value'];
 };
 
 /**
- * Get/set annotation&#x27;s value-type.
+ * Get/set annotation's value-type.
  *
  * @param {String} [value_type] - string
  * @returns {String|null} returns string of annotation
  */
 annotation.prototype.value_type = function(value_type){
     var anchor = this;
-    if( value_type ){ anchor._properties[&#x27;value-type&#x27;] = value_type; }
-    return anchor._properties[&#x27;value-type&#x27;];
+    if( value_type ){ anchor._properties['value-type'] = value_type; }
+    return anchor._properties['value-type'];
 };
 
 /**
@@ -214,16 +234,99 @@ annotation.prototype.clone = function(){
 
     // Copy most of the data structure.
     var a = {};
-    if( anchor.key() ){ a[&#x27;key&#x27;] = anchor.key(); }
-    if( anchor.value() ){ a[&#x27;value&#x27;] = anchor.value(); }
-    if( anchor.value_type() ){ a[&#x27;value-type&#x27;] = anchor.value_type(); }
+    if( anchor.key() ){ a['key'] = anchor.key(); }
+    if( anchor.value() ){ a['value'] = anchor.value(); }
+    if( anchor.value_type() ){ a['value-type'] = anchor.value_type(); }
 
     var new_ann = new annotation(a);
 
     // Copy ID as well.
     new_ann._id = anchor._id;
-    
+
     return new_ann;
+};
+
+///
+/// Generalized violations. Currently just around ShEx.
+///
+
+/**
+ * Model violations.
+ *
+ * These are currently ShEx oriented, but will be expanded into OWL,
+ * GO rules, etc. in the future.
+ *
+ * The current structure of the raw object looks like:
+ *
+ * : {"key": "contributor", "value": "GOC:kltm" }
+ *
+ * @constructor
+ * @param {Object} [vobj] - optional TBD object structure for violations
+ * @returns {this} new instance
+ */
+function violation(vobj){
+
+    this._id = bbop.uuid();
+    this._node = null;
+    this._explanations = [];
+
+    if( us.isString(vobj['node']) ){
+	this._node = bbop.clone(vobj['node']);
+    }else{
+	console.log('bad violation node: ', this._id);
+    }
+
+    if( us.isArray(vobj['explanations']) ){
+	this._explanations = bbop.clone(vobj['explanations']);
+    }else{
+	console.log('bad violation explanations: ', this._id);
+    }
+
+    return this;
+}
+
+/**
+ * The unique id of this violation.
+ *
+ * @returns {String} string
+ */
+violation.prototype.id = function(){
+    return this._id;
+};
+
+/**
+ * The unique id of this violation.
+ *
+ * @returns {String} string
+ */
+violation.prototype.node_id = function(){
+    return this._node;
+};
+
+/**
+ * The list of explanation objects for this violation.
+ *
+ * @returns {String} string
+ */
+violation.prototype.explanations = function(){
+    return this._explanations;
+};
+
+/**
+ * A clone of this violation object.
+ *
+ * @returns {violation} a fresh violation...
+ */
+violation.prototype.clone = function(){
+    var anchor = this;
+
+    var v = {};
+    v['node'] = anchor.node_id();
+    v['explanations'] = anchor.explanations();
+
+    // Our constructor will use all new material, so no problem.
+    var new_vio = new violation(v);
+    return new_vio;
 };
 
 ///
@@ -277,7 +380,7 @@ function _get_annotations_by_filter(filter){
     var ret = [];
     each(anchor._annotations, function(ann){
 	var res = filter(ann);
-	if( res &amp;amp;&amp;amp; res === true ){
+	if( res &amp;&amp; res === true ){
 	    ret.push(ann);
 	}
     });
@@ -348,10 +451,10 @@ function _referenced_subgraphs(subgraphs){
 	this._referenced_subgraphs = [];
 	// // Convert type.
 	each(subgraphs, function(g){
-	    //g.type(&#x27;referenced&#x27;);
+	    //g.type('referenced');
 	    this._referenced_subgraphs.push(g.clone());
 	});
-	
+
     }
     return this._referenced_subgraphs;
 }
@@ -365,8 +468,8 @@ function _referenced_subgraphs(subgraphs){
  * @returns {Array} list of all subgraphs
  */
 function _add_referenced_subgraph(subgraph){
-    if( ! us.isArray(subgraph) ){	
-	//subgraph.type(&#x27;referenced&#x27;);
+    if( ! us.isArray(subgraph) ){
+	//subgraph.type('referenced');
 	this._referenced_subgraphs.push(subgraph);
     }
     return this._referenced_subgraphs;
@@ -388,7 +491,7 @@ function _get_referenced_subgraphs_by_filter(filter){
     var ret = [];
     each(anchor._referenced_subgraphs, function(g){
 	var res = filter(g);
-	if( res &amp;amp;&amp;amp; res === true ){
+	if( res &amp;&amp; res === true ){
 	    ret.push(g);
 	}
     });
@@ -397,12 +500,12 @@ function _get_referenced_subgraphs_by_filter(filter){
 }
 
 /**
-* Get sublist of referenced_subgraphs with a certain ID.
+* Get a referenced_subgraph with a certain ID.
  *
  * @name get_referenced_subgraph_by_id
  * @function
  * @param {String} iid - referenced_individual ID to look for
- * @returns {Array} list of referenced_subgraphs with that ID
+ * @returns {Object|null} referenced_subgraph with that ID
  */
 function _get_referenced_subgraph_by_id(iid){
     var anchor = this;
@@ -420,7 +523,7 @@ function _get_referenced_subgraph_by_id(iid){
 /**
  * Returns a list with the following structure:
  *
- * : [ { id: &amp;lt;ID&gt;,
+ * : [ { id: &lt;ID>,
  * :     class_expressions: [{class_expression}, ...],
  * :     anntations: [{annotation}, ...] },
  * :   ...
@@ -442,30 +545,30 @@ function _get_referenced_subgraph_by_id(iid){
 function _get_referenced_subgraph_profiles(extractor){
     var anchor = this;
 
-    // 
+    //
     function extractor_default(g){
 	var ret = null;
 
 	// If singleton.
 	if( g.all_nodes().length === 1 ){
 	    var ind = g.all_nodes()[0];
-	    
+
 	    // Base.
 	    var prof = {
 		id: null,
 		class_expressions: [],
 		annotations: []
 	    };
-	    
+
 	    // Referenced instance ID.
-	    prof[&#x27;id&#x27;] = ind.id();
-	    
+	    prof['id'] = ind.id();
+
 	    // Collect class expressions and annotations.
 	    each(ind.types(), function(ce){
-		prof[&#x27;class_expressions&#x27;].push(ce);
+		prof['class_expressions'].push(ce);
 	    });
 	    each(ind.annotations(), function(ann){
-		prof[&#x27;annotations&#x27;].push(ann);
+		prof['annotations'].push(ann);
 	    });
 
 	    //
@@ -476,13 +579,13 @@ function _get_referenced_subgraph_profiles(extractor){
     }
 
     // If we are using the simple standard.
-    if( typeof(extractor) !== &#x27;function&#x27; ){
+    if( typeof(extractor) !== 'function' ){
 	extractor = extractor_default;
     }
 
     // Run the extractor over the referenced subraph in the calling
     // node.
-    var ret = [];    
+    var ret = [];
     each(anchor.referenced_subgraphs(), function(g){
 	var extracted = extractor(g);
 	if( extracted ){
@@ -496,10 +599,10 @@ function _get_referenced_subgraph_profiles(extractor){
 /**
  * Returns a list with the following structure:
  *
- * : [ { id: &amp;lt;ID&gt;,
- * :     cls: &amp;lt;ID&gt;,
- * :     source: &amp;lt;STRING&gt;,
- * :     date: &amp;lt;STRING&gt;,
+ * : [ { id: &lt;ID>,
+ * :     cls: &lt;ID>,
+ * :     source: &lt;STRING>,
+ * :     date: &lt;STRING>,
  * :     etc
  * :   },
  * :   ...
@@ -529,7 +632,7 @@ function _get_basic_evidence(annotation_ids){
 	//console.log(cmplx_prof);
 
 	// Only add conformant referenced individuals.
-	if( cmplx_prof.id &amp;amp;&amp;amp; ! us.isEmpty(cmplx_prof.class_expressions) ){
+	if( cmplx_prof.id &amp;&amp; ! us.isEmpty(cmplx_prof.class_expressions) ){
 
 	    // Base.
 	    //console.log(cmplx_prof.class_expressions);
@@ -537,7 +640,7 @@ function _get_basic_evidence(annotation_ids){
 		id: cmplx_prof.id,
 		cls: cmplx_prof.class_expressions[0].to_string()
 	    };
-	    
+
 	    // Match and clobber.
 	    each(cmplx_prof.annotations, function(ann){
 		//console.log(ann);
@@ -549,7 +652,7 @@ function _get_basic_evidence(annotation_ids){
 	    //console.log(basic_prof);
 	    ret.push(basic_prof);
 	}
-	
+
     });
 
     return ret;
@@ -576,27 +679,39 @@ var bbop_graph = bbop_model.graph;
  */
 function noctua_graph(new_id){
     bbop_graph.call(this);
-    this._is_a = &#x27;bbop-graph-noctua.graph&#x27;;
+    this._is_a = 'bbop-graph-noctua.graph';
 
     // Deal with id or generate a new one.
-    if( typeof(new_id) !== &#x27;undefined&#x27; ){
+    if( typeof(new_id) !== 'undefined' ){
 	this.id(new_id);
     }
 
     // The old edit core.
     this.core = {
-	&#x27;edges&#x27;: {}, // map of id to edit_edge - edges not completely anonymous
-	&#x27;node_order&#x27;: [], // initial table order on redraws
-	&#x27;node2elt&#x27;: {}, // map of id to physical object id
-	&#x27;elt2node&#x27;: {},  // map of physical object id to id
+	'edges': {}, // map of id to edit_edge - edges not completely anonymous
+	'node_order': [], // initial table order on redraws
+	'node2elt': {}, // map of id to physical object id
+	'elt2node': {},  // map of physical object id to id
 	// Remeber that edge ids and elts ids are the same, so no map
 	// is needed.
-	&#x27;edge2connector&#x27;: {}, // map of edge id to virtual connector id
-	&#x27;connector2edge&#x27;: {}  // map of virtual connector id to edge id 
+	'edge2connector': {}, // map of edge id to virtual connector id
+	'connector2edge': {}  // map of virtual connector id to edge id
     };
 
     this._annotations = [];
     //this._referenced_subgraphs = []; // not for graph yet, or maybe ever
+
+    // Some things that come up in live noctua environments. These are
+    // graph properties that may or may not be there. If unknown,
+    // null; if positively true (bad), true; may be false otherwise.
+    this._inconsistent_p = null;
+    this._modified_p = null;
+
+    // New section as we work out how violations operate.
+    this._violations = [];
+    this._valid_p = true;
+    this._valid_owl_p = true;
+    this._valid_shex_p = true;
 }
 bbop.extend(noctua_graph, bbop_graph);
 
@@ -653,7 +768,19 @@ noctua_graph.prototype.clone = function(){
     each(anchor._annotations, function(annotation){
 	new_graph._annotations.push(annotation.clone());
     });
-    
+
+    // Copy other properties over.
+    new_graph._inconsistent_p = anchor._inconsistent_p;
+    new_graph._modified_p = anchor._modified_p;
+
+    // Copy violation information over.
+    each(anchor._violations, function(v){
+	new_graph._violations.push(v.clone());
+    });
+    new_graph._valid_p = anchor._valid_p;
+    new_graph._valid_owl_p = anchor._valid_owl_p;
+    new_graph._valid_shex_p = anchor._valid_shex_p;
+
     return new_graph;
 };
 
@@ -694,6 +821,89 @@ noctua_graph.prototype.get_id = function(){
 };
 
 /**
+ * Returns true if the model had the "inconsistent-p" property when
+ * built.
+ *
+ * @returns {Boolean|null} inconsistent or not; null if unknown
+ */
+noctua_graph.prototype.inconsistent_p = function(){
+    return this._inconsistent_p;
+};
+
+/**
+ * Returns true if the model had the "modified-p" property when
+ * built.
+ *
+ * @returns {Boolean|null} inconsistent or not; null if unknown
+ */
+noctua_graph.prototype.modified_p = function(){
+    return this._modified_p;
+};
+
+/**
+ * Returns boolean on whether the returned model is /completely/
+ * valid; true if there is no logic to probe (this is a temporary
+ * measure until reasoner is "always on").
+ *
+ * @returns {Boolean} p - bool
+ */
+noctua_graph.prototype.valid_p = function(){
+    return this._valid_p;
+};
+
+/**
+ * Returns boolean on whether the returned model is valid according to
+ * the owl reasoner; true if there is no logic to probe (this is a temporary
+ * measure until reasoner is "always on").
+ *
+ * @returns {Boolean} p - bool
+ */
+noctua_graph.prototype.valid_owl_p = function(){
+    return this._valid_owl_p;
+};
+
+/**
+ * Returns boolean on whether the returned model is valid according to
+ * ShEx shapes in Minerva; true if there is no logic to probe (this is
+ * a temporary measure until reasoner is "always on").
+ *
+ * @returns {Boolean} p - bool
+ */
+noctua_graph.prototype.valid_shex_p = function(){
+    return this._valid_shex_p;
+};
+
+/**
+ * Returns an array of objects that describe the ShEx violations
+ * found in a model.
+ *
+ * @returns {Array} violations or an empty list if none
+ */
+noctua_graph.prototype.violations = function(){
+    return this._violations;
+};
+
+/**
+ * Return an edge by is ID.
+ *
+ * @param {String} node_id - the ID of the {edge}
+ * @returns {Array|Null} - Returns a list of 'violation' found in the graph for a given id.
+ */
+noctua_graph.prototype.get_violations_by_id = function(node_id){
+    var ret = [];
+
+    // TODO: needs to be optimized once we figure out how we handle
+    // shex + owl + whatever as general objects in here.
+    each(this.violations(), function(v){
+	if( v.node_id() === node_id ){
+	    ret.push(v.clone());
+	}
+    });
+
+    return ret;
+};
+
+/**
  * Get the ID from the graph.
  *
  * @param {node} enode - noctua node
@@ -704,19 +914,19 @@ noctua_graph.prototype.add_node = function(enode){
     bbop_graph.prototype.add_node.call(this, enode);
 
     var ret = false;
-    
+
     // Add/update node.
     var enid = enode.id();
-    //this.core[&#x27;nodes&#x27;][enid] = enode; // add to nodes
+    //this.core['nodes'][enid] = enode; // add to nodes
 
-    // Only create a new elt ID and order if one isn&#x27;t already in
+    // Only create a new elt ID and order if one isn't already in
     // there (or reuse things to keep GUI working smoothly).
-    var elt_id = this.core[&#x27;node2elt&#x27;][enid];
+    var elt_id = this.core['node2elt'][enid];
     if( ! elt_id ){ // first time
-	this.core[&#x27;node_order&#x27;].unshift(enid); // add to default order
-	elt_id = bbop.uuid(); // generate the elt id we&#x27;ll use from now on
-	this.core[&#x27;node2elt&#x27;][enid] = elt_id; // map it
-	this.core[&#x27;elt2node&#x27;][elt_id] = enid; // map it	
+	this.core['node_order'].unshift(enid); // add to default order
+	elt_id = bbop.uuid(); // generate the elt id we'll use from now on
+	this.core['node2elt'][enid] = elt_id; // map it
+	this.core['elt2node'][elt_id] = enid; // map it
 	ret = true;
     }
 
@@ -728,7 +938,7 @@ noctua_graph.prototype.add_node = function(enode){
  * Creates or adds types and annotations as necessary.
  *
  * @param {Object} indv - hash rep of graph individual from Minerva response?
- * @returns {node|null} 
+ * @returns {node|null}
  */
 noctua_graph.prototype.add_node_from_individual = function(indv){
     var anchor = this;
@@ -736,20 +946,20 @@ noctua_graph.prototype.add_node_from_individual = function(indv){
     var new_node = null;
 
     // Add individual to edit core if properly structured.
-    var iid = indv[&#x27;id&#x27;];
+    var iid = indv['id'];
     if( iid ){
-	//var nn = new bbop.model.node(indv[&#x27;id&#x27;]);
+	//var nn = new bbop.model.node(indv['id']);
 	//var meta = {};
-	//ll(&#x27;indv&#x27;);
-	
+	//ll('indv');
+
 	// See if there is type info that we want to add.
 	// Create the node.
-	var itypes = indv[&#x27;type&#x27;] || [];
-	var inf_itypes = indv[&#x27;inferred-type&#x27;] || [];
+	var itypes = indv['type'] || [];
+	var inf_itypes = indv['inferred-type'] || [];
 	new_node = anchor.create_node(iid, null, itypes, inf_itypes);
 
 	// See if there is type info that we want to add.
-	var ianns = indv[&#x27;annotations&#x27;] || [];
+	var ianns = indv['annotations'] || [];
 	if( us.isArray(ianns) ){
 	    // Add the annotations individually.
 	    each(ianns, function(ann_kv_set){
@@ -757,29 +967,29 @@ noctua_graph.prototype.add_node_from_individual = function(indv){
 		new_node.add_annotation(na);
 	    });
 	}
-	
+
 	anchor.add_node(new_node);
     }
-    
+
     return new_node;
 };
 
 /**
- * Return the &quot;table&quot; order of the nodes.
+ * Return the "table" order of the nodes.
  *
  * @returns {Array} node order by id?
  */
 noctua_graph.prototype.edit_node_order = function(){
-    return this.core[&#x27;node_order&#x27;] || [];
+    return this.core['node_order'] || [];
 };
 
 /**
- * Return a node&#x27;s element id.
+ * Return a node's element id.
  *
  * @returns {String|null} node element id
  */
 noctua_graph.prototype.get_node_elt_id = function(enid){
-    return this.core[&#x27;node2elt&#x27;][enid] || null;
+    return this.core['node2elt'][enid] || null;
 };
 
 /**
@@ -789,7 +999,7 @@ noctua_graph.prototype.get_node_elt_id = function(enid){
  */
 noctua_graph.prototype.get_node_by_elt_id = function(elt_id){
     var ret = null;
-    var enid = this.core[&#x27;elt2node&#x27;][elt_id] || null;
+    var enid = this.core['elt2node'][elt_id] || null;
     if( enid ){
 	ret = this.get_node(enid) || null;
     }
@@ -808,11 +1018,11 @@ noctua_graph.prototype.get_node_by_individual = function(indv){
     var ret = null;
 
     // Get node from graph if individual rep is properly structured.
-    var iid = indv[&#x27;id&#x27;];
-    if( iid ){	
+    var iid = indv['id'];
+    if( iid ){
 	ret = this.get_node(iid) || null;
     }
-    
+
     return ret;
 };
 
@@ -848,19 +1058,19 @@ noctua_graph.prototype.remove_node = function(node_id, clean_p){
 
 	// Also remove the node from the order list.
 	// TODO: Is this a dumb scan?
-	var ni = this.core[&#x27;node_order&#x27;].indexOf(node_id);
+	var ni = this.core['node_order'].indexOf(node_id);
 	if( ni !== -1 ){
-	    this.core[&#x27;node_order&#x27;].splice(ni, 1);
+	    this.core['node_order'].splice(ni, 1);
 	}
 
 	// Clean the maps.
-	var elt_id = this.core[&#x27;node2elt&#x27;][node_id];
-	delete this.core[&#x27;node2elt&#x27;][node_id];
-	delete this.core[&#x27;elt2node&#x27;][elt_id];
+	var elt_id = this.core['node2elt'][node_id];
+	delete this.core['node2elt'][node_id];
+	delete this.core['elt2node'][elt_id];
 
 	///
 	/// We want to maintain superclass compatibility.
-	/// 
+	///
 
 	// Finally, remove the node itself.
 	bbop_graph.prototype.remove_node.call(this, node_id, clean_p);
@@ -882,12 +1092,12 @@ noctua_graph.prototype.add_edge = function(eedge){
 
     // Sub.
    var eeid = eedge.id();
-   if( ! eeid ){ throw new Error(&#x27;edge not of bbop-graph-noctua&#x27;); }
-   this.core[&#x27;edges&#x27;][eeid] = eedge;
+   if( ! eeid ){ throw new Error('edge not of bbop-graph-noctua'); }
+   this.core['edges'][eeid] = eedge;
 };
 
 /**
- * Add an edge to the graph using a &quot;fact&quot; as the seed.
+ * Add an edge to the graph using a "fact" as the seed.
  * Creates and adds annotations as necessary.
  *
  * @param {} fact - JSON structure representing a fact
@@ -897,17 +1107,18 @@ noctua_graph.prototype.add_edge_from_fact = function(fact){
     var anchor = this;
 
     var new_edge = null;
-    
+
     // Add individual to edit core if properly structured.
-    var sid = fact[&#x27;subject&#x27;];
-    var oid = fact[&#x27;object&#x27;];
-    var pid = fact[&#x27;property&#x27;];
-    var anns = fact[&#x27;annotations&#x27;] || [];
-    if( sid &amp;amp;&amp;amp; oid &amp;amp;&amp;amp; pid ){
+    var sid = fact['subject'];
+    var oid = fact['object'];
+    var pid = fact['property'];
+    var plbl = fact['property-label'];
+    var anns = fact['annotations'] || [];
+    if( sid &amp;&amp; oid &amp;&amp; pid ){
 
 	new_edge = anchor.create_edge(sid, oid, pid);
 	if( ! us.isArray(anns) ){
-	    throw new Error(&#x27;annotations is wrong&#x27;);
+	    throw new Error('annotations is wrong');
 	}else{
 	    // Add the annotations individually.
 	    each(anns, function(ann_kv_set){
@@ -915,11 +1126,15 @@ noctua_graph.prototype.add_edge_from_fact = function(fact){
 		new_edge.add_annotation(na);
 	    });
 	}
+	// Add edge if possible.
+	if( plbl ){
+	    new_edge.label(plbl);
+	}
 
 	// Add and ready to return edge.
 	anchor.add_edge(new_edge);
     }
-    
+
     return new_edge;
 };
 
@@ -931,29 +1146,29 @@ noctua_graph.prototype.add_edge_from_fact = function(fact){
  */
 noctua_graph.prototype.get_edge_by_id = function(edge_id){
     var ret = null;
-    var ep = this.core[&#x27;edges&#x27;][edge_id];
+    var ep = this.core['edges'][edge_id];
     if( ep ){ ret = ep; }
     return ret;
 };
 
 /**
- * Return an edge ID by it&#x27;s associated connector ID if extant.
+ * Return an edge ID by it's associated connector ID if extant.
  *
  * @param {String} cid - the ID of the connector.
  * @returns {String} - the ID of the associated edge
  */
 noctua_graph.prototype.get_edge_id_by_connector_id = function(cid){
-    return this.core[&#x27;connector2edge&#x27;][cid] || null;
+    return this.core['connector2edge'][cid] || null;
 };
 
 /**
- * Return a connector by it&#x27;s associated edge ID if extant.
+ * Return a connector by it's associated edge ID if extant.
  *
  * @param {String} eid - the ID of the edge
  * @returns {String} - the connector ID
  */
 noctua_graph.prototype.get_connector_id_by_edge_id = function(eid){
-    return this.core[&#x27;edge2connector&#x27;][eid] || null;
+    return this.core['edge2connector'][eid] || null;
 };
 
 /**
@@ -986,24 +1201,24 @@ noctua_graph.prototype.get_connector_id_by_edge_id = function(eid){
 noctua_graph.prototype.remove_edge_by_id = function(eeid){
     var ret = false;
 
-    if( this.core[&#x27;edges&#x27;][eeid] ){
+    if( this.core['edges'][eeid] ){
 
 	// Summon up the edge to properly remove it from the model.
-	var eedge = this.core[&#x27;edges&#x27;][eeid];
+	var eedge = this.core['edges'][eeid];
 
 	// Remove the node itself from super.
 	ret = bbop_graph.prototype.remove_edge.call(this,
 						    eedge.subject_id(),
 						    eedge.object_id(),
 						    eedge.predicate_id());
-	
+
 	// Main bit out.
-	delete this.core[&#x27;edges&#x27;][eeid];
+	delete this.core['edges'][eeid];
 
 	// And clean the maps.
-	var cid = this.core[&#x27;edge2connector&#x27;][eeid];
-	delete this.core[&#x27;edge2connector&#x27;][eeid];
-	delete this.core[&#x27;connector2edge&#x27;][cid];
+	var cid = this.core['edge2connector'][eeid];
+	delete this.core['edge2connector'][eeid];
+	delete this.core['connector2edge'][cid];
     }
 
     return ret;
@@ -1022,8 +1237,8 @@ noctua_graph.prototype.remove_edge_by_id = function(eeid){
 noctua_graph.prototype.create_edge_mapping = function(eedge, connector){
     var eid = eedge.id();
     var cid = connector.id;
-    this.core[&#x27;edge2connector&#x27;][eid] = cid;
-    this.core[&#x27;connector2edge&#x27;][cid] = eid;
+    this.core['edge2connector'][eid] = cid;
+    this.core['connector2edge'][cid] = eid;
 };
 
 /**
@@ -1038,22 +1253,22 @@ noctua_graph.prototype.dump = function(){
 
     //
     var dcache = [];
-    
-    each(this.get_nodes(), function(node, node_id){	
-	var ncache = [&#x27;node&#x27;];
+
+    each(this.get_nodes(), function(node, node_id){
+	var ncache = ['node'];
 	ncache.push(node.id());
-	dcache.push(ncache.join(&quot;\t&quot;));
+	dcache.push(ncache.join("\t"));
     });
-    
-    each(this.core[&#x27;edges&#x27;], function(edge, edge_id){
-	var ecache = [&#x27;edge&#x27;];
+
+    each(this.core['edges'], function(edge, edge_id){
+	var ecache = ['edge'];
 	ecache.push(edge.subject_id());
 	ecache.push(edge.predicate_id());
 	ecache.push(edge.object_id());
-	dcache.push(ecache.join(&quot;\t&quot;));
+	dcache.push(ecache.join("\t"));
     });
-    
-    return dcache.join(&quot;\n&quot;);
+
+    return dcache.join("\n");
 };
 
 /**
@@ -1062,8 +1277,12 @@ noctua_graph.prototype.dump = function(){
  * operation (e.g. annotations and other non-unique entities
  * accumulate). Graph ID is /not/ copied.
  *
+ * modified-p and inconsistent-p properties are copied from the the
+ * incoming graph (assuming that the update has more recent
+ * information).
+ *
  * @param {graph} in_graph - the graph to merge in
- * @returns {Boolean} if graph was loaded 
+ * @returns {Boolean} if graph was loaded
  */
 noctua_graph.prototype.merge_in = function(in_graph){
     var anchor = this;
@@ -1073,8 +1292,8 @@ noctua_graph.prototype.merge_in = function(in_graph){
     // Function to check if two annotations are the same.
     function _is_same_ann(a1, a2){
     	var ret = false;
-    	if( a1.key() === a2.key() &amp;amp;&amp;amp;
-    	    a1.value() === a2.value() &amp;amp;&amp;amp;
+    	if( a1.key() === a2.key() &amp;&amp;
+    	    a1.value() === a2.value() &amp;&amp;
     	    a1.value_type() === a2.value_type() ){
     	    ret = true;
     	}
@@ -1091,6 +1310,24 @@ noctua_graph.prototype.merge_in = function(in_graph){
     	}
     });
 
+    // Accept the signal that the merge in graph (update) has the
+    // correct modification and inconsistent information.
+    anchor._inconsistent_p = in_graph._inconsistent_p;
+    anchor._modified_p = in_graph._modified_p;
+
+    // Accept the signal that the merge in graph (update) has the
+    // correct validation/violation information.
+    // TODO: Ask @goodb what the semantics are for different
+    // signals when the reasoner are on--I'm assuming we clobber
+    // here.
+    anchor._violations = [];
+    each(in_graph._violations, function(violation){
+	anchor._violations.push(violation.clone());
+    });
+    anchor._valid_p = in_graph._valid_p;
+    anchor._valid_owl_p = in_graph._valid_owl_p;
+    anchor._valid_shex_p = in_graph._valid_shex_p;
+
     return ret;
 };
 
@@ -1098,28 +1335,28 @@ noctua_graph.prototype.merge_in = function(in_graph){
  * Merge another graph into the current graph, with special overwrite
  * rules. In essence, this could be used when trying to simulate a
  * rebuild even though you got merge data.
- * 
+ *
  * Annotations in any top-level item (graph, node, edge), or lack
  * thereof, from the incoming graph is preferred.
- * 
+ *
  * All extant edges and nodes in the incoming graph are clobbered.
  *
- * The incoming graph is considered to be &quot;complete&quot;, so any edges
+ * The incoming graph is considered to be "complete", so any edges
  * where both the source and sink are in the incoming graph are
  * considered to be the only edges between those node.
  *
  * Graph ID is /not/ copied.
  *
- * Beware that you&#x27;re in the right folded mode.
+ * Beware that you're in the right folded mode.
  *
  * @param {graph} in_graph - the graph to merge in
- * @returns {Boolean} if graph was loaded 
+ * @returns {Boolean} if graph was loaded
  */
 noctua_graph.prototype.merge_special = function(in_graph){
     var anchor = this;
 
     // Since we can actually legally have an edge delete in the
-    // merge, let&#x27;s go ahead and cycle through the &quot;complete&quot;
+    // merge, let's go ahead and cycle through the "complete"
     // graph and toss edges from individuals involved in the
     // merge.
     var involved_node = {};
@@ -1129,16 +1366,16 @@ noctua_graph.prototype.merge_special = function(in_graph){
     // Okay, now get rid of all edges that are defined by the
     // involved nodes.
     each(anchor.all_edges(), function(edge){
-	if(involved_node[edge.subject_id()] &amp;amp;&amp;amp; involved_node[edge.object_id()]){
+	if(involved_node[edge.subject_id()] &amp;&amp; involved_node[edge.object_id()]){
 	    anchor.remove_edge_by_id(edge.id());
 	}
     });
-    
+
     // Blitz our old annotations as all new will be incoming (and
     // the merge just takes the superset). Will be fine with fix:
     // https://github.com/geneontology/minerva/issues/5
     anchor.annotations([]);
-    
+
     var ret = anchor.merge_in(in_graph);
     return ret;
 };
@@ -1160,7 +1397,7 @@ noctua_graph.prototype.merge_special = function(in_graph){
  * The final graph would be:
  *  A, B, C and edge (A,B), and A.2, B.1.
  *
- * Essentially, any entity in the new graph clobbers the &quot;old&quot;
+ * Essentially, any entity in the new graph clobbers the "old"
  * version; nodes not mentioned are left alone, the subgraph edges are
  * assumed to be complete with reference to the contained nodes. This
  * can express removal of things like annotations and sometimes edges,
@@ -1174,7 +1411,7 @@ noctua_graph.prototype.merge_special = function(in_graph){
  *
  * @deprecated
  * @param {graph} in_graph - the graph to update with
- * @returns {Boolean} if graph was loaded 
+ * @returns {Boolean} if graph was loaded
  */
 noctua_graph.prototype.update_with = function(update_graph){
     var anchor = this;
@@ -1194,33 +1431,33 @@ noctua_graph.prototype.update_with = function(update_graph){
 	// reconstructed as well.
 	var update_node = anchor.get_node(ind.id());
 	if( update_node ){
-	    //console.log(&#x27;update node: &#x27; + ind.id());
+	    //console.log('update node: ' + ind.id());
 	}else{
-	    //console.log(&#x27;add new node&#x27; + ind.id());	    
+	    //console.log('add new node' + ind.id());
 	}
 	// Mark as a modified node.
 	updatable_nodes[ind.id()] = true;
 	// Add new node to edit core.
-	anchor.add_node(ind.clone());	    
+	anchor.add_node(ind.clone());
     });
-    
+
     // Now look at edges (by individual) for purging and
     // reinstating--no going to try and update edges, just clobber.
     each(update_graph.all_nodes(), function(source_node){
-    	//console.log(&#x27;looking at node: &#x27; + source_node.id());
-	
+    	//console.log('looking at node: ' + source_node.id());
+
     	// Look up what edges it has in /core/, as they will be the
     	// ones to update.
     	var snid = source_node.id();
     	var src_edges = anchor.get_edges_by_subject(snid);
-	
+
     	// Delete all edges for said node in model. We cannot
     	// (apparently?) go from connection ID to connection easily,
     	// so removing from UI is a separate step.
     	each(src_edges, function(src_edge){
     	    // Remove from model.
     	    var removed_p = anchor.remove_edge_by_id(src_edge.id());
-    	    //console.log(&#x27;remove edge (&#x27; + removed_p + &#x27;): &#x27; + src_edge.id());
+    	    //console.log('remove edge (' + removed_p + '): ' + src_edge.id());
     	});
     });
 
@@ -1231,7 +1468,7 @@ noctua_graph.prototype.update_with = function(update_graph){
 	anchor.remove_edge_by_id(in_id);
 	anchor.add_edge(edge.clone());
     });
-    
+
     return true;
 };
 
@@ -1240,8 +1477,8 @@ noctua_graph.prototype.update_with = function(update_graph){
  *
  * TODO: inferred individuals
  *
- * @param {Object} the &quot;data&quot; portion of a Minerva graph-related response.
- * @returns {Boolean} if data was loaded 
+ * @param {Object} the "data" portion of a Minerva graph-related response.
+ * @returns {Boolean} if data was loaded
  */
 noctua_graph.prototype.load_data_basic = function(data){
     var anchor = this;
@@ -1249,10 +1486,10 @@ noctua_graph.prototype.load_data_basic = function(data){
     var ret = false;
 
     if( data ){
-	
+
 	// Add the graph metadata.
-	var graph_id = data[&#x27;id&#x27;] || null;
-	var graph_anns = data[&#x27;annotations&#x27;] || [];
+	var graph_id = data['id'] || null;
+	var graph_anns = data['annotations'] || [];
 	if( graph_id ){ anchor.id(graph_id); }
 	if( ! us.isEmpty(graph_anns) ){
 	    each(graph_anns, function(ann_kv_set){
@@ -1260,21 +1497,76 @@ noctua_graph.prototype.load_data_basic = function(data){
 		anchor.add_annotation(na);
 	    });
 	}
-	
+
+	// Add the additional metadata.
+	if( typeof(data['inconsistent-p']) !== 'undefined' ){
+	    anchor._inconsistent_p = data['inconsistent-p'];
+	}
+	if( typeof(data['modified-p']) !== 'undefined' ){
+	    anchor._modified_p = data['modified-p'];
+	}
+
+	// Validation/violation information. Currently, this will only
+	// be entered if the reasoner is on.
+	if( typeof(data['validation-results']) !== 'undefined' &amp;&amp;
+	    us.isObject(data['validation-results']) ){
+
+	    var vres = data['validation-results'];
+
+	    // Top level.
+	    if( us.isBoolean(vres['is-conformant']) ){
+		if( vres['is-conformant'] === true ){
+		    anchor._valid_p = true;
+		}else if( vres['is-conformant'] === false ){
+		    anchor._valid_p = false;
+		}
+	    }
+
+	    // OWL.
+	    if( vres['owl-validation'] &amp;&amp; us.isObject(vres['owl-validation']) ){
+		if( vres['owl-validation']['is-conformant'] === true ){
+		    anchor._valid_owl_p = true;
+		}else if( vres['owl-validation']['is-conformant'] === false ){
+		    anchor._valid_owl_p = false;
+		}
+	    }
+
+	    // ShEx.
+	    if( vres['shex-validation'] &amp;&amp; us.isObject(vres['shex-validation'])){
+		if( vres['shex-validation']['is-conformant'] === true ){
+		    anchor._valid_shex_p = true;
+		}else if( vres['shex-validation']['is-conformant'] === false ){
+		    anchor._valid_shex_p = false;
+		}
+	    }
+
+	    // Collect into violation objects; currently just ShEx.
+	    if( vres['shex-validation'] &amp;&amp;
+		us.isObject(vres['shex-validation']) &amp;&amp;
+		us.isArray(vres['shex-validation']['violations']) ){
+
+		var violations = vres['shex-validation']['violations'] || [];
+		each(violations, function(raw_v){
+		    var new_v = new violation(raw_v);
+		    anchor._violations.push(new_v);
+		});
+	    }
+	}
+
 	// Easy facts.
-	var facts = data[&#x27;facts&#x27;];
+	var facts = data['facts'];
 	each(facts, function(fact){
 	    anchor.add_edge_from_fact(fact);
 	});
 
 	// Build the structure of the graph in the most obvious way.
-	var inds = data[&#x27;individuals&#x27;];
+	var inds = data['individuals'];
 	each(inds, function(ind){
 	    anchor.add_node_from_individual(ind);
 	});
 
 	ret = true;
-    }	
+    }
 
     return ret;
 };
@@ -1294,7 +1586,7 @@ noctua_graph.prototype.extract_evidence_seeds = function(){
     // Take and, and see if it is an evidence reference.
     function is_iri_ev_p(ann){
 	var ret = false;
-	if( ann.key() === &#x27;evidence&#x27; &amp;amp;&amp;amp; ann.value_type() === &#x27;IRI&#x27; ){
+	if( ann.key() === 'evidence' &amp;&amp; ann.value_type() === 'IRI' ){
 	    ret = true;
 	}
 	return ret;
@@ -1306,15 +1598,15 @@ noctua_graph.prototype.extract_evidence_seeds = function(){
     var seeds = {}; // collect all possibilities here
     function pull_seeds(entity, test_p){
 	each(entity.annotations(), function(ann){
-	    
+
 	    //console.log(ann.key(), ann.value_type(), ann.value());
-	    
+
 	    // Is it an evidence annotation.
 	    if( ! test_p(ann) ){
 		// Skip.
-		//console.log(&#x27;skip folding with failed test&#x27;);
+		//console.log('skip folding with failed test');
 	    }else{
-		//console.log(&#x27;start folding with passed test&#x27;);
+		//console.log('start folding with passed test');
 
 		// If so, and the individual in question exists, it is
 		// the jumping off point for the evidence folding
@@ -1344,7 +1636,7 @@ noctua_graph.prototype.extract_evidence_seeds = function(){
  *
  * The ID for the graph will be the ID of the seed node.
  *
- * BUG/WARNING: The clique actually needs to use the walked rather
+ * BUG/WARNING: The clique actually needs to use the walker rather
  * than the anc/desc functions it uses now.
  *
  * @param {String} node_id the ID of the see node in an evidence clique
@@ -1356,9 +1648,9 @@ noctua_graph.prototype.get_evidence_clique = function(node_id){
     // Create the clique by grabbing all nodes and creating a walkable
     // neighborhood.
     var up = anchor.get_ancestor_subgraph(node_id);
-    //console.log(&quot;UP: &quot;, up);
+    //console.log("UP: ", up);
     var down = anchor.get_descendent_subgraph(node_id);
-    //console.log(&quot;DOWN: &quot;, down);
+    //console.log("DOWN: ", down);
     up.merge_in(down);
 
     up.id(node_id);
@@ -1369,7 +1661,7 @@ noctua_graph.prototype.get_evidence_clique = function(node_id){
 
 /**
  * Extract an evidence subclique starting at a seed node.
- * 
+ *
  * A subclique is a subgraph within a clique that represents a piece
  * of evidence, and may overlap with other pieces of evidence.
  *
@@ -1397,29 +1689,29 @@ noctua_graph.prototype.get_evidence_subclique = function(node_id){
 	var ret_graph = anchor.create_graph();
 	ret_graph.id(node_id);
 	ret_graph.add_node(seed_node.clone());
-	
+
 	// For more complicated PMID evidence, we need to walk a
 	// little deeper.
 	// Add the kids...
-	var kids = anchor.get_child_nodes(seed_node.id(), &#x27;IAO:0000136&#x27;);
+	var kids = anchor.get_child_nodes(seed_node.id(), 'IAO:0000136');
 	if( ! us.isEmpty(kids) ){
 	    each(kids, function(kid){
 		var klone = kid.clone();
-		ret_graph.add_node(klone);	    
+		ret_graph.add_node(klone);
 	    });
 	    // ...and create new edges.
-	    var keds = anchor.get_child_edges(seed_node.id(), &#x27;IAO:0000136&#x27;);
+	    var keds = anchor.get_child_edges(seed_node.id(), 'IAO:0000136');
 	    each(keds, function(ked){
 		var klone = ked.clone();
-		ret_graph.add_edge(klone);	    
+		ret_graph.add_edge(klone);
 	    });
-	
+
 	    // TODO: Dig down deeper from here for publication.
 	}
 
 	// TODO: Dig down deeper from here for non-publication.
 
-	// This is what we&#x27;ll return.
+	// This is what we'll return.
 	ret = ret_graph;
     }
 
@@ -1436,75 +1728,75 @@ noctua_graph.prototype.get_evidence_subclique = function(node_id){
  * added to fold away references to references as long as a matching
  * function is provided.
  *
- * @returns {Boolean} if data was loaded 
+ * @returns {Boolean} if data was loaded
  */
 noctua_graph.prototype.fold_evidence = function(){
     var anchor = this;
 
     var ret = false;
-    
+
     // We are going to fold by clique.
     var seeds = anchor.extract_evidence_seeds();
-    //console.log(&#x27;seeds&#x27;, us.keys(seeds));
+    //console.log('seeds', us.keys(seeds));
 
     // Get the cliques (super-neighborhood evidence) and get a map of
     // what seeds are in each clique. Instead of comparing cliques to
-    // eliminate dupes (it&#x27;s possible to have shared structure), we
-    // just keep checking the seeds, marking the ones that we&#x27;ve seen
-    // so we don&#x27;t check again.
+    // eliminate dupes (it's possible to have shared structure), we
+    // just keep checking the seeds, marking the ones that we've seen
+    // so we don't check again.
     //
     // This section produces a clique map and a clique to sed map.
     //
-    var cliques = {}; // clique_id-&gt;clique
-    var clique_seed_map = {}; // clique_id-&gt;{seeds-&gt;true, in-&gt;true, clique-&gt;true}
+    var cliques = {}; // clique_id->clique
+    var clique_seed_map = {}; // clique_id->{seeds->true, in->true, clique->true}
     var skippable_seeds = {}; // once we see a seed, we can skip it afterwards
     each(seeds, function(referncing_entity, seed_id){
-	//console.log(&#x27;seed_id&#x27;, seed_id);
+	//console.log('seed_id', seed_id);
 	if( ! skippable_seeds[seed_id] ){ // skip uneeded ones
 
 	    // Get clique.
 	    var clique = anchor.get_evidence_clique(seed_id);
 	    var clique_id = clique.id();
-	    //console.log(&#x27; clique_id&#x27;, clique_id);
-	    //console.log(&#x27; clique&#x27;, clique);
-	    
+	    //console.log(' clique_id', clique_id);
+	    //console.log(' clique', clique);
+
 	    // Ready clique map.
 	    clique_seed_map[clique_id] = {};
 
-	    // 
+	    //
 	    each(seeds, function(check_referencing_entity, check_seed_id){
 		if( ! skippable_seeds[check_seed_id] ){ // skip uneeded ones
-		    //console.log(&#x27; pass&#x27;, check_seed_id);
+		    //console.log(' pass', check_seed_id);
 
-		    // 
+		    //
 		    if( clique.get_node(check_seed_id) ){
-			//console.log(&#x27; in clique:&#x27;, check_seed_id);
+			//console.log(' in clique:', check_seed_id);
 
 			// Add seed to map and skippable.
 			clique_seed_map[clique_id][check_seed_id] = true;
 			skippable_seeds[check_seed_id] = true;
 			cliques[clique_id] = clique;
-			// console.log(&#x27;seed&#x27;,check_seed_id,
-			// 	    &#x27;\n in clique&#x27;,clique_id);
+			// console.log('seed',check_seed_id,
+			// 	    '\n in clique',clique_id);
 		    }else{
-			// Pass. 
-			// console.log(&#x27;seed&#x27;,check_seed_id,
-			// 	    &#x27;not in clique&#x27;,clique_id);
+			// Pass.
+			// console.log('seed',check_seed_id,
+			// 	    'not in clique',clique_id);
 		    }
 		}
 	    });
 	}
     });
 
-    //console.log(&#x27;cliques&#x27;, cliques);
-    //console.log(&#x27;cliques&#x27;, us.keys(cliques));
-    //console.log(&#x27;clique_seed_map&#x27;, clique_seed_map);
+    //console.log('cliques', cliques);
+    //console.log('cliques', us.keys(cliques));
+    //console.log('clique_seed_map', clique_seed_map);
 
     // Okay, we will do the folding on a clique-by-clique basis. See
     // the top of the file for rules.
     each(cliques, function(clique, clique_id){
 
-	//console.log(&#x27;clique_id&#x27;, clique_id);
+	//console.log('clique_id', clique_id);
 
 	// Nodes in the clique.
 	var clique_nodes = {};
@@ -1515,7 +1807,7 @@ noctua_graph.prototype.fold_evidence = function(){
 
 	// Collect the subcliques for every clique.
 	var contained_seed_map = clique_seed_map[clique_id];
-	//console.log(&#x27;csm&#x27;, contained_seed_map);
+	//console.log('csm', contained_seed_map);
 	var subcliques = {};
 	each(contained_seed_map, function(bool, seed_id){
 
@@ -1534,13 +1826,13 @@ noctua_graph.prototype.fold_evidence = function(){
 	    });
 	});
 
-	//console.log(&#x27;clique_nodes&#x27;, clique_nodes);
-	//console.log(&#x27;subcliques&#x27;, subcliques);
+	//console.log('clique_nodes', clique_nodes);
+	//console.log('subcliques', subcliques);
 
 	// Okay, if the clique_nodes map is empty, that means it is
 	// completely covered by the subcliques and can be removed.
 	if( ! us.isEmpty(clique_nodes) ){
-	    //console.log(&#x27; cannot fold clique due to maigo no node&#x27;);
+	    //console.log(' cannot fold clique due to maigo no node');
 	}else{
 	    // Add subcliques to initial referring nodes.
 	    each(subcliques, function(subclique, seed_id){
@@ -1548,25 +1840,25 @@ noctua_graph.prototype.fold_evidence = function(){
 		// the original graph.
 		var origin_entity = seeds[seed_id]; // still a copy
 		if( ! origin_entity ){
-		    // console.log(&#x27;skip addition (possibly edge uuid)&#x27;);
-		    // console.log(&#x27;skip addition over (A)&#x27;, seed_id);
-		    // console.log(&#x27;skip addition over (B)&#x27;,
+		    // console.log('skip addition (possibly edge uuid)');
+		    // console.log('skip addition over (A)', seed_id);
+		    // console.log('skip addition over (B)',
 		    // 		origin_node_clone_maybe.id());
 		}else{
-		    // Since origin_entity is a copy, we&#x27;ll modify it
+		    // Since origin_entity is a copy, we'll modify it
 		    // and re-add it to the graph to make change
 		    // permanent.
 		    origin_entity.add_referenced_subgraph(subclique);
 		    // clobber non-ref version
 		    var entity_is =  bbop.what_is(origin_entity);
 		    //console.log(entity_is, entity_is);
-		    if( entity_is === &#x27;bbop-graph-noctua.node&#x27; ){
+		    if( entity_is === 'bbop-graph-noctua.node' ){
 			anchor.add_node(origin_entity);
-		    }else if( entity_is === &#x27;bbop-graph-noctua.edge&#x27; ){
+		    }else if( entity_is === 'bbop-graph-noctua.edge' ){
 			anchor.add_edge(origin_entity);
 		    }else{
 			// Very Bad.
-			console.log(&#x27;ERROR: attempt to clobber unknown entity&#x27;);
+			console.log('ERROR: attempt to clobber unknown entity');
 		    }
 		}
 	    });
@@ -1574,7 +1866,7 @@ noctua_graph.prototype.fold_evidence = function(){
 	    // Disolve the entire clique from graph, depending on edge
 	    // to auto-disolve.
 	    each(clique.all_nodes(), function(removable_cn, cni){
-		//console.log(&#x27;remove&#x27;, cni , removable_cn.id());
+		//console.log('remove', cni , removable_cn.id());
 		//console.log(anchor.remove_node(removable_cn.id(), true));
 		anchor.remove_node(removable_cn.id(), true);
 	    });
@@ -1588,62 +1880,135 @@ noctua_graph.prototype.fold_evidence = function(){
 
 /**
  * In addition to everything we did for {fold_evidence},
- * we&#x27;re going to search for nodes that have enabled_by and/or
+ * we're going to search for nodes that have enabled_by and/or
  * occurs_in (or any other specified relation) targets (that are
  * themselves leaves) fold them in to the contained subgraph item, and
  * remove them from the top-level graph.
  *
  * TODO: inferred individuals
  *
- * @param {Array} list of relations (as strings) to scan for for collapsing
- * @returns {Boolean} if data was loaded 
+ * @param {Array} relation_list of relations (as strings) to scan for for collapsing
+ * @param {Array} relation_reverse_list of relations (as strings) to scan for for collapsing in the opposite direction.
+ * @returns {Boolean} if data was loaded
  */
-noctua_graph.prototype.fold_go_noctua = function(relation_list){
+noctua_graph.prototype.fold_go_noctua = function(relation_list,
+						 relation_reverse_list){
     var anchor = this;
 
     // Start out with the evidence folded graph.
     var ret = anchor.fold_evidence();
     if( ! ret ){ return false; } // Early bail on bad upstream.
-    
+
     // It is foldable if it is a root node (re: opposite of leaf--only
     // target) and if it only has the one child (no way out--re: collapsible ).
     function _foldable_p(node){
 	var ret = false;
-	if( anchor.is_root_node(node.id()) &amp;amp;&amp;amp;
+	// console.log("  " + dd(node.id()));
+	if( anchor.is_root_node(node.id()) &amp;&amp;
+	    ! node.subgraph() &amp;&amp; // cannot fold if already folded into
 	    anchor.get_child_nodes(node.id()).length === 1 ){
-		//console.log(&quot;foldable: &quot; + node.id());
+		// console.log("    Y root_p: " +
+		// 	    anchor.is_root_node(node.id()) +
+		// 	    ";  kids: " +
+		// 	    anchor.get_child_nodes(node.id()).length);
 		ret = true;
+	    }else{
+		// console.log("    N root_p: " +
+		// 	    anchor.is_root_node(node.id()) +
+		// 	    ";  kids: " +
+		// 	    anchor.get_child_nodes(node.id()).length);
 	    }
 	return ret;
     }
 
+    // It is reverse foldable if it is a leaf node (re: opposite of
+    // root--only source) and if it only has the one child (no way
+    // out--re: collapsible ).
+    function _reverse_foldable_p(node){
+	var ret = false;
+	if( anchor.is_leaf_node(node.id()) &amp;&amp;
+	    ! node.subgraph() &amp;&amp; // cannot fold if already folded into
+	    anchor.get_parent_nodes(node.id()).length === 1 ){
+		//console.log("is foldable: " + node.id());
+		ret = true;
+	    }else{
+		//console.log("not foldable: " + node.id());
+	    }
+	// console.log("  leaf_p: " + anchor.is_leaf_node(node.id()) +
+	// 	    ";  parents: " + anchor.get_parent_nodes(node.id()).length);
+	return ret;
+    }
+
     // Okay, first scan all nodes for our pattern.
-    each(anchor.all_nodes(), function(ind){
+    // each(anchor.all_nodes(), function(pattern_seed_indv){
+    // Temporarily enforce an ordering so we can debug/have consistent
+    // results.
+    var todo_nodes = anchor.all_nodes();
+    todo_nodes = todo_nodes.sort(function(a,b){
+	//console.log(a.id()+' vs. '+ b.id() +': '+a.id().localeCompare(b.id()));
+	return a.id().localeCompare(b.id());
+    });
+    each(todo_nodes, function(pattern_seed_indv){
+	//console.log( dd(pattern_seed_indv.id()) );
+
+	var pattern_seed_id = pattern_seed_indv.id();
 
 	// The possible base subgraph (seeding with current node--note
-	// the clone so we don&#x27;t have infinite recursion) we might
+	// the clone so we don't have infinite recursion) we might
 	// capture.
 	var subgraph = anchor.create_graph();
-	subgraph.add_node(ind.clone());
+	subgraph.add_node(pattern_seed_indv.clone());
 
-	// Check a set of relations for completeness: enabled_by and
-	// occurs_in (location).
-	//var collapsable_relations = [&#x27;RO:0002333&#x27;, &#x27;BFO:0000066&#x27;];
+	// Fold checking is independent of reverse or not.
+	var fold_occurred_p = false;
+
+	// Check a set of relations for completeness.
 	var collapsable_relations = relation_list || [];
 	each(collapsable_relations, function(relation){
-	    
-	    var kids = anchor.get_parent_nodes(ind.id(), relation);
-	    each(kids, function(kid){
-		if( _foldable_p(kid) ){
+
+	    var parents = anchor.get_parent_nodes(pattern_seed_id, relation);
+	    each(parents, function(parent){
+
+		if( _foldable_p(parent) ){
+		    fold_occurred_p = true;
 
 		    // Preserve it and its edge in the new subgraph.
-		    subgraph.add_node(kid.clone());
-		    subgraph.add_edge(
-			anchor.get_parent_edges(ind.id(), relation)[0].clone());
+		    var p = parent.clone();
+		    // if( p.subgraph() ){
+		    // 	console.log('  has SUB');
+		    // }
+		    subgraph.add_node(p);
+		    var eta = anchor.get_edge(pattern_seed_id, p.id(), relation);
+		    subgraph.add_edge(eta.clone());
+		    // subgraph.report_state();
 
 		    // Remove same from the original graph, edge will be
 		    // destroyed in the halo.
-		    anchor.remove_node(kid.id(), true);
+		    anchor.remove_node(parent.id(), true);
+		    // console.log('  *destroyed: ' + dd(parent.id()) );
+		}
+	    });
+	});
+
+	// ...and now the other way.
+	var collapsable_reverse_relations = relation_reverse_list || [];
+	each(collapsable_reverse_relations, function(relation){
+
+	    var children = anchor.get_child_nodes(pattern_seed_id, relation);
+	    each(children, function(child){
+
+		if( _reverse_foldable_p(child) ){
+		    fold_occurred_p = true;
+
+		    // Preserve it and its edge in the new subgraph.
+		    subgraph.add_node(child.clone());
+		    subgraph.add_edge( // we know it's just one from above
+			anchor.get_child_edges(pattern_seed_id,
+					       relation)[0].clone());
+
+		    // Remove same from the original graph, edge will
+		    // be destroyed in the halo.
+		    anchor.remove_node(child.id(), true);
 		}
 	    });
 	});
@@ -1652,9 +2017,10 @@ noctua_graph.prototype.fold_go_noctua = function(relation_list){
 	// than 1 node in it; i.e. we actually actually added things
 	// to our local subgraph and removed them from the master
 	// graph.
-	if( subgraph.all_nodes().length &gt; 1 ){
-	    //console.log(&#x27;slurpable subgraph for: &#x27; + ind.id());
-	    ind.subgraph(subgraph);
+	if( fold_occurred_p ){
+	    // console.log('slurpable subgraph ('+ subgraph.all_nodes().length +
+	    // 		') for: ' + pattern_seed_id);
+	    pattern_seed_indv.subgraph(subgraph);
 	}
 
     });
@@ -1666,59 +2032,190 @@ noctua_graph.prototype.fold_go_noctua = function(relation_list){
  * Essentially, undo anything that could be done in a folding
  * step--return the graph to its most expanded form.
  *
+ * @param {Object} [incoming_graph] subgraph to unfold into the calling graph (default behaviour would be calling itself; only really used internally by this method for recursion)
  * @returns {Boolean} if unfolded (should always be true)
  */
-noctua_graph.prototype.unfold = function(){
+noctua_graph.prototype.unfold = function(incoming_graph){
     var anchor = this;
+
+    // If not a recursive, we will operate on ourselves.
+    if( ! incoming_graph ){
+    	incoming_graph = anchor;
+    }
 
     // For any entity, remove its referenced individuals and re-add
     // them to the graph.
-    function _unfold_reference(item){
-	// Get.
-	var ref_graphs = item.referenced_subgraphs();
+    function _unfold_subgraph(sub){
+
+	// Restore to graph.
+	// console.log('   unfold # (' + sub.all_nodes().length + ', ' +
+	// 	    sub.all_edges().length + ')');
+	each(sub.all_nodes(), function(node){
+	    anchor.add_node(node);
+	});
+	each(sub.all_edges(), function(edge){
+	    anchor.add_edge(edge);
+	});
+    }
+
+    // Apply to all nodes.
+    each(incoming_graph.all_nodes(), function(node){
+
+	// Get references (ev).
+	var ref_graphs = node.referenced_subgraphs();
 
 	// Restore to graph.
 	each(ref_graphs, function(sub){
-	    each(sub.all_nodes(), function(node){
-		anchor.add_node(node);
-	    });
-	    each(sub.all_edges(), function(edge){
-		anchor.add_edge(edge);
-	    });
+	    _unfold_subgraph(sub);
 	});
 
 	// Remove references.
-	item.referenced_subgraphs([]);
-    }
-    // Apply to all nodes.
-    each(anchor.all_nodes(), function(node){ _unfold_reference(node); });
-    // Apply to all edges.
-    each(anchor.all_edges(), function(edge){ _unfold_reference(edge); });
+	node.referenced_subgraphs([]);
 
-    // For all individuals, apply its subgraph back to the main graph
-    // and reset.
-    each(anchor.all_nodes(), function(node){
+	// Now that they've been removed (to help prevent loops) try
+	// and recur.
+	each(ref_graphs, function(sub){
+	    anchor.unfold(sub);
+	});
 
-	// Get the subgraph.
-	var sub = node.subgraph();
-
-	// If extant, walk it and apply all parts to outer graph.
-	if( sub ){
-	    each(sub.all_nodes(), function(node){
-		anchor.add_node(node);
-	    });
-	    each(sub.all_edges(), function(edge){
-		anchor.add_edge(edge);
-	    });
+	// Repeat with any absorbed subgraph.
+	var asub = node.subgraph();
+	if( asub ){
+	    _unfold_subgraph(asub);
+	    node.subgraph(null); // eliminate after it has been re-added
+	    // Recur on any found subgraphs, safer since the elimination.
+	    anchor.unfold(asub);
 	}
 
-	// Destroy the reference.
-	sub = node.subgraph(null);
+    });
+
+    // Apply to all edges.
+    each(incoming_graph.all_edges(), function(edge){
+
+	// Get references (ev).
+	var ref_graphs = edge.referenced_subgraphs();
+
+	// Restore to graph.
+	each(ref_graphs, function(sub){
+	    _unfold_subgraph(sub);
+	});
+
+	// Remove references.
+	edge.referenced_subgraphs([]);
+
+	// Now that they've been removed, try and recur (to help
+	// prevent loops).
+	each(ref_graphs, function(sub){
+	    anchor.unfold(sub);
+	});
     });
 
     // Revisit if we want something meaningful out of here.
     var retval = true;
     return retval;
+};
+
+/**
+ * Provide a verbose report of the current state of the graph and
+ * subgraphs. Writes using console.log; only to be used for debugging.
+ *
+ * @returns {null} just the facts
+ */
+noctua_graph.prototype.report_state = function(incoming_graph, indentation){
+    var anchor = this;
+
+    // If not a recursive, we will operate on ourselves.
+    if( ! incoming_graph ){
+    	incoming_graph = anchor;
+    }
+
+    // Start with no indentation.
+    if( typeof(indentation) === 'undefined' ){
+    	indentation = 0;
+    }
+
+    // Collect spacing for this indentation level of logging.
+    var spacing = '';
+    for( var i = 0; i &lt; indentation; i++ ){
+	spacing += '   ';
+    }
+    function ll(str){
+	console.log(spacing + str);
+    }
+    function short(str){
+	return str.substr(str.length - 16);
+    }
+
+    // Restore to graph.
+    var gid = incoming_graph.id() || '(anonymous graph)';
+    ll(gid);
+    ll(' entities # (' + incoming_graph.all_nodes().length +
+       ', ' + incoming_graph.all_edges().length + ')');
+
+    // Show node information, arbitrary, but fixed, order.
+    each(incoming_graph.all_nodes().sort(function(a,b){
+	if( a.id() > b.id() ){
+	    return 1;
+	}else if( a.id() &lt; b.id() ){
+	    return -1;
+	}
+	return 0;
+    }), function(node){
+	ll(' node: ' + dd(node.id()));
+
+	// Subgraph.
+	var subgraph = node.subgraph();
+	if( subgraph ){
+	    ll('  subgraph: ');
+	    anchor.report_state(subgraph, indentation +1);
+	}
+
+	// Refs.
+	var ref_graphs = node.referenced_subgraphs();
+	if( ref_graphs.length > 0 ){
+	    ll('  references: ');
+	    each(ref_graphs, function(sub){
+		anchor.report_state(sub, (indentation +1));
+	    });
+	}
+    });
+
+    // Show edge information, arbitrary, but fixed, order.
+    each(incoming_graph.all_edges().sort(function(a,b){
+	if( a.id() > b.id() ){
+	    return 1;
+	}else if( a.id() &lt; b.id() ){
+	    return -1;
+	}
+	return 0;
+    }), function(edge){
+	var s = dd(edge.subject_id());
+	var o = dd(edge.object_id());
+	var p = dd(edge.predicate_id());
+	//ll(' edge: ' + edge.id());
+	ll(' edge: ' + s + ', ' + o + ': ' + p);
+
+	// Refs.
+	var ref_graphs = edge.referenced_subgraphs();
+	if( ref_graphs.length > 0 ){
+	    ll('  references: ');
+	    each(ref_graphs, function(sub){
+		anchor.report_state(sub, (indentation +1));
+	    });
+	}
+    });
+
+    if( ! us.isEmpty(incoming_graph._os_table) ){
+	console.log(spacing + 'OS:', incoming_graph._os_table);
+    }
+    if( ! us.isEmpty(incoming_graph._so_table) ){
+	console.log(spacing + 'SO:', incoming_graph._so_table);
+    }
+    if( ! us.isEmpty(incoming_graph._predicates) ){
+	console.log(spacing + 'PRED:', incoming_graph._predicates);
+    }
+
+    return null;
 };
 
 ///
@@ -1733,17 +2230,17 @@ var bbop_node = bbop_model.node;
  * @see module:bbop-graph
  * @alias node
  * @param {String} [in_id] - new id; otherwise new unique generated
- * @param {String} [in_label] - node &quot;label&quot;
+ * @param {String} [in_label] - node "label"
  * @param {Array} [in_types] - list of Objects or strings--anything that can be parsed by class_expression
  * @param {Array} [in_inferred_types] - list of Objects or strings--anything that can be parsed by class_expression
  * @returns {this}
  */
 function noctua_node(in_id, in_label, in_types, in_inferred_types){
     bbop_node.call(this, in_id, in_label);
-    this._is_a = &#x27;bbop-graph-noctua.node&#x27;;
+    this._is_a = 'bbop-graph-noctua.node';
     var anchor = this;
 
-    // Let&#x27;s make this an OWL-like world.
+    // Let's make this an OWL-like world.
     this._types = [];
     this._inferred_types = [];
     this._id2type = {}; // contains map to both types and inferred types
@@ -1752,7 +2249,7 @@ function noctua_node(in_id, in_label, in_types, in_inferred_types){
     this._embedded_subgraph = null;
 
     // Incoming ID or generate ourselves.
-    if( typeof(in_id) === &#x27;undefined&#x27; ){
+    if( typeof(in_id) === 'undefined' ){
 	this._id = bbop.uuid();
     }else{
 	this._id = in_id;
@@ -1765,7 +2262,7 @@ function noctua_node(in_id, in_label, in_types, in_inferred_types){
 	    anchor._id2type[new_type.id()] = new_type;
 	    anchor._types.push(new class_expression(in_type));
 	});
-    }    
+    }
     // Same with inferred types.
     if( us.isArray(in_inferred_types) ){
 	each(in_inferred_types, function(in_inferred_type){
@@ -1815,13 +2312,13 @@ noctua_node.prototype.clone = function(){
 
 /**
  * Get current types; replace current types.
- * 
+ *
  * Parameters:
  * @param {Array} [in_types] - raw JSON type objects
  * @returns {Array} array of types
  */
 noctua_node.prototype.types = function(in_types){
-    var anchor = this;    
+    var anchor = this;
 
     if( us.isArray(in_types) ){
 
@@ -1844,13 +2341,13 @@ noctua_node.prototype.types = function(in_types){
 
 /**
  * Get current inferred types; replace current inferred types.
- * 
+ *
  * Parameters:
  * @param {Array} [in_types] - raw JSON type objects
  * @returns {Array} array of types
  */
 noctua_node.prototype.inferred_types = function(in_types){
-    var anchor = this;    
+    var anchor = this;
 
     if( us.isArray(in_types) ){
 
@@ -1873,14 +2370,14 @@ noctua_node.prototype.inferred_types = function(in_types){
 
 /**
  * Add types to current types.
- * 
+ *
  * Parameters:
  * @param {Object} in_types - raw JSON type objects
  * @param {Boolean} inferred_p - whether or not the argument types are inferred
  * @returns {Boolean} t|f
  */
 noctua_node.prototype.add_types = function(in_types, inferred_p){
-    var anchor = this;    
+    var anchor = this;
     var inf_p = inferred_p || false;
 
     var ret = false;
@@ -1894,7 +2391,7 @@ noctua_node.prototype.add_types = function(in_types, inferred_p){
 	    }else{
 		anchor._inferred_types.push(new_type);
 	    }
-	    
+
 	    ret = true; // return true if did something
 	});
     }
@@ -1904,7 +2401,7 @@ noctua_node.prototype.add_types = function(in_types, inferred_p){
 /**
  * If extant, get the type by its unique identifier. This works for
  * both inferred and non-inferred types generally.
- * 
+ *
  * @param {String} type_id - type id
  * @returns {type|null} type or null
  */
@@ -1918,15 +2415,15 @@ noctua_node.prototype.get_type_by_id = function(type_id){
 };
 
 /**
- * Essentially, get all of the &quot;uneditable&quot; inferred types from the
+ * Essentially, get all of the "uneditable" inferred types from the
  * reasoner that are not duplicated in the regular (editable) types
  * listing.
- * 
+ *
  * Returns originals.
- * 
+ *
  * Note: the matching here is awful and should be redone (going by
  * very lossy string rep).
- * 
+ *
  * @returns {Array} of {class_expression}
  */
 noctua_node.prototype.get_unique_inferred_types = function(){
@@ -1951,24 +2448,24 @@ noctua_node.prototype.get_unique_inferred_types = function(){
 };
 
 /**
- * Get/set the &quot;contained&quot; subgraph. This subgraph is still considered
- * to be part of the graph, but is &quot;hidden&quot; under this node for most
+ * Get/set the "contained" subgraph. This subgraph is still considered
+ * to be part of the graph, but is "hidden" under this node for most
  * use cases except serialization.
- * 
+ *
  * To put it another way, unless you specifically load this with a
  * specialized loader, it will remain unpopulated. During
  * serialization, it should be recursively walked and dumped.
- * 
- * @param {graph|null} [subgraph] - the subgraph to &quot;hide&quot; inside this individual in the graph, or null to reset it
+ *
+ * @param {graph|null} [subgraph] - the subgraph to "hide" inside this individual in the graph, or null to reset it
  * @returns {graph|null} contained subgraph
  */
 noctua_node.prototype.subgraph = function(subgraph){
-    if( typeof(subgraph) === &#x27;undefined&#x27; ){
+    if( typeof(subgraph) === 'undefined' ){
 	// Just return current state.
     }else if( subgraph === null ){
 	// Reset state (and return).
 	this._embedded_subgraph = null;
-    }else if(bbop.what_is(subgraph) === &#x27;bbop-graph-noctua.graph&#x27;){
+    }else if(bbop.what_is(subgraph) === 'bbop-graph-noctua.graph'){
 	// Update state (and return).
 	this._embedded_subgraph = subgraph;
     }
@@ -1993,10 +2490,11 @@ var bbop_edge = bbop_model.edge;
  */
 function noctua_edge(subject, object, predicate){
     bbop_edge.call(this, subject, object, predicate);
-    this._is_a = &#x27;bbop-graph-noctua.edge&#x27;;
+    this._is_a = 'bbop-graph-noctua.edge';
 
     // Edges are not completely anonymous in this world.
     this._id = bbop.uuid();
+    this._predicate_label = null;
 
     this._annotations = [];
     this._referenced_subgraphs = [];
@@ -2018,7 +2516,8 @@ noctua_edge.prototype.clone = function(){
 
     // Same id.
     new_clone._id = anchor._id;
-    
+    new_clone._predicate_label = anchor._predicate_label;
+
     // Base class stuff.
     new_clone.default_predicate = anchor.default_predicate;
     new_clone.type(anchor.type());
@@ -2036,8 +2535,8 @@ noctua_edge.prototype.clone = function(){
 };
 
 /**
- * Access to the &quot;id&quot;.
- * 
+ * Access to the immutable "id".
+ *
  * @returns {String} string
  */
 noctua_edge.prototype.id = function(){
@@ -2045,8 +2544,8 @@ noctua_edge.prototype.id = function(){
  };
 
 /**
- * Get/set &quot;source&quot; of edge.
- * 
+ * Get/set "source" of edge.
+ *
  * @deprecated
  * @param {String} [value] - string
  * @returns {String} string
@@ -2057,8 +2556,8 @@ noctua_edge.prototype.source = function(value){
 };
 
 /**
- * Get/set &quot;target&quot; of edge.
- * 
+ * Get/set "target" of edge.
+ *
  * @deprecated
  * @param {String} [value] - string
  * @returns {String} string
@@ -2069,8 +2568,8 @@ noctua_edge.prototype.target = function(value){
 };
 
 /**
- * Get/set &quot;relation&quot; of edge.
- * 
+ * Get/set "relation" of edge.
+ *
  * @deprecated
  * @param {String} [value] - string
  * @returns {String} string
@@ -2079,6 +2578,20 @@ noctua_edge.prototype.relation = function(value){
     if(value){ this._predicate_id = value; }
     return this._predicate_id;
 };
+
+/**
+ * Access to the mutable "label" for the edge.
+ *
+ * @param {String} [value] - lbl
+ * @returns {String|null} string
+ */
+noctua_edge.prototype.label = function(lbl){
+
+    if( lbl === null || typeof(lbl) === 'string' ){
+	this._predicate_label = lbl;
+    }
+    return this._predicate_label;
+ };
 
 // Add generic bulk annotation operations to: graph, edge, and node.
 each([noctua_graph, noctua_node, noctua_edge], function(constructr){
@@ -2119,26 +2632,25 @@ module.exports = {
 
 };
 </code></pre>
-          </article>
-        </div>
-      </div>
-      <nav id="jsdoc-toc-nav" role="navigation"></nav>
-    </div>
-  </div>
-  <footer id="jsdoc-footer" class="jsdoc-footer">
-    <div id="jsdoc-footer-container">
-      <p>
-        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc</a> 3.3.0 on July 27, 2015.
-      </p>
-    </div>
-  </footer>
-  <script src="scripts/jquery.min.js"></script>
-  <script src="scripts/jquery.cookie.js"></script>
-  <script src="scripts/tree.jquery.js"></script>
-  <script src="scripts/prettify.js"></script>
-  <script src="scripts/jsdoc-toc.js"></script>
-  <script src="scripts/linenumber.js"></script>
-  <script src="scripts/scrollanchor.js"></script>
-</body>
+        </article>
+    </section>
 
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-bbop-graph-noctua.html">bbop-graph-noctua</a></li></ul><h3>Classes</h3><ul><li><a href="edge.html">edge</a></li><li><a href="graph.html">graph</a></li><li><a href="module-bbop-graph-noctua-annotation.html">annotation</a></li><li><a href="module-bbop-graph-noctua-violation.html">violation</a></li><li><a href="node.html">node</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Fri Sep 27 2019 18:25:21 GMT-0700 (PDT)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
 </html>
