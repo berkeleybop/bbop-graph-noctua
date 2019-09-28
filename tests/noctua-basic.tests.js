@@ -55,7 +55,7 @@ describe('test annotation', function(){
 	// Write-over simple.
 	assert.equal(a1.value('bib'), 'bib', 'has set value');
 	assert.equal(a1.value(), 'bib', 'still has set value');
-	
+
 	// Write-over full.
 	assert.deepEqual(a1.annotation('1', '2', '3'),
 			 {'key': '1', 'value': '2', 'value-type': '3'}, 'redo');
@@ -102,7 +102,7 @@ describe('annotation bulk ops', function(){
 });
 
 describe('trivial isolated graph ops', function(){
-    it('subclassing works', function(){	
+    it('subclassing works', function(){
 
 	var g = new model.graph();
 	assert.isNull(g.id(), 'no default id');
@@ -114,7 +114,7 @@ describe('trivial isolated graph ops', function(){
 
 describe('looking for edges', function(){
 
-    it('by id', function(){	
+    it('by id', function(){
 
 	var g = new model.graph();
 	var n1 = new model.node('a');
@@ -133,11 +133,11 @@ describe('looking for edges', function(){
 
 describe('do referenced subgraphs work as expected', function(){
 
-    it("add a subgraph", function(){	
+    it("add a subgraph", function(){
 
 	// Setup.
 	var g = _get_standard_graph();
-	
+
     	var n = g.get_node(leaf_a);
 	assert.equal(n.referenced_subgraphs().length, 0, 'no subgraphs');
 
@@ -161,7 +161,7 @@ describe('do referenced subgraphs work as expected', function(){
 
 describe('flex new framework', function(){
 
-    it('can we eat a minerva response?', function(){	
+    it('can we eat a minerva response?', function(){
 
 	// Setup.
 	var g = _get_standard_graph();
@@ -186,18 +186,18 @@ describe('flex new framework', function(){
 	// Wee tests.
 	assert.equal(g.all_nodes().length, 22, 'right num nodes');
 	assert.equal(g.all_edges().length, 14, 'right num edges');
-	
+
 	// More exploring.
 	assert.equal(g.get_singleton_nodes().length, 8, 'ev makes singletons');
 	assert.equal(g.get_root_nodes().length, 17, 'technically lots of roots');
 	assert.equal(g.get_leaf_nodes().length, 9, 'leaves are ev + 1 here');
     });
-	
+
     it("let's go for a walk in the neighborhood", function(){
-	
+
 	// Setup.
 	var g = _get_standard_graph();
-	
+
 	// Head up from our one leaf
 	var nid = leaf_a;
 	var n = g.get_node(nid);
@@ -209,7 +209,7 @@ describe('flex new framework', function(){
 	assert.equal(all_pnodes.length, 5, '5 parents');
 	assert.equal(enb_pnodes.length, 1, 'but 1 enabled_by parent');
 
-	var e = enb_pnodes[0]; 
+	var e = enb_pnodes[0];
 
 	// Take a look at the types of e closely.
 	var ts = e.types();
@@ -224,7 +224,7 @@ describe('flex new framework', function(){
 	var anns = e.get_annotations_by_key('date');
 	assert.equal(anns.length, 1, 'one date annotation');
 	assert.equal(anns[0].value(), '2015-04-14', 'correct date annotation');
-	
+
     });
 
     it("evidence that evidence works", function(){
@@ -232,10 +232,10 @@ describe('flex new framework', function(){
     	// Setup.
     	var g = _get_standard_graph();
     	g.fold_evidence();
-	
+
     	// Okay, we should have a lot less nodes now.
     	assert.equal(g.all_nodes().length, 14, '22 - 8 ev nodes = 14');
-	
+
     	// Let's track down the evidence for one node.
     	var n = g.get_node(leaf_a);
     	assert.equal(n.id(), leaf_a, 'some weirdness here at one point');
@@ -276,7 +276,7 @@ describe('flex new framework', function(){
 
 describe('merging works as expected', function(){
 
-    it("we've got to merge it merge it", function(){	
+    it("we've got to merge it merge it", function(){
 
 	// Setup.
 	var g_base = new model.graph();
@@ -289,18 +289,18 @@ describe('merging works as expected', function(){
 	// Check it, make sure that bbop-graph-noctua structures are
 	// all present.
 	assert.equal(g_base.all_nodes().length, 14, 'right num nodes');
-	assert.equal(g_base.all_edges().length, 14, 'right num edges');	
+	assert.equal(g_base.all_edges().length, 14, 'right num edges');
 	var a_node = g_base.all_nodes()[0];
 	assert.isString(g_base.get_node_elt_id(a_node.id()),
 			'generated elt_id');
 	assert.equal(g_base.annotations().length, 4, 'four annotations');
     });
-    
+
 });
 
 describe('abbreviate graph as expected in go noctua loader', function(){
 
-    it('pull in many subgraphs', function(){	
+    it('pull in many subgraphs', function(){
 
 	// Example node.
 	var ex_nid = leaf_a;
@@ -317,7 +317,7 @@ describe('abbreviate graph as expected in go noctua loader', function(){
 	assert.equal(ex_type.type(), 'class', 'is a class');
 	assert.equal(ex_type.class_id(), 'GO:0005515', 'has good id');
 	assert.equal(ex_type.class_label(), 'protein binding', 'has good label');
-	
+
 	// Fold and continue.
 	g.fold_go_noctua(rellist);
 
@@ -370,7 +370,7 @@ describe('abbreviate graph as expected in go noctua loader', function(){
 
 describe("let's take a close look at types and inferred types", function(){
 
-    it('are they working as expected?', function(){	
+    it('are they working as expected?', function(){
 
 	// Setup.
 	var g = _get_standard_graph();
@@ -378,7 +378,7 @@ describe("let's take a close look at types and inferred types", function(){
 	g.fold_go_noctua(rellist);
 
 	var nid = leaf_a;
-	var n = g.get_node(nid);	
+	var n = g.get_node(nid);
 
 	//console.log('type:', n.types());
 	//console.log('inferred type:', n.inferred_types());
@@ -397,7 +397,7 @@ describe("let's take a close look at types and inferred types", function(){
 
 describe("clobbering updating", function(){
 
-    it('updating with a subgraph is not the same as a merge', function(){	
+    it('updating with a subgraph is not the same as a merge', function(){
 
 	// Setup.
 	var g = _get_standard_graph();
@@ -445,7 +445,7 @@ describe("clobbering updating", function(){
 
 describe("special/dumb merge updating", function(){
 
-    it('updating with a subgraph to make it like a rebuild', function(){	
+    it('updating with a subgraph to make it like a rebuild', function(){
 
 	// Setup.
 	var g = _get_standard_graph();
@@ -523,11 +523,11 @@ describe("unfolding works", function(){
 	assert.equal(g.get_singleton_nodes().length, 8, 'ev makes singletons');
 	assert.equal(g.get_root_nodes().length, 17, 'technically lots of roots');
 	assert.equal(g.get_leaf_nodes().length, 9, 'leaves are ev + 1 here');
-	
+
 	// S'more.
 	var nid = leaf_a;
 
-	var n = g.get_node(nid);	
+	var n = g.get_node(nid);
 	assert.equal(n.types().length, 1, 'one std');
 	// Currently dealing with possibly bad data in minerva-02.json
 	assert.equal(n.inferred_types().length, 2, 'two inferred');
@@ -707,20 +707,20 @@ describe("folding and unfolding of second-order evidence", function(){
 	// Make sure we're starting at a sane point...
 	assert.equal(g.all_nodes().length, 8, "all nodes accounted for");
 	assert.equal(g.all_edges().length, 3, "all edges accounted for");
-	
+
 	// ...and that fold compacts most out of existance.
 	var rellist = ['RO:0002333', 'BFO:0000066'];
 	g.fold_go_noctua(rellist);
 	assert.equal(g.all_nodes().length, 2, "less nodes in full fold");
 	assert.equal(g.all_edges().length, 1, "less edges in full fold");
-	
+
 	// Now try and unfold.
 	g.unfold();
 	assert.equal(g.all_nodes().length, 8, "all nodes returned");
 	assert.equal(g.all_edges().length, 3, "all edges returned");
-	
+
     });
-    
+
 });
 
 describe("new issues in recent data", function(){
@@ -734,7 +734,7 @@ describe("new issues in recent data", function(){
     	// Make sure we're starting at a sane point...
     	assert.equal(g.all_nodes().length, 12, "all nodes accounted for (12)");
     	assert.equal(g.all_edges().length, 5, "all edges accounted for (5)");
-	
+
     	// And simple evidence fold is fine.
     	g.fold_evidence();
     	assert.equal(g.all_nodes().length, 7, "less nodes in evidence fold");
@@ -752,9 +752,9 @@ describe("new issues in recent data", function(){
 	//g.report_state(); console.log('');
     	assert.equal(g.all_nodes().length, 3, "few nodes in noctua fold");
     	assert.equal(g.all_edges().length, 1, "few edges in noctua fold");
-	
+
     });
-    
+
     it('model is folded and subgraphs should be absorbed, unfolding', function(){
 
     	var raw_resp = require('./minerva-05.json');
@@ -765,12 +765,12 @@ describe("new issues in recent data", function(){
     	// Make sure we're starting at a sane point...
     	assert.equal(g.all_nodes().length, 12, "all nodes accounted for (12)");
     	assert.equal(g.all_edges().length, 5, "all edges accounted for (5)");
-	
+
     	// And check.
     	g.unfold();
     	//g.report_state(); console.log('');
     	assert.equal(g.all_nodes().length, 12, "all nodes accounted for (12)");
-    	assert.equal(g.all_edges().length, 5, "all edges accounted for (5)");	
+    	assert.equal(g.all_edges().length, 5, "all edges accounted for (5)");
 
     	// And simple evidence fold is fine.
     	g.fold_evidence();
@@ -782,7 +782,7 @@ describe("new issues in recent data", function(){
     	g.unfold();
     	//g.report_state(); console.log('');
     	assert.equal(g.all_nodes().length, 12, "all nodes accounted for (12)");
-    	assert.equal(g.all_edges().length, 5, "all edges accounted for (5)");	
+    	assert.equal(g.all_edges().length, 5, "all edges accounted for (5)");
 
     	// ...and this fold compacts most out of existance.
     	var rellist = ['RO:0002333', 'BFO:0000066', 'RO:0002233', 'RO:0002488'];
@@ -790,9 +790,9 @@ describe("new issues in recent data", function(){
     	//g.report_state(); console.log('');
     	assert.equal(g.all_nodes().length, 3, "few nodes in noctua fold");
     	assert.equal(g.all_edges().length, 1, "few edges in noctua fold");
-	
+
     });
-    
+
 });
 
 describe("looking at how (un)folding would work in reverse world", function(){
@@ -807,12 +807,12 @@ describe("looking at how (un)folding would work in reverse world", function(){
     	// Make sure we're starting at a sane point...
     	assert.equal(g.all_nodes().length, 12, "all nodes accounted for (12)");
     	assert.equal(g.all_edges().length, 5, "all edges accounted for (5)");
-	
+
     	// And check.
     	g.unfold();
     	//g.report_state(); console.log('');
     	assert.equal(g.all_nodes().length, 12, "all nodes accounted for (12)");
-    	assert.equal(g.all_edges().length, 5, "all edges accounted for (5)");	
+    	assert.equal(g.all_edges().length, 5, "all edges accounted for (5)");
 
     	// And simple evidence fold is fine.
     	g.fold_evidence();
@@ -824,7 +824,7 @@ describe("looking at how (un)folding would work in reverse world", function(){
     	g.unfold();
     	//g.report_state(); console.log('');
     	assert.equal(g.all_nodes().length, 12, "all nodes accounted for (12)");
-    	assert.equal(g.all_edges().length, 5, "all edges accounted for (5)");	
+    	assert.equal(g.all_edges().length, 5, "all edges accounted for (5)");
 
     	// ...and this fold compacts most out of existance.
     	var rellist = ['RO:0002333', 'BFO:0000066', 'RO:0002233', 'RO:0002488'];
@@ -833,9 +833,9 @@ describe("looking at how (un)folding would work in reverse world", function(){
     	//g.report_state(); console.log('');
     	assert.equal(g.all_nodes().length, 3, "few nodes in noctua fold");
     	assert.equal(g.all_edges().length, 1, "few edges in noctua fold");
-	
+
     });
-    
+
 });
 
 describe("looking at another real-world example of inferred types", function(){
@@ -850,7 +850,7 @@ describe("looking at another real-world example of inferred types", function(){
     	// Make sure we're starting at a sane point...
     	assert.equal(g.all_nodes().length, 2, "all nodes accounted for (2)");
     	assert.equal(g.all_edges().length, 1, "all edges accounted for (1)");
-	
+
 	// And that we've picked up the right number of inferred types.
 	var inf_total = 0;
 	us.each(g.all_nodes(), function(enode){
@@ -860,7 +860,7 @@ describe("looking at another real-world example of inferred types", function(){
 	assert.equal(inf_total, 1, 'there shoud be exactly 1 inferred type');
 
     });
-    
+
 });
 
 describe("try looking at edge labels in minerva wire protocol", function(){
@@ -877,7 +877,7 @@ describe("try looking at edge labels in minerva wire protocol", function(){
     	assert.isNotNull(an_edge.label(), "label is there");
     	assert.notEqual(an_edge.id(), an_edge.label(), "label != id");
     });
-    
+
 });
 
 describe("more evidence extraction", function(){
@@ -904,7 +904,7 @@ describe("more evidence extraction", function(){
 
 	var ce_cache = {};
 	us.each(all_evidence_profiles, function(prof){
-	    
+
 	    // Mine out class expressions..
 	    //var cln_ce_str = [];
 	    //var cln_ce = [];
@@ -916,7 +916,7 @@ describe("more evidence extraction", function(){
 		ce_cache[ce.class_id()] = true;
 	    });
 	});
-	
+
 	//console.log(ce_cache);
     	assert.equal(us.keys(ce_cache).length, 4, "should be 4 ev classes");
 
@@ -947,7 +947,152 @@ describe("more evidence extraction", function(){
 
     });
 });
-    
+
+describe("check on how our violations work", function(){
+
+    it('unreasoned model, should all be good', function(){
+
+    	var raw_resp = require('./minerva-06.json');
+    	var g = new model.graph();
+    	g.load_data_basic(raw_resp['data']);
+    	//g.report_state(); console.log('');
+
+	assert.equal(g.valid_p(), true, 'overall valid');
+	assert.equal(g.valid_owl_p(), true, 'owl valid');
+	assert.equal(g.valid_shex_p(), true, 'shex valid');
+	assert.equal(us.isArray(g.violations()), true, 'have violations stub');
+	assert.equal(g.violations().length, 0, 'has no violations');
+	assert.equal(g.get_violations_by_id('GO:OO').length, 0,
+		     'no violation for');
+
+	// And again, but with a copy.
+    	var ng = g.clone();
+	assert.equal(ng.valid_p(), true, 'overall valid (copy)');
+	assert.equal(ng.valid_owl_p(), true, 'owl valid (copy)');
+	assert.equal(ng.valid_shex_p(), true, 'shex valid (copy)');
+	assert.equal(us.isArray(ng.violations()), true,
+		     'have violations stub (copy)');
+	assert.equal(ng.violations().length, 0, 'has no violations (copy)');
+	assert.equal(ng.get_violations_by_id('GO:OO').length, 0,
+		     'no violation for (copy)');
+    });
+
+    it('reasoned model with violations', function(){
+
+    	var raw_resp =
+	    require('./response-gomodel-5d88482400000052-2019-09-25.json');
+    	var g = new model.graph();
+    	g.load_data_basic(raw_resp['data']);
+    	//g.report_state(); console.log('');
+
+	assert.equal(g.valid_p(), false, 'overall invalid');
+	assert.equal(g.valid_owl_p(), true, 'owl valid');
+	assert.equal(g.valid_shex_p(), false, 'shex invalid');
+
+	assert.equal(us.isArray(g.violations()), true, 'have violations');
+
+	assert.equal(g.violations().length, 2, 'has 2 violations');
+
+	// Examine the structure of the violation returns.
+	us.each(g.violations(), function(v){
+	    assert.equal(us.isString(v.node_id()), true,
+			 'has node id as string');
+	    assert.equal(us.isArray(v.explanations()), true, 'has exps');
+	});
+
+	assert.equal(g.get_violations_by_id('GO:OO').length, 0,
+		     'no violation for silly id');
+	var v1_id = 'gomodel:5d88482400000052/5d88482400000093';
+	var v1 = g.get_violations_by_id(v1_id);
+	var v2_id = 'gomodel:5d88482400000052/5d88482400000080';
+	var v2 = g.get_violations_by_id(v2_id);
+	assert.equal(v1.length, 1, 'one violation for v1');
+	assert.equal(v2.length, 1, 'one violation for v2');
+	assert.equal(v1[0].node_id(), v1_id, 'id for v1');
+	assert.equal(v2[0].node_id(), v2_id, 'id for v2');
+	assert.equal(v1[0].explanations().length, 0, '0 exp for v1');
+	assert.equal(v2[0].explanations().length, 1, '1 exp for v2');
+    });
+
+    it('reasoned model with violations, now with a copy', function(){
+
+    	var raw_resp =
+	    require('./response-gomodel-5d88482400000052-2019-09-25.json');
+    	var og = new model.graph();
+    	og.load_data_basic(raw_resp['data']);
+    	var g = og.clone();
+    	//g.report_state(); console.log('');
+
+	assert.equal(g.valid_p(), false, 'overall invalid');
+	assert.equal(g.valid_owl_p(), true, 'owl valid');
+	assert.equal(g.valid_shex_p(), false, 'shex invalid');
+
+	assert.equal(us.isArray(g.violations()), true, 'have violations');
+
+	assert.equal(g.violations().length, 2, 'has 2 violations');
+
+	// Examine the structure of the violation returns.
+	us.each(g.violations(), function(v){
+	    assert.equal(us.isString(v.node_id()), true,
+			 'has node id as string');
+	    assert.equal(us.isArray(v.explanations()), true, 'has exps');
+	});
+
+	assert.equal(g.get_violations_by_id('GO:OO').length, 0,
+		     'no violation for silly id');
+	var v1_id = 'gomodel:5d88482400000052/5d88482400000093';
+	var v1 = g.get_violations_by_id(v1_id);
+	var v2_id = 'gomodel:5d88482400000052/5d88482400000080';
+	var v2 = g.get_violations_by_id(v2_id);
+	assert.equal(v1.length, 1, 'one violation for v1');
+	assert.equal(v2.length, 1, 'one violation for v2');
+	assert.equal(v1[0].node_id(), v1_id, 'id for v1');
+	assert.equal(v2[0].node_id(), v2_id, 'id for v2');
+	assert.equal(v1[0].explanations().length, 0, '0 exp for v1');
+	assert.equal(v2[0].explanations().length, 1, '1 exp for v2');
+    });
+
+    it('reasoned model without violations', function(){
+
+    	var raw_resp =
+	    require('./response-gomodel-R-HSA-159740-2019-09-26.json');
+    	var g = new model.graph();
+    	g.load_data_basic(raw_resp['data']);
+    	//g.report_state(); console.log('');
+
+	assert.equal(g.valid_p(), true, 'overall valid');
+	assert.equal(g.valid_owl_p(), true, 'owl valid');
+	assert.equal(g.valid_shex_p(), true, 'shex valid');
+	assert.equal(us.isArray(g.violations()), true,
+		     'have violations');
+	assert.equal(g.violations().length, 0, 'has no violations');
+	assert.equal(g.get_violations_by_id('GO:OO').length, 0,
+		     'no violation for silly id');
+
+    });
+
+    it('reasoned model without violations, now on a copy', function(){
+
+    	var raw_resp =
+	    require('./response-gomodel-R-HSA-159740-2019-09-26.json');
+    	var og = new model.graph();
+    	og.load_data_basic(raw_resp['data']);
+	var g = og.clone();
+    	//g.report_state(); console.log('');
+
+	assert.equal(g.valid_p(), true, 'overall valid');
+	assert.equal(g.valid_owl_p(), true, 'owl valid');
+	assert.equal(g.valid_shex_p(), true, 'shex valid');
+	assert.equal(us.isArray(g.violations()), true,
+		     'have violations');
+	assert.equal(g.violations().length, 0, 'has no violations');
+	assert.equal(g.get_violations_by_id('GO:OO').length, 0,
+		     'no violation for silly id');
+
+    });
+
+});
+
 // var assert = require('chai').assert;
 // var model = new require('..');
 // var us = require('underscore');
