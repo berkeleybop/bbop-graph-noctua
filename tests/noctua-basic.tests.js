@@ -1093,6 +1093,30 @@ describe("check on how our violations work", function(){
 
 });
 
+describe("types, inferred_types, and inferred_types_with_all", function(){
+
+    it('inferred (+with all) found', function(){
+
+    	var raw_resp =
+	    require('./response-gomodel-5d88482400000052-2019-09-25.json');
+    	var g = new model.graph();
+    	g.load_data_basic(raw_resp['data']);
+    	//g.report_state(); console.log('');
+
+	var n = g.get_node('gomodel:5d88482400000052/5d88482400000053');
+	assert.equal(n.types().length, 1, 'has 1 type');
+	assert.equal(n.inferred_types().length, 0, 'may be a bug?');
+	assert.equal(n.inferred_types_with_all().length, 12, 'closure');
+	us.each(n.inferred_types_with_all(), function(t){
+	    assert.isNotNull(t.type, 'has type');
+	    assert.isNotNull(t.label, 'has label');
+	    assert.isNotNull(t.id, 'has id');
+	});
+
+    });
+
+});
+
 // var assert = require('chai').assert;
 // var model = new require('..');
 // var us = require('underscore');
