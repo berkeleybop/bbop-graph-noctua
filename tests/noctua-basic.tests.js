@@ -1093,9 +1093,9 @@ describe("check on how our violations work", function(){
 
 });
 
-describe("types, inferred_types, and inferred_types_with_all", function(){
+describe("types, root_types, inferred_types, and inferred_types_with_all", function(){
 
-    it('inferred (+with all) found', function(){
+    it('inferred (+with all) found, no root', function(){
 
     	var raw_resp =
 	    require('./response-gomodel-5d88482400000052-2019-09-25.json');
@@ -1104,6 +1104,7 @@ describe("types, inferred_types, and inferred_types_with_all", function(){
     	//g.report_state(); console.log('');
 
 	var n = g.get_node('gomodel:5d88482400000052/5d88482400000053');
+
 	assert.equal(n.types().length, 1, 'has 1 type');
 	assert.equal(n.inferred_types().length, 0, 'may be a bug?');
 	assert.equal(n.inferred_types_with_all().length, 12, 'closure');
@@ -1112,6 +1113,28 @@ describe("types, inferred_types, and inferred_types_with_all", function(){
 	    assert.isNotNull(t.label, 'has label');
 	    assert.isNotNull(t.id, 'has id');
 	});
+
+	// This model has not root types (older), so let's make sure we
+	// can deal with this quirk...
+	assert.equal(n.root_types().length, 0, 'has no root types');
+
+    });
+
+    it('root types found in "new" response', function(){
+
+    	var raw_resp =
+	    require('./response-gomodel-596ef51500000088-2020-07-01.json');
+    	var g = new model.graph();
+    	g.load_data_basic(raw_resp['data']);
+    	//g.report_state(); console.log('');
+
+	var n = g.get_node('gomodel:596ef51500000088/5b91dbd100000466');
+
+	assert.equal(n.types().length, 1, 'has 1 type');
+	assert.equal(n.root_types().length, 3,
+		     'three root types');
+	assert.equal(n.inferred_types().length, 0,
+		     'no inferred types--reasoner off');
 
     });
 
