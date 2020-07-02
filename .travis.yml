@@ -5,10 +5,3 @@ before_script:
   - npm install
 script:
   - ./node_modules/.bin/gulp test
-# branches:
-#   only:
-#     - master
-# notifications:
-#   email:
-#     - sjcarbon@lbl.gov
-#     - cjmungall@lbl.gov
